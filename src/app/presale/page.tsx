@@ -25,6 +25,13 @@ export default function PresalePage() {
         setIsMobile(window.innerWidth < 700)
         setIsTablet(window.innerWidth < 1300)
       }
+
+      const hash = window.location.hash
+        if (hash) {
+          setTimeout(()=> {
+            document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" })
+          }, 1000)
+        }
   
       checkScreenSize()
       window.addEventListener('resize', checkScreenSize)

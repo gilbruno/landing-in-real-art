@@ -1,4 +1,5 @@
 "use client"
+import { useEffect } from "react";
 import Menu from "../../components/menu/Menu";
 import Footer from "../../components/footer/Footer";
 import HeroSection from "../../components/home/HeroSection/HeroSection";
@@ -31,7 +32,16 @@ export default function HomePage() {
   const {faqButtons, faqTexts } = useSharedLogicFaq(FIREBASE_FAQ_COLLECTION)
   const {headerButtons, setHeaderButtons, headerTexts, setHeaderTexts} = useSharedLogicHeroSection(FIREBASE_HEADER_COLLECTION);
   const {joinIraDataText, joinIraDataButton} = useSharedLogicHowToJoinIra(FIREBASE_JOIN_IRA_COLLECTION)
-  
+
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash) {
+      setTimeout(()=> {
+        document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" })
+      }, 200)
+    }
+  })
+
     return (
 
       <div id="home" className={styles["home"]} style={isMobile?{paddingTop:'0px'}:{paddingTop:''}}>

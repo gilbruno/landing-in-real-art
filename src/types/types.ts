@@ -343,6 +343,8 @@ export type PresaleArtWork = {
     name: Record<Lang, string>
     order: number
     mockups: string[]
+    noBorder: boolean
+    desactivate: boolean
 }
 
 export type CollectionLeloluceNfts = Array<LeloluceNft>
@@ -429,6 +431,7 @@ export interface AcquireModalProps {
     price: number
     msgSuccessEmail: string
     msgErrorEmail: string
+    titleFormEmail: string
     showModal: boolean
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 }

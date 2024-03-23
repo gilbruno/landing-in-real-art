@@ -17,7 +17,7 @@
   width: 80%;
   height: 600px;
   position: relative;
-  top: -130px;
+  top: -80px;
 }
 
 .imageBlock {
@@ -144,6 +144,7 @@
 
   .imageBlockContainer {
     flex-direction: column;
+    top: 0px;
   }
 
   // .imageBlockContainer .imageBlock:hover {

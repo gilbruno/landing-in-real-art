@@ -4,6 +4,7 @@ import { Lang } from "../../../types/types";
 import styles from "./HeroSectionMobile.module.scss";
 import ImageHeroSectionMobile from "./ImageHeroSectionMobile";
 import useSharedLogicHeroSection from "./useSharedLogicHeroSection";
+import classNames from "classnames";
 
 export interface HeroSectionMobileProps {
   className?: string;
@@ -39,7 +40,7 @@ const HeroSectionMobile = ({
           </span>
         </div>
         <img
-          className={styles["container__rectangle-39772"]}
+          className={classNames(styles["container__rectangle"], {[styles["container__rectangle--bottom"]]: lang_ === "EN"})}
           src="img/eye-herosection-mobile.png"
         />
       </div>

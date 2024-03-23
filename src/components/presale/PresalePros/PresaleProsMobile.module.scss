@@ -1,4 +1,4 @@
-@import '../../../styles/variables.scss';
+@import "../../../styles/variables.scss";
 
 .frame-48095815,
 .frame-48095815 * {
@@ -69,7 +69,7 @@
   transform-origin: 0 0;
   transform: rotate(0deg) scale(1, 1);
 }
-.frame-48095815__frame-7 {  
+.frame-48095815__frame-7 {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -161,4 +161,19 @@
   position: relative;
   transform: translate(0px, 0px);
   overflow: visible;
+}
+
+.slider__prev,
+.slider__next {
+  color: #6979a7;
+  font-size: 35px;
+  position: relative;
+}
+
+.slider__prev {
+  right: 30px;
+}
+
+.slider__next {
+  left: 30px;
 }

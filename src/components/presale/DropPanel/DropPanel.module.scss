@@ -181,8 +181,9 @@
   align-items: center;
   padding: 10px;
   background-color: #f0f0f0; /* Background color for the header */
-  width: 70%;
+  width: 85%;
   margin: 0 auto;
+  margin-bottom: 70px;
 }
 
 .grid-wrapper {
@@ -194,12 +195,17 @@
   position: relative;
   padding: 0;
   margin: 0;
-  border: solid 6px #000000;
+  border: solid 3px #000000;
   max-width: 600px;
   width: 80%;
   margin: 10px auto;
   box-shadow: -3px -3px 12px #999;
   margin-top: auto;
+}
+
+.img--noBorder {
+    border: none!important;
+    box-shadow: none;
 }
 
 .img-main {
@@ -208,10 +214,11 @@
   margin: 0;
   width: 100%;
   height: auto;
-  border-top: solid 2px #aaa;
-  border-left: solid 2px #aaa;
-  border-bottom: solid 2px #ccc;
-  border-right: solid 2px #ccc;
+  border-top: solid 1px #aaa;
+  border-left: solid 1px #aaa;
+  border-bottom: solid 1px #ccc;
+  border-right: solid 1px #ccc;
+  
 }
 
 .img-overlay {
@@ -233,7 +240,7 @@
   gap: 40px 10px; /* space between images */
   margin: 0 auto; //Center horizontally the dic according to its parent
   padding: 0px;
-  width: 70%;
+  width: 80%;
 }
 
 .image-container {
@@ -376,6 +383,10 @@
   /* For screens wider than 500px, adjust to 2x3 grid */
   .image-grid {
     grid-template-columns: repeat(2, 1fr);
+    width: 75%;
+  }
+  .header {
+    width: 75%;
   }
 }
 

@@ -71,20 +71,26 @@ const InvestCard: React.FC<InvestCardProps> = ({
       >
         <IoClose className={styles.close} />
         <div className={styles.details1}>
-          {details1?.map((item, index) => (
-            <div key={index} className={styles.details1Item}>
-              <CheckBoxChecked key={index} />
-              <p>{item}</p>
-            </div>
-          ))}
+          {details1?.map(
+            (item, index) =>
+              item && (
+                <div key={index} className={styles.details1Item}>
+                  <CheckBoxChecked key={index} />
+                  <p>{item}</p>
+                </div>
+              )
+          )}
         </div>
         <div className={styles.details2}>
-          {details2?.map((item, index) => (
-            <div key={index} className={styles.details2Item}>
-              <CheckBoxChecked key={index} />
-              <p>{item}</p>
-            </div>
-          ))}
+          {details2?.map(
+            (item, index) =>
+              item && (
+                <div key={index} className={styles.details2Item}>
+                  <CheckBoxChecked key={index} />
+                  <p>{item}</p>
+                </div>
+              )
+          )}
         </div>
       </div>
     </section>

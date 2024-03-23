@@ -1,12 +1,10 @@
 "use client"
 import VuesaxLinearStatusUp1 from "../../VuesaxLinearStatusUp1"
-import Link from 'next/link'
 import { useAppContext } from "../../../context"
-import { Lang, ModalProps} from "../../../types/types"
+import { Lang } from "../../../types/types"
 import parse from 'html-react-parser'
 import styles from './PresalePros.module.scss'
 import useSharedLogixPresalePros from "./useSharedLogixPresalePros"
-import { useEffect, useRef, useState } from "react"
 import { FaGift } from 'react-icons/fa';
 import { BsFillBookmarkPlusFill } from "react-icons/bs";
 
@@ -14,41 +12,8 @@ function PresalePros() {
 
     const {lang} = useAppContext()
     const lang_ = lang as Lang
-
-    const modalRef = useRef<HTMLDivElement>(null)
-    const [isModalOpen, setIsModalOpen]   = useState(false)
-    const [modalContent, setModalContent] = useState<string>('')
     
     const {presaleProsTexts, setPresaleProsTexts, presaleProsButtons, setPresaleProsButtons} = useSharedLogixPresalePros()
-    
-    const showModal = (description: string) => {
-        setModalContent(description)
-        setIsModalOpen(true)
-    }
-
-    const closeModal = (e: any) => {
-        if (modalRef.current && !modalRef.current.contains(e.target)) {
-            setIsModalOpen(false)
-        }    
-    }
-
-    useEffect(() => {
-        document.addEventListener('mousedown', closeModal);
-        return () => {
-            document.removeEventListener('mousedown', closeModal);
-        };
-    }, [])
-
-    const Modal: React.FC<ModalProps> = ({ description, closeButton }) => {
-        return (
-            <div className={styles["modal-backdrop"]}>
-                <div ref={modalRef} className={styles["modal"]}>
-                    <p>{parse(description)}</p>
-                </div>
-            </div>
-        )
-    }   
-
     
     return (
         <div className={styles["frame-presalePros"]}>
@@ -109,10 +74,6 @@ function PresalePros() {
             </div> */}
             </div>
         </div>
-
-        {isModalOpen && (
-            <Modal description={modalContent} />
-        )}
 
         </div>
 

@@ -42,13 +42,11 @@ const AcquireModal = (props: AcquireModalProps) => {
     price,
     msgSuccessEmail,
     msgErrorEmail,
+    titleFormEmail
   } = props;
   const [email, setEmail] = useState<string>("");
   const [isEmailValid, setEmailValid] = useState<boolean>(true);
   const toast = useToast();
-  const { texts } = useSharedLogicDropPanel();
-  const { lang } = useAppContext();
-  const lang_ = lang as Lang;
 
   //------------------------------------------------------------------------------ handleChangeEmail
   const handleChangeEmail = (e: any) => setEmail(e.target.value);
@@ -129,7 +127,7 @@ const AcquireModal = (props: AcquireModalProps) => {
                                   */}
                   <div className={styles.buttonPreBuyContainer}>
                     <div className={styles.messageNotConnected}>
-                      {texts.titleFormEmail[lang_]}
+                      {titleFormEmail}
                     </div>
                     <div
                       style={{

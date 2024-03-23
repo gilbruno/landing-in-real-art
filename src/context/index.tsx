@@ -12,7 +12,7 @@ export function AppWrapper({ children }: {
     children: React.ReactNode
 }) {
 
-    let [lang, setLang] = useState('FR')
+    let [lang, setLang] = useState('EN')
 
     return (
         <AppContext.Provider value={

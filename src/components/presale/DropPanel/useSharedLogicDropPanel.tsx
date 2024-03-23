@@ -49,6 +49,7 @@ const useSharedLogicDropPanel = () => {
     name: defaultLangObject,
     order: 0,
     mockups: [],
+    noBorder: false
   };
   const [isLoading, setIsLoading] = useState(true);
   const [artWorks, setArtWorks] = useState<PresaleArtWorks>([]);
@@ -101,23 +102,30 @@ const useSharedLogicDropPanel = () => {
       );
 
       //Index 0 ===> ArtWorks
-      const artworks_ = data[0]["artworks"].sort(
-        (a, b) => a.order - b.order
-      ) as PresaleArtWorks;
+      const artworks_ = data[0]["artworks"]
+        .sort((a, b) => a.order - b.order)
+        .filter((artwork) => !artwork.desactivate) as PresaleArtWorks;
       const artworks_tmp = await transformArtworksPhotos(artworks_);
       setArtWorks(artworks_tmp);
       //Index 1 ===> Buttons
       setButtons(data[1]);
       //Index 2 ===> Texts
       setTexts(data[2]);
+      setIsLoading(false);
     };
 
     fetchData();
-    setIsLoading(false);
     setShowDesign(0);
   }, []);
 
-  return { loading: isLoading, artWorks, buttons, texts, showDesign, setShowDesign };
+  return {
+    loading: isLoading,
+    artWorks,
+    buttons,
+    texts,
+    showDesign,
+    setShowDesign,
+  };
 };
 
 export default useSharedLogicDropPanel;

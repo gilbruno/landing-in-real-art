@@ -3,7 +3,7 @@
 .gallery {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(10, 5vw);
+  grid-template-rows: repeat(3, 5vw);
   grid-gap: 15px;
 
 
@@ -47,5 +47,9 @@
     height: 100%;
     object-fit: cover;
 
+  }
+  @media (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
   }
 }

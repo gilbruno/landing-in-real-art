@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  height: 636px;
+  height: 666px;
   position: relative;
   width: 100%;
 }
@@ -37,16 +37,16 @@
 .heading-span {
   color: #1e344f;
   font-family: $heading-h2-font-family;
-  font-size: $heading-h2-font-size;
+  font-size: 43px;
   font-weight: $heading-h2-font-weight;
 }
 .heading-span2 {
   color: #5552ff;
   font-family: $heading-h2-font-family;
-  font-size: $heading-h2-font-size;
+  font-size: 43px;
   font-weight: $heading-h2-font-weight;
 }
-.container__rectangle-39772 {
+.container__rectangle {
   border-radius: 100px;
   border-style: solid;
   border-color: #ffffff;
@@ -58,6 +58,9 @@
   left: 160px;
   top: 11px;
   object-fit: cover;
+  &--bottom {
+    top: 80px;
+  }
 }
 .container__container-button {
   display: flex;

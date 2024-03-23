@@ -81,7 +81,7 @@ const CarouselArtists = () => {
         </div>
 
         <div className={styles["frame-artists-carousel"]}>
-            <Carousel interval={4000}>
+            <Carousel interval={10000}>
                     {
                         allArtists.map(
                             (record, index) => (

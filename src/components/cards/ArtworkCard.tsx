@@ -1,20 +1,23 @@
 "use client";
-import { Lang, PresaleArtWork } from "@/types/types";
+import { Lang, PresaleArtWork, PresaleDropPanelButtons, PresaleDropPanelTexts } from "@/types/types";
 import styles from "../presale/DropPanel/DropPanel.module.scss";
+
 import { useState } from "react";
-import useSharedLogicDropPanel from "../presale/DropPanel/useSharedLogicDropPanel";
 import { useAppContext } from "@/context";
 
 import ArtworkGalleryModal from "../common/Modal/ArtworkGallery/ArtworkGallery";
 import AcquireModal from "../common/Modal/AcquireModal/AcquireModal";
 import DescriptionModal from "../common/Modal/DescriptionModal/DescriptionModal";
 import { GrGallery } from "react-icons/gr";
+import classNames from "classnames";
 
 interface ArtworkCardProps {
   artwork: PresaleArtWork;
   id: number;
+  buttons: PresaleDropPanelButtons
+  texts: PresaleDropPanelTexts
 }
-const ArtworkCard = ({ id, artwork }: ArtworkCardProps) => {
+const ArtworkCard = ({ id, artwork, buttons, texts }: ArtworkCardProps) => {
   const [showModalImages, setShowModalImages] = useState(false);
   const [showAcquireModal, setShowAcquireModal] = useState(false);
   const [showModalDescription, setShowModalDescription] = useState(false);
@@ -22,12 +25,11 @@ const ArtworkCard = ({ id, artwork }: ArtworkCardProps) => {
   const { lang } = useAppContext();
   const lang_ = lang as Lang;
 
-  const { buttons, texts } = useSharedLogicDropPanel();
-  const { mockups, url, artistName, name, description, size, price, image } =
+  const { mockups, url, artistName, name, description, size, price, image, noBorder } =
     artwork || {};
-
+    
   return (
-    <section className={styles["image-container"]}>
+    <section className={classNames(styles["image-container"], { "image-container--noBorder": noBorder })}>
       <div className={styles.frameDetailArtWorkCreator}>
         <div></div>
         <div className={styles.frameDetailArtWorkCreatorName}>{artistName}</div>
@@ -45,8 +47,8 @@ const ArtworkCard = ({ id, artwork }: ArtworkCardProps) => {
         </div>
       )}
 
-      <div className={styles["img-frame"]}>
-        <img className={styles["img-main"]} src={url} />
+      <div className={classNames(styles["img-frame"], { [styles["img--noBorder"]]: noBorder })}>
+        <img className={classNames(styles["img-main"], { [styles["img--noBorder"]]: noBorder })} src={url} />
       </div>
 
       <div
@@ -95,6 +97,7 @@ const ArtworkCard = ({ id, artwork }: ArtworkCardProps) => {
         price={price}
         msgSuccessEmail={texts.msgSuccessEmail[lang_]}
         msgErrorEmail={texts.msgErrorEmail[lang_]}
+        titleFormEmail={texts.titleFormEmail[lang_]}
       />
     </section>
   );

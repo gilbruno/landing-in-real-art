@@ -1,14 +1,10 @@
 "use client";
 import { useAppContext } from "../../../context";
-import {
-  Lang
-} from "../../../types/types";
+import { Lang } from "../../../types/types";
 import styles from "./DropPanel.module.scss";
 import useSharedLogicDropPanel from "./useSharedLogicDropPanel";
 import { useState } from "react";
-import {
-  Spinner,
-} from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 import ArtworkCard from "@/components/cards/ArtworkCard";
 
 const DropPanel: React.FC = () => {
@@ -16,7 +12,7 @@ const DropPanel: React.FC = () => {
   const { lang } = useAppContext();
   const lang_ = lang as Lang;
 
-  const { artWorks, buttons, loading } = useSharedLogicDropPanel();
+  const { artWorks, buttons, texts, loading } = useSharedLogicDropPanel();
 
   // State to keep track of how many images are currently displayed
   const [visibleCount, setVisibleCount] = useState(10);
@@ -37,23 +33,29 @@ const DropPanel: React.FC = () => {
       />
     );
   }
+
   return (
     <>
       <div id="dropPanel" className={styles["grid-wrapper"]}>
-        {/*
-                    <div className={styles["header"]}>
-                        <div className={styles["frame-7"]}>
-                            <div className={styles["text-wrapper-3"]}>{texts.endDrop[lang_]}</div>
-                        </div>
-                        <div className={styles["text-wrapper-4"]}>
-                            <CountdownTimer endDate="2024-04-05T00:00:00" />
-                        </div>
-                    </div>
-                    */}
-
+        <div className={styles["header"]}>
+          <div className={styles["frame-7"]}>
+            <div className={styles["text-wrapper-3"]}>
+              {texts.endDrop[lang_]}
+            </div>
+          </div>
+          <div className={styles["text-wrapper-4"]}>
+            {new Date('2024-04-10T12:00:00').toLocaleDateString() + ""}
+          </div>
+        </div>
         <div className={styles["image-grid"]}>
           {artWorks.slice(0, visibleCount).map((artwork, index) => (
-            <ArtworkCard id={index} key={index} artwork={artwork} />
+            <ArtworkCard
+              id={index}
+              key={index}
+              artwork={artwork}
+              buttons={buttons}
+              texts={texts}
+            />
           ))}
 
           {visibleCount < artWorks.length && (
