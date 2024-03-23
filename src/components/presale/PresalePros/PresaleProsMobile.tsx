@@ -36,8 +36,8 @@ const PresaleProsMobile = () => {
             indicators={false}
             touch={true}
             interval={null}
-            // prevIcon={<FaArrowCircleLeft className={styles["slider__prev"]} />}
-            // nextIcon={<FaArrowCircleRight className={styles["slider__next"]} />}
+            prevIcon={<FaArrowCircleLeft className={styles["slider__prev"]} />}
+            nextIcon={<FaArrowCircleRight className={styles["slider__next"]} />}
           >
             <Carousel.Item>
               <div className={styles["frame-48095815__frame-48095732"]}>
