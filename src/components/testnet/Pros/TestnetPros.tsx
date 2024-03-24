@@ -34,9 +34,9 @@ const TestnetPros = () =>  {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-          <div className={styles.mainTitle}>Rejoignez notre Testnet</div>
+          <div className={styles.mainTitle}>{texts.header.title[lang_]}</div>
           <div className={styles.mainDescription}>
-              Obtenez des avantages premium IRA
+          {texts.header.description[lang_]}
           </div>
       </div>
 

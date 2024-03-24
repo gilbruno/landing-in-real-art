@@ -376,10 +376,16 @@ export type PresaleInvestmentsCard = {
 }
 
 export type TestnetProsTexts = {
+    header: TestnetProsHeader
     card1: TestnetProsCard
     card2: TestnetProsCard
     card3: TestnetProsCard
     card4: TestnetProsCard
+}
+
+export type TestnetProsHeader = {
+    title: TranslatedTexts
+    description: TranslatedTexts
 }
 
 export type TestnetProsCard = {
