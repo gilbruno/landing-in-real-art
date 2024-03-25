@@ -2,8 +2,21 @@ import React from 'react'
 import ImageHeroSection from './ImageHeroSection'
 import styles from './HeroSection.module.scss'
 import Link from 'next/link'
+import { HeaderButtons, HeaderTexts, Lang } from '../../../types/types'
+import { useAppContext } from '../../../context'
 
-const HeroSection = () => {
+export interface HeroSectionTestnetProps {
+  headerTexts: HeaderTexts
+  headerButtons: HeaderButtons
+  onlyFirstButton: boolean
+}
+
+
+const HeroSection = ({headerTexts, headerButtons, onlyFirstButton, ...props}: HeroSectionTestnetProps) => {
+  //Get the language of the global context
+  const {lang} = useAppContext()
+  const lang_ = lang as Lang
+  
   return (
     
     <div className={styles["heroSectionTestnetContainer"]}>
@@ -12,23 +25,23 @@ const HeroSection = () => {
         <div className={styles["heroSectionTestnetTexts"]}>
           <div className={styles["buttonJoinTestnetContainer"]}>
             <div className={styles["buttonJoinTestnet"]}>
-              <Link href='/presale' className={styles["buttonJoinTestnetInner"]}>
-                Rejoindre le TestNet
+              <Link href={headerButtons.button1Link} className={styles["buttonJoinTestnetInner"]}>
+                {headerButtons.button1[lang_]}  
               </Link>
             </div>
           </div>
           <div className={styles["heroSectionTestnetTextsBottom"]}>
             <div className={styles["frame-48095766__heading"]}>
               <span>
-                <span className={styles["heading-span"]}>
+                <span className={styles.headingSpan}>
                   Whitelist
                   <br />
                 </span>
-                <span className={styles["heading-span2"]}>TestNet</span>
+                <span className={styles.headingSpan2}>TestNet</span>
               </span>
             </div>
             <div className={styles["heroSectionTestnetTextsBottomRight"]}>
-              Faites partie de l’expérience qui redéfinira le monde de l’art .
+              {headerTexts.title2[lang_]}
             </div>
           </div>
         </div>

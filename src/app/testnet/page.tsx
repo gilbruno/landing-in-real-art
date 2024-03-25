@@ -45,7 +45,7 @@ export default function HomePage() {
         </>  
           : 
         <>
-          <HeroSection/>
+          <HeroSection headerTexts={headerTexts} headerButtons={headerButtons} onlyFirstButton={true}/>
           <HowToJoinIra joinIraDataText={joinIraDataText} joinIraDataButton={joinIraDataButton} onlyFirstButton={true}/>
           <TestnetPros/>
           <Faq faqTexts={faqTexts} faqButtons={faqButtons} />
