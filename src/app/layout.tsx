@@ -21,6 +21,10 @@ export const metadata: Metadata = {
     shortcut: '/img/favicon-16x16.png',
     apple: '/img/apple-touch-icon.png',
   },
+  robots: {
+    index: true,
+    follow: true,
+  }
 };
 
 export default function RootLayout({
