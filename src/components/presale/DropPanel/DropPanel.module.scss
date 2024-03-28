@@ -114,6 +114,36 @@
   margin-top: auto;
 }
 
+.button-seemore {
+  color: #183544;
+  transition: all 0.3s ease;
+  padding: 15px;
+  z-index: 11;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 auto;
+  display: block;
+  margin-top: 50px;
+  border-radius: 20px;
+  border: 2px solid transparent;
+
+  svg {
+    animation: MoveUpDown 1s linear infinite;
+    transition: all 0.3s ease;
+    font-size: 32px;
+    margin: 20px auto;
+  }
+}
+
+@keyframes MoveUpDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
 .button-more {
   transition: all 0.2s ease;
   opacity: 0;

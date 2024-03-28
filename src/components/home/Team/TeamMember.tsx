@@ -12,7 +12,7 @@ const TeamMember: React.FC<TeamMemberProps> = ( {name, photo, role, text1, text2
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'contain',
               backgroundPosition: 'center',
-              backgroundColor: 'black'
+              backgroundColor: 'linear-gradient(135.65deg, rgb(236, 238, 250) 0%, rgb(234, 236, 251) 52.6041686535%, rgb(225, 229, 255) 100%))'
             }}
           >
           
