@@ -5,7 +5,7 @@ import Link from 'next/link'
 const LogoIraMenu = () => {
   return (
     <div className={styles["logoIraMenu"]}>
-    <Link href="/" style={{display: 'flex', flexDirection: 'row'}}>
+    <Link href="/home" style={{display: 'flex', flexDirection: 'row'}}>
       <div className={styles["fichier-3-12"]}>
         <svg
           className={styles["calque-1-22"]}

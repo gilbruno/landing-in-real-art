@@ -31,7 +31,7 @@ const ArtworkGallery = ({
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalCloseButton size="lg" color="#ffffff"/>
+        <ModalCloseButton size="lg" />
         <ModalBody padding="0px">
           <div className={styles["gallery"]}>
             {artworks.map((artwork, index) => (

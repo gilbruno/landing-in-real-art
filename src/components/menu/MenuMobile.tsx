@@ -43,12 +43,12 @@ const MenuMobile: FC<MenuMobileProps> = ({ isOpen, closeMenu }) => {
       className={styles.navBarMenuMobile}
     >
       <div className={styles.menuMobileItem}>
-        <Link href={`/${communityLink}`} onClick={closeMenu}>
+        <Link href={`/home${communityLink}`} onClick={closeMenu}>
           {community[lang_]}
         </Link>
       </div>
       <div className={styles.menuMobileItem}>
-        <Link href={`/${teamLink}`} onClick={closeMenu}>
+        <Link href={`/home${teamLink}`} onClick={closeMenu}>
           {team[lang_]}
         </Link>
       </div>
@@ -67,12 +67,12 @@ const MenuMobile: FC<MenuMobileProps> = ({ isOpen, closeMenu }) => {
       <div className={styles.wrapperButton}>
         <div className={styles.menuMobileButton}>
           <Link className={styles.linkPresale} href="/presale" onClick={closeMenu}>
-            {presale[lang_]}
+            <div className={styles.testnet}>{presale[lang_]}</div>
           </Link>
         </div>
         <div className={styles.menuMobileButton}>
           <Link className={styles.linkPresale} href="/testnet" onClick={closeMenu}>
-            {testnet[lang_]}
+            <div className={styles.testnet}>{testnet[lang_]}</div>
           </Link>
         </div>
       </div>

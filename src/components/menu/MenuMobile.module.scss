@@ -1,122 +1,130 @@
+
 .menuClosed {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: -100%; /* Start off-screen */
-  transition: left 0.5s ease; /* Smooth transition for sliding in */
-  /* Additional styles for the menu (background, color, etc.) */
-}
-
-.menuOpen {
-  /* Rest of the styles are the same as .menuClosed */
-
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  z-index: 700;
-  position: absolute;
-  top: -10px;
-  left: -100%;
-  opacity: 1;
-  transition: all 0.5s ease;
-  padding-top: 50px;
-  overflow: hidden;
-}
-
-.navBarMenuMobile {
-  position: fixed;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  transition: background-color 0.3s;
-  top: var(--header-height);
-  width: 100%;
-  padding: 20px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  background-color: whitesmoke;
-  z-index: 10;
-  color: var(--other-secondary, #183544);
-  left: 0px;
-  visibility: visible;
-}
-
-a.navBarMenuMobile {
-  text-decoration: none;
-}
-
-.menuMobileItem {
-  width: 50%;
-  background: transparent;
-  color: #183544;
-  text-decoration: none;
-  border-image-slice: 1;
-  padding: 18px 0;
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-weight: 600;
-  position: relative;
-  font-size: 16px;
-  border-bottom: 1px solid;
-
-  a {
-    color: #183544;
-    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: -100%; /* Start off-screen */
+    transition: left 0.5s ease; /* Smooth transition for sliding in */
+    /* Additional styles for the menu (background, color, etc.) */
   }
-}
-
-.wrapperButton {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  position: relative;
-  margin-top: 30px;
-}
-
-.menuMobileButton {
-  --b: 2px;
-  --s: 0.15em;
-  --c: #5552ff;
-  cursor: pointer;
-  padding: calc(0.9em + var(--s)) calc(1.5em + var(--s));
-  color: #fff;
-  --_p: var(--s);
-  background: conic-gradient(from 90deg at var(--b) var(--b), #0000 90deg, var(--c) 0) var(--_p) var(--_p) /
-    calc(100% - var(--b) - 2 * var(--_p)) calc(100% - var(--b) - 2 * var(--_p));
-  transition:
-    0.3s linear,
-    color 0s,
-    background-color 0s;
-  outline: var(--b) solid #0000;
-  outline-offset: 0.2em;
-
-  a {
-    color: #183544;
+  
+  .menuOpen {
+    /* Rest of the styles are the same as .menuClosed */
+    
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        z-index: 700;
+        position: absolute;
+        top: -10px;
+        left: -100%;
+        opacity: 1;
+        transition: all .5s ease;
+        padding-top: 50px;
+        overflow: hidden;
+    
   }
-}
 
-.linkPresale {
-  color: var(--primaire-black, #000035);
-  text-align: center;
-  font-family: var(--text-linktext-font-family, "Montserrat-Medium", sans-serif);
-  font-size: var(--text-linktext-font-size, 22px);
-  font-weight: var(--text-linktext-font-weight, 500);
-  position: relative;
-  text-decoration: none;
-}
 
-.linkPresale > a {
-  text-decoration: none;
-}
+    .navBarMenuMobile {
+        position: fixed; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        transition: background-color 0.3s;
+        bottom: 50px; 
+        width: 100%; 
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        background-color: whitesmoke;
+        z-index: 10; 
+        color: var(--other-secondary, #183544);
+        left: 0px;
+        visibility: visible;
+    }
+
+        
+    a.navBarMenuMobile  {
+        text-decoration: none;
+    }
+
+    .menuMobileItem {
+      background: #183544;
+      border-radius: 10px;
+      color: #ccc;
+      text-decoration: none;
+      border-image-slice: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 108px;
+      height: 12%;
+      position: relative;
+
+      a {
+        color: white;
+        text-decoration: none;
+      }
+
+    }
+
+    .wrapperButton {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-shrink: 0;
+      position: relative;
+      margin-top: 20px;
+    }
+  
+    .menuMobileButton {
+      background: #5552ff;
+      border-radius: 10px;
+      color: #ccc;
+      text-decoration: none;
+      border-image-slice: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 108px;
+      height: 100%;
+      position: relative;
+
+      a {
+        color: white;
+      }
+    }
+
+    .linkPresale {
+      color: var(--primaire-black, #000035);
+      text-align: center;
+      font-family: var(
+        --text-linktext-font-family,
+        "Montserrat-Medium",
+        sans-serif
+      );
+      font-size: var(--text-linktext-font-size, 16px);
+      font-weight: var(--text-linktext-font-weight, 500);
+      position: relative;
+      text-decoration: none;
+    }
+
+    .linkPresale > a {
+      text-decoration: none;
+    }

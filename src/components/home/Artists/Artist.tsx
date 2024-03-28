@@ -13,7 +13,7 @@ const Artist: React.FC<ArtistMemberProps> = ( {name, image, desc} ) => {
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'contain',
               backgroundPosition: 'center',
-              backgroundColor: 'transparent'
+              backgroundColor: 'black'
             }}
         >
           {/*<img id="photo-member" className={styles["photo-artist"]} alt="" src={image} />*/}
