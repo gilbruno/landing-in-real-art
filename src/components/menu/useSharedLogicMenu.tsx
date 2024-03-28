@@ -7,7 +7,7 @@ const useSharedLogicMenu = () => {
 
     const FIREBASE_MENU_COLLECTION = 'Menu'
 
-    const [isSticky, setSticky]   = useState(false);
+    const [isSticky, setSticky]   = useState(true);
     const [isMobile, setIsMobile] = useState(false)
     const [community, setCommunity] = useState<Record<Lang, string>>(defaultLangObject)
     const [team, setTeam]           = useState<Record<Lang, string>>(defaultLangObject)
@@ -46,26 +46,6 @@ const useSharedLogicMenu = () => {
   
      fetchData();
   
-     // Use Effect to stick the menu at the top when scrolling down
-      const checkSticky = () => {
-        const menu = document.getElementById('menu')
-        if (menu) {
-          // Calculate the scroll position at which the bottom of the menu reaches the bottom of the viewport
-            // Calculate the distance from the top of the document to the bottom of the menu
-          const menuBottomPosition = menu.offsetTop + menu.offsetHeight
-  
-          // Determine if the bottom of the menu is at or above the bottom of the viewport
-          const isMenuBottomAtViewportBottom = menuBottomPosition <= window.scrollY + window.innerHeight
-  
-          if (isMenuBottomAtViewportBottom) {
-              setSticky(true)
-          } else {
-              setSticky(false)
-          }            
-        }
-      }
-      window.addEventListener('scroll', checkSticky)
-  
       const checkScreenSize = () => {
         setIsMobile(window.innerWidth < 800)
       }
@@ -74,7 +54,6 @@ const useSharedLogicMenu = () => {
       window.addEventListener('resize', checkScreenSize)
   
       return () => {
-          window.removeEventListener('scroll', checkSticky)
           window.removeEventListener('resize', checkScreenSize)
       }
     }, []);

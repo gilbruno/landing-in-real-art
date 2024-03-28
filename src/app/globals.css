@@ -1,5 +1,6 @@
 :root {
   --max-width: 1100px;
+  --header-height: 100px;
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
@@ -168,6 +169,10 @@ a {
 * Importé de Figma
 */
 
+.content-container {
+  margin-top: var(--header-height);
+  width: 100%;
+}
 
 .LP {
   background-color: rgb(236, 238, 250);
