@@ -25,7 +25,7 @@ const HowToJoinIraMobile = ({joinIraDataText, joinIraDataButton, onlyFirstButton
       src="img/rectangle-2100.png" alt=''
     />
     <div className={styles["frame-303"]}>
-      <div className={styles["comment"]}>Comment ? </div>
+      <div className={styles["comment"]}>{joinIraDataText.headerText[lang_]}</div>
       <div className={styles["lp-mobile-join-ira-main-description"]}>
         {joinIraDataText.text1[lang_]}
       </div>
