@@ -173,6 +173,9 @@ a {
   margin-top: var(--header-height);
   width: 100%;
 }
+#team, #artists {
+  scroll-margin-top: var(--header-height);
+}
 
 .LP {
   background-color: rgb(236, 238, 250);
