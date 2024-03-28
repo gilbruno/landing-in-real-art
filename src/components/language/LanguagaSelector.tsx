@@ -8,7 +8,7 @@ export interface LanguageSelectorProps {
 
 const LanguageSelector: FC<LanguageSelectorProps> = ({isClosed}) => {
 
-  const { setLang } = useAppContext();
+  const { setLang, lang} = useAppContext();
 
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -21,13 +21,13 @@ const LanguageSelector: FC<LanguageSelectorProps> = ({isClosed}) => {
     <div className={styles.languageSelector}>
       {(showDropdown && !isClosed) && (
         <div className={styles.dropdown}>
-          <div className={styles.lang} onClick={() => setLanguage('EN')}>EN &nbsp;<img src='img/flag_EN.png' alt="english"></img></div>
-          <div className={styles.lang} onClick={() => setLanguage('FR')}>FR &nbsp;<img src='img/flag_FR.png' alt="french"></img></div>
+          <div className={styles.lang} onClick={() => setLanguage('EN')}>EN &nbsp;<img width={24} height={24} src='img/flag_EN.png' alt="english"></img></div>
+          <div className={styles.lang} onClick={() => setLanguage('FR')}>FR &nbsp;<img width={24} height={24} src='img/flag_FR.png' alt="french"></img></div>
           {/* <div className={styles.lang} onClick={() => setLanguage('CN')}>CN &nbsp;<img src='img/flag_CN.png' alt="chinese"></img></div>*/}
         </div>
       )}
       <div onClick={() => setShowDropdown(!showDropdown)}>
-        <img src="img/world.png" alt="Language" width={30} height={30} />
+        <img src={`img/flag_${lang}.png`} alt="Language" width={30} height={30} />
       </div>
       
     </div>
