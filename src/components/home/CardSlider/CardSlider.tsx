@@ -45,6 +45,9 @@ const artworks = [
 const CardSlider = ({ viewMoreText }: { viewMoreText: string }) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const swiperRef = useRef<any>(null);
+  const leftDisabled: boolean = activeSlide <= 0;
+  const rightDisabled: boolean = activeSlide >= artworks.length - 1;
+
   return (
     <section>
       <h1 className="slider__artistName">{artworks[activeSlide]?.artist}</h1>
@@ -75,14 +78,14 @@ const CardSlider = ({ viewMoreText }: { viewMoreText: string }) => {
           </SwiperSlide>
         ))}
         <div className="slider-arrows">
-          <FaCircleArrowLeft
+          {!leftDisabled && <FaCircleArrowLeft
             className="slider-arrow slider-arrow--left"
             onClick={() => swiperRef.current.slidePrev()}
-          />
-          <FaCircleArrowRight
+          />}
+          {!rightDisabled && <FaCircleArrowRight
             className="slider-arrow slider-arrow--right"
             onClick={() => swiperRef.current.slideNext()}
-          />
+          />}
         </div>
       </Swiper>
     </section>
