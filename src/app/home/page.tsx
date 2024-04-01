@@ -50,7 +50,7 @@ export default function HomePage() {
         <>
           <HeroSectionMobile headerTexts={headerTexts} headerButtons={headerButtons} onlyFirstButton={false}/>
           
-          <HowToJoinIraMobile joinIraDataText={joinIraDataText} joinIraDataButton={joinIraDataButton} onlyFirstButton={false}/>
+          <HowToJoinIra joinIraDataText={joinIraDataText} joinIraDataButton={joinIraDataButton} onlyFirstButton={false}/>
           <JoinMovementMobile/>
           <CarouselArtists/>
           <Team/>
@@ -63,7 +63,6 @@ export default function HomePage() {
           : 
         <>
           <HeroSection />
-          
           <HowToJoinIra joinIraDataText={joinIraDataText} joinIraDataButton={joinIraDataButton} onlyFirstButton={false}/>
           <JoinMovement/>
           <CarouselArtists/>
