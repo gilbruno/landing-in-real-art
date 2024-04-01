@@ -237,6 +237,31 @@ a.startIRALink {
     height: 350px;
     position: relative;
   }
+
+  .frame303 {
+    width: 85%;
+    margin: 0 auto;
+  }
+
+  .comment {
+    color: var(--primaire-black, #000035);
+    text-align: left;
+    font-size: 30px;
+    position: relative;
+    align-self: stretch;
+  }
+
+  .iraAmbition {
+    color: var(--bleu-bleusombre-100, #021056);
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 150%;
+    font-weight: 400;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+  }
 }
 @media (max-width: 600px) {
   .img {
