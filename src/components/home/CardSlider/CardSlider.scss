@@ -1,0 +1,109 @@
+.slider {
+  &__artistName {
+    display: block;
+    width: max-content;
+    font-family: "Unbounded", sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    background: #5552ff;
+    color: white;
+    padding: 5px 10px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    @media (max-width: 1000px) {
+      font-size: 24px;
+    }
+  }
+}
+.swiper {
+  width: 335px;
+  height: 450px;
+  position: relative;
+
+  @media (max-width: 1000px) {
+    max-width: 335px;
+    width: 80%;
+    height: 430px;
+  }
+
+  @media (max-width: 800px) {
+    width: 75%;
+    height: 375px;
+  }
+
+  @media (max-width: 600px) {
+    width: 66%;
+    height: 335px;
+  }
+}
+
+.swiper-slide {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  -webkit-box-shadow: 4px 5px 15px 5px #cacaca;
+  box-shadow: 4px 5px 15px 5px hsla(0, 0%, 19%, 0.288);
+}
+
+.slide-button-view {
+  font-family: "Unbounded", sans-serif;
+  font-weight: 700;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  width: auto;
+  transform: translateX(-50%);
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(25px);
+  font-size: 15px;
+  text-align: center;
+  width: 80%;
+  border-radius: 6px;
+  box-shadow: 0px 38.05px 98.57px 0px rgba(0, 0, 0, 0.25);
+}
+
+.slider-arrows {
+  position: absolute;
+  display: flex;
+  z-index: 100;
+  gap: 20px;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+}
+
+.slider-arrow {
+  font-size: 40px;
+  color: #5552ff91;
+  cursor: pointer;
+  
+  &--left {
+    position: absolute;
+    left: -80px;
+  }
+  &--right {
+    position: absolute;
+    right: -80px;
+  }
+  @media (max-width: 1000px) {
+    &--left {
+      left: -50px;
+    }
+    &--right {
+      position: absolute;
+      right: -50px;
+    }
+  }
+}

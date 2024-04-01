@@ -37,7 +37,7 @@ export default function HomePage() {
       {isMobile ? 
         <>
           <HeroSectionMobile headerTexts={headerTexts} headerButtons={headerButtons} onlyFirstButton={true}/>
-          <HowToJoinIraMobile joinIraDataText={joinIraDataText} joinIraDataButton={joinIraDataButton} onlyFirstButton={true}/>
+          <HowToJoinIra isTesnet joinIraDataText={joinIraDataText} joinIraDataButton={joinIraDataButton} onlyFirstButton={true}/>
           <TestnetPros/>
           <FaqMobile faqTexts={faqTexts} faqButtons={faqButtons}/>
           <NewsletterMobile/>
@@ -46,7 +46,7 @@ export default function HomePage() {
           : 
         <>
           <HeroSection headerTexts={headerTexts} headerButtons={headerButtons} onlyFirstButton={true}/>
-          <HowToJoinIra joinIraDataText={joinIraDataText} joinIraDataButton={joinIraDataButton} onlyFirstButton={true}/>
+          <HowToJoinIra isTesnet joinIraDataText={joinIraDataText} joinIraDataButton={joinIraDataButton} onlyFirstButton={true}/>
           <TestnetPros/>
           <Faq faqTexts={faqTexts} faqButtons={faqButtons} />
           <Newsletter/>

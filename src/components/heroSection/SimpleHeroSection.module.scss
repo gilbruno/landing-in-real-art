@@ -211,18 +211,17 @@
   background-position: center;  
 }
 .section-hero__wrapper-text {
-  margin: 250px auto auto auto;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 20px;
   padding: 32px;
-  display: flex;
-  flex-direction: column;
   gap: 0px;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
   width: 60%;
   backdrop-filter: var(--background-blur-backdrop-filter, blur(22px));
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .section-hero__subtitle {
   display: flex;
@@ -547,7 +546,7 @@
   }
 
   .section-hero__wrapper-text {
-    width: 90%;
+    width: 80%;
   }
   
   

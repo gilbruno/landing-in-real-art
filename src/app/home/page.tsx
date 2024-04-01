@@ -12,7 +12,7 @@ import JoinMovementMobile from "../../components/home/JoinMovement/JoinMovementM
 import NewsletterMobile from "../../components/home/Newsletter/NewsletterMobile";
 import FooterMobile from "../../components/footer/FooterMobile";
 import CarouselArtists from "../../components/home/Artists/CarouselArtists";
-import styles from './HomePage.module.scss'
+import styles from '../HomePage.module.scss'
 import Partners from "../../components/home/Partners/Partners";
 import useSharedLogic from "../useSharedLogic";
 import HowToJoinIra from "../../components/common/JoinIRA/HowToJoinIra";
@@ -50,7 +50,7 @@ export default function HomePage() {
         <>
           <HeroSectionMobile headerTexts={headerTexts} headerButtons={headerButtons} onlyFirstButton={false}/>
           
-          <HowToJoinIraMobile joinIraDataText={joinIraDataText} joinIraDataButton={joinIraDataButton} onlyFirstButton={false}/>
+          <HowToJoinIra joinIraDataText={joinIraDataText} joinIraDataButton={joinIraDataButton} onlyFirstButton={false}/>
           <JoinMovementMobile/>
           <CarouselArtists/>
           <Team/>
@@ -63,7 +63,6 @@ export default function HomePage() {
           : 
         <>
           <HeroSection />
-          
           <HowToJoinIra joinIraDataText={joinIraDataText} joinIraDataButton={joinIraDataButton} onlyFirstButton={false}/>
           <JoinMovement/>
           <CarouselArtists/>

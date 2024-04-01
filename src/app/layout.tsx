@@ -39,7 +39,9 @@ export default function RootLayout({
         <AppWrapper>
           <Providers>
               <Menu />
+              <div className="content-container">
               {children}
+              </div>
               <CookieConsent />
           </Providers>
         </AppWrapper>

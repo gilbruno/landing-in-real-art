@@ -239,6 +239,7 @@ export interface JoinIraDataButton {
     StartIRA?: Record<Lang, string>
     JoinIRALink: string
     StartIRALink: Record<Lang, string>
+    ViewMoreArtworks: Record<Lang, string>
 }
 
 export interface JoinIraDataText {
