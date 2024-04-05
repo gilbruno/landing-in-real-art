@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model collectionNfts {
+  id           BigInt   @id(map: "collectionLeloluce_pkey") @default(autoincrement())
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+  email        String?  @db.VarChar
+  resourcePath String
+
+  @@unique([email, resourcePath], map: "collectionnfts_unique")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model newsletter {
+  id         BigInt   @id @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  email      String?  @unique(map: "email_unique") @db.VarChar
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model privatesale {
+  id           BigInt   @id @default(autoincrement())
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+  email        String?  @db.VarChar
+  resourcePath String
+
+  @@unique([email, resourcePath], map: "privatesale_unique")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model presaleArtworkSold {
+  id          BigInt @id @default(autoincrement())
+  artistName  String
+  artworkName String
+  hashArt     String @unique
+  tokenId     BigInt @unique
+  txHash      String @unique
+  owner       String
+}
