@@ -208,6 +208,10 @@ export type TosTexts = {
 
 export type OrdersTexts = {
     mainTitle: Record<Lang, string>
+    web3Connection: {
+        msgConnected: Record<Lang, string>,
+        msgNotConnected: Record<Lang, string>
+    }
 }
 
 export interface TosContentProps {
@@ -216,6 +220,10 @@ export interface TosContentProps {
 
 export interface OrdersProps {
     mainTitle: string
+    web3Connection: {
+        msgConnected: string,
+        msgNotConnected: string
+    }
 }
 
 export type LegalNoticeTexts = {

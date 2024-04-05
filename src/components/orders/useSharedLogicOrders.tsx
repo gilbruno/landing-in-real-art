@@ -3,11 +3,14 @@ import { db } from '../../firebaseConfig'
 import { collection, getDocs } from 'firebase/firestore/lite'
 import { useEffect, useState } from 'react'
 
-const useSharedLogicOrders = (fireBaseTosPageCollection:string) => {
+const useSharedLogicOrders = (fireBaseOrdersPageCollection:string) => {
 
     const defaultTosTexts = {
       mainTitle: defaultLangObject,
-      mainContent: defaultLangObject,
+      web3Connection: {
+        msgConnected: defaultLangObject,
+        msgNotConnected: defaultLangObject
+    },
     }
 
     const [texts, setTexts] = useState<OrdersTexts>(defaultTosTexts)
@@ -15,7 +18,7 @@ const useSharedLogicOrders = (fireBaseTosPageCollection:string) => {
     useEffect(() => {
         
         const fetchData = async () => {
-          const collection_ = collection(db, fireBaseTosPageCollection);
+          const collection_ = collection(db, fireBaseOrdersPageCollection);
           const documents  = await getDocs(collection_); 
           const data       = documents.docs.map(doc => doc.data());
           
