@@ -206,8 +206,16 @@ export type TosTexts = {
     mainContent: Record<Lang, string>
 }
 
+export type OrdersTexts = {
+    mainTitle: Record<Lang, string>
+}
+
 export interface TosContentProps {
     mainContent: string
+}
+
+export interface OrdersProps {
+    mainTitle: string
 }
 
 export type LegalNoticeTexts = {
