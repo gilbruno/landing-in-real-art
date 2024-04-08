@@ -1,3 +1,5 @@
+import { presaleArtworkOrder } from "@prisma/client";
+
 declare global {
     interface Window {
         gtag: (type: string, action: string, options: { 'analytics_storage'?: string, 'page_path'?: string }) => void;
@@ -16,7 +18,8 @@ export const defaultLangObjectArray = {
     'EN': [''],
     'FR': ['']
 }
-export type TranslatedTexts = Record<Lang, string>
+
+export type TranslatedText = Record<Lang, string>
 
 export type TranslatedArrayTexts = Record<Lang, Array<string>>
 
@@ -207,24 +210,36 @@ export type TosTexts = {
 }
 
 export type OrdersTexts = {
-    mainTitle: Record<Lang, string>
+    mainTitle: TranslatedText
     web3Connection: {
-        msgConnected: Record<Lang, string>,
-        msgNotConnected: Record<Lang, string>
+        msgConnected: TranslatedText,
+        msgNotConnected: TranslatedText
     }
+}
+
+export type OrdersButtons = {
+    cancelOrder: TranslatedText
 }
 
 export interface TosContentProps {
     mainContent: string
 }
 
+
 export interface OrdersProps {
-    mainTitle: string
-    web3Connection: {
-        msgConnected: string,
-        msgNotConnected: string
-    }
+    texts: OrdersTexts
+    buttons: OrdersButtons
+    orders: Array<presaleArtworkOrder>
 }
+
+// export interface OrdersProps {
+//     mainTitle: string
+//     web3Connection: {
+//         msgConnected: string,
+//         msgNotConnected: string
+//     },
+//     orders: Array<presaleArtworkOrder>
+// }
 
 export type LegalNoticeTexts = {
     mainTitle: Record<Lang, string>
@@ -383,12 +398,12 @@ export type PresaleInvestmentsTexts = {
 }
 
 export type PresaleInvestmentsCard = {
-    number: TranslatedTexts
-    details: TranslatedTexts
+    number: TranslatedText
+    details: TranslatedText
     details1: TranslatedArrayTexts
     details2: TranslatedArrayTexts
-    title1: TranslatedTexts
-    title2: TranslatedTexts
+    title1: TranslatedText
+    title2: TranslatedText
     backgroundImage: string
 }
 
@@ -401,13 +416,13 @@ export type TestnetProsTexts = {
 }
 
 export type TestnetProsHeader = {
-    title: TranslatedTexts
-    description: TranslatedTexts
+    title: TranslatedText
+    description: TranslatedText
 }
 
 export type TestnetProsCard = {
-    number: TranslatedTexts
-    title1: TranslatedTexts
+    number: TranslatedText
+    title1: TranslatedText
     urlLink: string
     backgroundImage: string
 }

@@ -1,0 +1,15 @@
+@import '../../styles/variables.scss';
+
+.accountContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.buttonDisconnectAccount {
+    cursor: pointer;
+    background: #6052ff;
+    color: antiquewhite;
+    border-radius: 10px;
+    padding: 10px 10px; 
+  }

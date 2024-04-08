@@ -35,7 +35,7 @@ model privatesale {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model presaleArtworkSold {
+model presaleArtworkOrder {
   id          BigInt @id @default(autoincrement())
   artistName  String
   artworkName String

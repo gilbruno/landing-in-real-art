@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .msgWeb3Container {
     width: 70%;
     display: flex;
@@ -5,3 +7,84 @@
     justify-content: center;
     align-items: center;
 }
+
+.grid-wrapper {
+    flex-grow: 1; /* Allow the wrapper to grow and fill the space */
+    width: 100%; /* Ensures it tries to occupy full width */
+  }
+  
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0; /* Background color for the header */
+    width: 85%; 
+    margin: 0 auto;
+    margin-bottom: 70px;
+  }
+ 
+.frame-7 {
+    align-items: flex-start;
+    display: flex;
+    gap: 10px;
+    position: relative;
+    width: 673px;
+}
+  
+
+.text-wrapper-3 {
+    color: var(--primaireblack);
+    font-family: var(--heading-h2-font-family);
+    font-size: var(--heading-h2-font-size);
+    font-style: var(--heading-h2-font-style);
+    font-weight: var(--heading-h2-font-weight);
+    letter-spacing: var(--heading-h2-letter-spacing);
+    line-height: var(--heading-h2-line-height);
+    margin-top: -1px;
+    position: relative;
+    width: fit-content;
+  }
+
+  .text-wrapper-4 {
+    color: $primaireblack;
+    font-family: $heading-h3-font-family;
+    font-size: $heading-h3-font-size;
+    font-style: $heading-h3-font-style;
+    font-weight: $heading-h3-font-weight;
+    letter-spacing: $heading-h3-letter-spacing;
+    line-height: $heading-h3-line-height;
+    margin-top: -1px;
+    position: relative;
+    width: fit-content;
+  }
+
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* 1 column by default */
+    gap: 40px 10px; /* space between images */
+    margin: 0 auto; //Center horizontally the dic according to its parent
+    padding: 0px;
+    width: 80%;
+  }
+  
+  @media screen and (min-width: 500px) {
+    /* For screens wider than 500px, adjust to 2x3 grid */
+    .image-grid {
+      grid-template-columns: repeat(2, 1fr);
+      width: 75%;
+    }
+    .header {
+      width: 75%;
+    }
+  }
+  
+  @media screen and (min-width: 1200px) {
+    /* For screens wider than 800px, adjust to 3x2 grid */
+    .image-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  

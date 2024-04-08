@@ -17,14 +17,10 @@ export default function OrdersPage() {
   const { isMobile, setIsMobile } = useSharedLogic(800);
 
   const FIREBASE_ORDERS_PAGE_COLLECTION = 'Orders'
-  const { texts, setTexts } = useSharedLogicOrders(FIREBASE_ORDERS_PAGE_COLLECTION)
-
+  const { texts, setTexts, buttons, setButtons, orders, setOrders } = useSharedLogicOrders(FIREBASE_ORDERS_PAGE_COLLECTION)
+  
   const mainTitle = texts.mainTitle[lang_]
-  const web3Connection = {
-    msgConnected: texts.web3Connection.msgConnected[lang_],
-    msgNotConnected: texts.web3Connection.msgNotConnected[lang_]
-  }
-
+  
   return (
     <div
       id="home"
@@ -34,13 +30,13 @@ export default function OrdersPage() {
       {isMobile ? (
         <>
           <SimpleHeroSection mainTitle={mainTitle} />
-          <Orders mainTitle={mainTitle} />
+          <Orders texts={texts} buttons={buttons} orders={orders}/>
           <FooterMobile />
         </>
       ) : (
         <>
           <SimpleHeroSection mainTitle={mainTitle} />
-          <Orders mainTitle={mainTitle} web3Connection={web3Connection}/>
+          <Orders texts={texts} buttons={buttons} orders={orders}/>
           <Footer />
         </>
       )}
