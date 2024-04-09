@@ -7,7 +7,7 @@ export function Account() {
   
   return (
     <div className={styles.accountContainer}>
-      <div>{address && <div>{`${address.slice(0,6)}...${address.slice(-6)}`}</div>}</div>
+      <div className={styles.publicKeyAccount}>{address && <div>{`${address.slice(0,6)}...${address.slice(-6)}`}</div>}</div>
       <div className={styles.buttonDisconnectAccount}>
           <button onClick={() => disconnect()}>Disconnect</button>
       </div>    

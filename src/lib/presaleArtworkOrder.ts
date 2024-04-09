@@ -7,7 +7,7 @@ async function fetchOrders() {
 
 }
 
-async function fetchOrdersByOwner(owner_: string) {
+async function fetchOrdersByOwner(owner_?: string | `0x${string}`) {
     const list = await prisma.presaleArtworkOrder.findMany(
         {
             where: {
@@ -19,4 +19,4 @@ async function fetchOrdersByOwner(owner_: string) {
 }
 
 
-export {fetchOrders}
+export {fetchOrders, fetchOrdersByOwner}

@@ -70,6 +70,115 @@
     width: 80%;
   }
   
+  .frameDetailOrderName {
+    background-color: white;
+    cursor: pointer;
+    padding: 2px 8px 2px 8px;
+    border-radius: 0px;
+    font-family: "Unbounded", sans-serif;
+  }
+
+  
+  .img-overlay {
+    position: absolute;
+    transition: all 0.2s ease;
+    opacity: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    border-radius: 20px;
+  }
+  
+  .img-frame {
+    position: relative;
+    padding: 20px;
+    margin: 20px;
+    border: solid 3px #000000;
+    max-width: 600px;
+    width: 80%;
+    margin: 10px auto;
+    box-shadow: -3px -3px 12px #999;
+    margin-top: auto;
+  }
+  
+  .img-main {
+    display: block;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    border-top: solid 1px #aaa;
+    border-left: solid 1px #aaa;
+    border-bottom: solid 1px #ccc;
+    border-right: solid 1px #ccc;
+    
+  }  
+  .image-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-repeat: no-repeat;
+    gap: 20px;
+    border-radius: 20px;
+    margin: 20px 15px 0px 15px;
+    background: #D5DDF1;
+    min-height: 420px;
+    // background-image: radial-gradient(at 93% 16%, #fdd9c95e 0, #0000 50%),
+    //   radial-gradient(at 10% 31%, #edc5d357 0, #0000 50%), radial-gradient(at 16% 83%, #d0daf1c2 0, #0000 50%),
+    //   radial-gradient(at 91% 49%, #edd8d469 0, #0000 50%), radial-gradient(at 82% 88%, #d3d8e3 0, #0000 50%),
+    //   linear-gradient(#d3d3d34d, #d3d3d34d);
+    z-index: 1;
+    &--active {
+      background-size: contain;
+      background-position: center;
+    }
+  }
+  
+  .image-container img {
+    width: 100%; /* Responsive image */
+    height: auto;
+  }
+  
+  .buttonCancelOrder {
+    all: unset;
+    align-items: center;
+    background-color: $primairewhite;
+    border: 1px solid;
+    border-color: transparent;
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 0 auto;
+    gap: 10px;
+    justify-content: center;
+    padding: 16px;
+    position: relative;
+    z-index: 11;
+    width: 90%;
+    margin-bottom: 10px;
+    margin-top: auto;
+  }
+  
+  .textButtonCancelOrder {
+    color: $primaireblack;
+    font-family: $text-link-text-font-family;
+    font-size: $text-link-text-font-size;
+    font-style: $text-link-text-font-style;
+    font-weight: $text-link-text-font-weight;
+    letter-spacing: $text-link-text-letter-spacing;
+    line-height: $text-link-text-line-height;
+    margin-top: -1px;
+    position: relative;
+    text-align: center;
+    width: fit-content;
+    cursor: pointer;
+  }
+
+  
   @media screen and (min-width: 500px) {
     /* For screens wider than 500px, adjust to 2x3 grid */
     .image-grid {

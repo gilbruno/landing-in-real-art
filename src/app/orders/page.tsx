@@ -17,7 +17,7 @@ export default function OrdersPage() {
   const { isMobile, setIsMobile } = useSharedLogic(800);
 
   const FIREBASE_ORDERS_PAGE_COLLECTION = 'Orders'
-  const { texts, setTexts, buttons, setButtons, orders, setOrders } = useSharedLogicOrders(FIREBASE_ORDERS_PAGE_COLLECTION)
+  const { texts, setTexts, buttons, setButtons } = useSharedLogicOrders(FIREBASE_ORDERS_PAGE_COLLECTION)
   
   const mainTitle = texts.mainTitle[lang_]
   
@@ -30,13 +30,13 @@ export default function OrdersPage() {
       {isMobile ? (
         <>
           <SimpleHeroSection mainTitle={mainTitle} />
-          <Orders texts={texts} buttons={buttons} orders={orders}/>
+          <Orders texts={texts} buttons={buttons}/>
           <FooterMobile />
         </>
       ) : (
         <>
           <SimpleHeroSection mainTitle={mainTitle} />
-          <Orders texts={texts} buttons={buttons} orders={orders}/>
+          <Orders texts={texts} buttons={buttons}/>
           <Footer />
         </>
       )}

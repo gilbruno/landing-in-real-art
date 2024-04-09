@@ -9,7 +9,7 @@ datasource db {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model collectionNfts {
-  id           BigInt   @id(map: "collectionLeloluce_pkey") @default(autoincrement())
+  id           Int      @id(map: "collectionLeloluce_pkey") @default(autoincrement())
   created_at   DateTime @default(now()) @db.Timestamptz(6)
   email        String?  @db.VarChar
   resourcePath String
@@ -19,14 +19,14 @@ model collectionNfts {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model newsletter {
-  id         BigInt   @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   created_at DateTime @default(now()) @db.Timestamptz(6)
   email      String?  @unique(map: "email_unique") @db.VarChar
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model privatesale {
-  id           BigInt   @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   created_at   DateTime @default(now()) @db.Timestamptz(6)
   email        String?  @db.VarChar
   resourcePath String
@@ -36,11 +36,14 @@ model privatesale {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model presaleArtworkOrder {
-  id          BigInt @id @default(autoincrement())
-  artistName  String
-  artworkName String
-  hashArt     String @unique
-  tokenId     BigInt @unique
-  txHash      String @unique
-  owner       String
+  id               Int    @id(map: "presaleArtworkSold_pkey") @default(autoincrement())
+  artistName       String
+  artworkName      String
+  hashArt          String @unique(map: "presaleArtworkSold_hashArt_key")
+  tokenId          Int
+  txHash           String @unique(map: "presaleArtworkSold_txHash_key")
+  owner            String
+  collectionName   String
+  collectionSymbol String
+  price            Float  @db.Real
 }

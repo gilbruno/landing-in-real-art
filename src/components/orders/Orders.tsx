@@ -1,24 +1,45 @@
 "use client"
 import { Lang, OrdersProps } from '../../types/types'
 import styles from './Orders.module.scss'
-import parse from 'html-react-parser'
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import { Account } from '../web3/Account';
 import { presaleArtworkOrder } from '@prisma/client';
-import OrderCard from './OrderCard';
 import { useAppContext } from '../../context';
-import OrderCardData from './OrderCardDataServer';
-import OrderCardDataClient from './OrderCardDataClient';
-import OrderCardDataServer from './OrderCardDataServer';
+import { useEffect, useState } from 'react';
+import { fetchOrdersByOwner } from '../../lib/presaleArtworkOrder';
+import OrderCard from './OrderCard';
 
 
-const Orders = ({texts, buttons, orders}: OrdersProps): React.ReactNode => { 
+
+const Orders = ({texts, buttons}: OrdersProps): React.ReactNode => { 
     //Get the language of the global context
     const {lang } = useAppContext()
     const lang_ = lang as Lang
     
     const { isConnected, address } = useAccount();
+    const defaultOrder = {
+        id: 0,
+        artistName: '', 
+        artworkName: '', 
+        hashArt: '',
+        tokenId: 0,
+        txHash: '',
+        owner: '',
+        collectionName: '',
+        collectionSymbol: '',
+        price: 0
+      }
+    const [orders, setOrders] = useState<Array<presaleArtworkOrder>>([defaultOrder])
+
+    useEffect(() => {
+        const fethData = async (address : `0x${string}` | undefined) => {
+            const orders = await fetchOrdersByOwner(address)
+            setOrders(orders)
+        }
+        fethData(address)
+    }, [address]);
+
     return (
         <>
             <div id="orderPanel" className={styles["grid-wrapper"]}>
@@ -31,25 +52,15 @@ const Orders = ({texts, buttons, orders}: OrdersProps): React.ReactNode => {
                     </div>
                     <div className={styles["text-wrapper-4"]}>
                     {isConnected && <Account/>}
-                    {!isConnected && 
-                        (
-                            <div>
-                                <ConnectButton/>
-                            </div>
-                        )
-                    }
+                    {!isConnected && <ConnectButton/>}
                     </div>
                 </div>
-                
                 <div className={styles["image-grid"]}>
                     {isConnected && orders.map((order) => (
-                            <div key={order.id}>
-                                {order.artistName}||
-                                {order.artworkName}
-                            </div>
-                        
+                        <OrderCard buttons={buttons} texts={texts} order={order}/>
                     ))}
                 </div>
+
             </div>
         </>
     )

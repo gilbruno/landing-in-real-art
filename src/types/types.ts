@@ -1,4 +1,5 @@
 import { presaleArtworkOrder } from "@prisma/client";
+import { ReactNode } from "react";
 
 declare global {
     interface Window {
@@ -215,6 +216,15 @@ export type OrdersTexts = {
         msgConnected: TranslatedText,
         msgNotConnected: TranslatedText
     }
+    orderCard: {
+        order: TranslatedText,
+        artistName: TranslatedText,
+        artworkName: TranslatedText,
+        collectionName: TranslatedText,
+        collectionSymbol: TranslatedText,
+        price: TranslatedText,
+        tokenID: TranslatedText
+    }
 }
 
 export type OrdersButtons = {
@@ -229,7 +239,6 @@ export interface TosContentProps {
 export interface OrdersProps {
     texts: OrdersTexts
     buttons: OrdersButtons
-    orders: Array<presaleArtworkOrder>
 }
 
 // export interface OrdersProps {

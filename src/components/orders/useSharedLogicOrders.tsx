@@ -13,53 +13,44 @@ const useSharedLogicOrders = (fireBaseOrdersPageCollection:string) => {
         msgConnected: defaultLangObject,
         msgNotConnected: defaultLangObject
       },
+      orderCard: {
+        order: defaultLangObject,
+        artistName: defaultLangObject,
+        artworkName: defaultLangObject,
+        collectionName: defaultLangObject,
+        collectionSymbol: defaultLangObject,
+        price: defaultLangObject,
+        tokenID: defaultLangObject
+    }
     }
 
     const defaultButtons = {
       cancelOrder: defaultLangObject
     }
 
-    const defaultOrder = {
-      id: BigInt(0),
-      artistName: '', 
-      artworkName: '', 
-      hashArt: '',
-      tokenId: BigInt(0),
-      txHash: '',
-      owner: ''
-    }
-
     const [texts, setTexts] = useState<OrdersTexts>(defaultTexts)
     const [buttons, setButtons] = useState<OrdersButtons>(defaultButtons)
-    let [orders, setOrders] = useState<Array<presaleArtworkOrder>>([defaultOrder])
+    
     useEffect(() => {
-        
         //Fetch in Firebase
-        const fetchFirebaseData = async () => {
-          const collection_ = collection(db, fireBaseOrdersPageCollection)
-          const documents  = await getDocs(collection_)
-          const data       = documents.docs.map(doc => doc.data())
+      const fetchFirebaseData = async () => {
+        const collection_ = collection(db, fireBaseOrdersPageCollection)
+        const documents  = await getDocs(collection_)
+        const data       = documents.docs.map(doc => doc.data())
 
-          //Index 0 ===> Orders Buttons
-          const buttons = data[0] as OrdersButtons
-          setButtons(buttons) 
+        //Index 0 ===> Orders Buttons
+        const buttons = data[0] as OrdersButtons
+        setButtons(buttons) 
           
-          //Index 1 ===> Orders Texts
-          const texts = data[1] as OrdersTexts
-          setTexts(texts) 
-        }
+        //Index 1 ===> Orders Texts
+        const texts = data[1] as OrdersTexts
+        setTexts(texts) 
+      }
 
-        //Fetch in the Postgres Database
-        const fetchDatabaseData = async () => {
-          const orders_ = await fetchOrders()
-          setOrders(orders_)
-        }
-
-        fetchFirebaseData()
-        fetchDatabaseData()
-      }, [])
+      fetchFirebaseData()
+    }, [])
   
-  return {texts, setTexts, buttons, setButtons, orders, setOrders}
+  return {texts, setTexts, buttons, setButtons}
 }
 
 export default useSharedLogicOrders
