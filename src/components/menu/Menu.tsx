@@ -9,6 +9,7 @@ import useSharedLogicMenu from "./useSharedLogicMenu";
 import classNames from "classnames";
 import MenuMobile from "./MenuMobile";
 import { useState } from "react";
+import UserMenu from "../user/UserMenu";
 
 const Menu = () => {
   const { lang } = useAppContext();
@@ -105,6 +106,7 @@ const Menu = () => {
                     {testnet[lang_]}
                   </Link>
                 </div>
+                <UserMenu isClosed={false} />
               </div>
               <LanguageSelector isClosed={isMenuMobileOpen} />
             </>

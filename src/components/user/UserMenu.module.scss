@@ -1,0 +1,39 @@
+.userMenuSelector {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .orders {
+    width: 150px;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .orderItem {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    font-family: "Unbounded", sans-serif;
+    text-align: center;
+  }
+
+  .dropdown {
+    position: absolute;
+    background-color: white;
+    top: 33px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .dropdown div {
+    padding: 10px;
+    text-align: center;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s;
+  }
+  
+  .dropdown div:hover {
+    background-color: #f1f1f1;
+  }
