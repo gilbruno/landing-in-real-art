@@ -37,7 +37,14 @@ const useSharedLogicDropPanel = () => {
       firstName: defaultLangObject,
       lastName: defaultLangObject,
       fullAddress: defaultLangObject,
-      phoneNumber: defaultLangObject
+      phoneNumber: defaultLangObject,
+      msgErrorEmail: defaultLangObject,
+      msgErrorFirstName: defaultLangObject,
+      msgErrorLastName: defaultLangObject,
+      msgErrorFullAddress: defaultLangObject,
+      msgErrorPhoneNumber: defaultLangObject,
+      connectWalletMsg: defaultLangObject,
+      connectWallet: defaultLangObject
     }
   };
 
@@ -47,7 +54,7 @@ const useSharedLogicDropPanel = () => {
     buyArtworkNow: defaultLangObject,
     closeArtworkDetail: defaultLangObject,
     detailArtWork: defaultLangObject,
-    viewMoreArtworks: defaultLangObject,
+    viewMoreArtworks: defaultLangObject
   };
 
   const defaultArtwork = {

@@ -56,8 +56,8 @@ const Orders = ({texts, buttons}: OrdersProps): React.ReactNode => {
                     </div>
                 </div>
                 <div className={styles["image-grid"]}>
-                    {isConnected && orders.map((order) => (
-                        <OrderCard buttons={buttons} texts={texts} order={order}/>
+                    {isConnected && orders.map((order, index) => (
+                        <OrderCard key={index} buttons={buttons} texts={texts} order={order}/>
                     ))}
                 </div>
 

@@ -49,6 +49,33 @@
   color: white;
 }
 
+.cardFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.connectWalletContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.connectWalletMsg, .connectedAddress {
+  font-family: 'Unbounded', sans-serif;
+}
+
+.connectWallet {
+  background-color: #5552ff;
+  margin: auto;
+  padding: 8px;
+  border-radius: 10px;
+  color: white;
+  font-family: 'Unbounded', sans-serif;
+}
+
 
 .rectangleSendEmail {
   background: #465c79;

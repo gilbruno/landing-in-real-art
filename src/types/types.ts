@@ -486,6 +486,8 @@ export type FormPresaleDelivery = {
     msgErrorLastName: TranslatedText
     msgErrorFullAddress: TranslatedText
     msgErrorPhoneNumber: TranslatedText
+    connectWalletMsg: TranslatedText
+    connectWallet: TranslatedText
 }
 
 export type PresaleDropPanelData = PresaleDropPanelArtworks & PresaleDropPanelButtons & PresaleDropPanelTexts
