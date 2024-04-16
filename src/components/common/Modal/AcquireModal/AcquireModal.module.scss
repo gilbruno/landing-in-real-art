@@ -44,10 +44,16 @@
   font-family: $heading-h2-font-family;
 }
 
+.formPresaleLabel {
+  font-family: $heading-h2-font-family;
+  color: white;
+}
+
+
 .rectangleSendEmail {
   background: #465c79;
   border-radius: 10px;
-  width: 40px;
+  width: 140px;
   height: 40px;
   position: relative;
   top: 4px;

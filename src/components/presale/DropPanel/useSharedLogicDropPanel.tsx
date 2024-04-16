@@ -26,6 +26,19 @@ const useSharedLogicDropPanel = () => {
     msgErrorEmail: defaultLangObject,
     msgSuccessEmail: defaultLangObject,
     titleFormEmail: defaultLangObject,
+    offers: {
+      offer1: defaultLangObject,
+      offer2: defaultLangObject,
+      offer3: defaultLangObject
+    },
+    formPresaleDelivery: {
+      mainTitle: defaultLangObject,
+      email: defaultLangObject,
+      firstName: defaultLangObject,
+      lastName: defaultLangObject,
+      fullAddress: defaultLangObject,
+      phoneNumber: defaultLangObject
+    }
   };
 
   const defaultButton = {
@@ -45,6 +58,8 @@ const useSharedLogicDropPanel = () => {
     url: "",
     url2: "",
     price: 0,
+    price2: 0,
+    price3: 0,
     size: defaultLangObject,
     name: defaultLangObject,
     order: 0,

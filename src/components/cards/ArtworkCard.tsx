@@ -1,5 +1,5 @@
 "use client";
-import { Lang, PresaleArtWork, PresaleDropPanelButtons, PresaleDropPanelTexts } from "@/types/types";
+import { Lang, PresaleArtWork, PresaleDropPanelButtons, PresaleDropPanelTexts, PresaleInvestmentsTexts } from "@/types/types";
 import styles from "../presale/DropPanel/DropPanel.module.scss";
 
 import { useState } from "react";
@@ -15,9 +15,10 @@ interface ArtworkCardProps {
   artwork: PresaleArtWork;
   id: number;
   buttons: PresaleDropPanelButtons
-  texts: PresaleDropPanelTexts
+  texts: PresaleDropPanelTexts,
+  investmentTexts: PresaleInvestmentsTexts
 }
-const ArtworkCard = ({ id, artwork, buttons, texts }: ArtworkCardProps) => {
+const ArtworkCard = ({ id, artwork, buttons, texts, investmentTexts }: ArtworkCardProps) => {
   const [showModalImages, setShowModalImages] = useState(false);
   const [showAcquireModal, setShowAcquireModal] = useState(false);
   const [showModalDescription, setShowModalDescription] = useState(false);
@@ -25,7 +26,7 @@ const ArtworkCard = ({ id, artwork, buttons, texts }: ArtworkCardProps) => {
   const { lang } = useAppContext();
   const lang_ = lang as Lang;
 
-  const { mockups, url, artistName, name, description, size, price, image, noBorder } =
+  const { mockups, url, artistName, name, description, size, price, price2, price3, image, noBorder } =
     artwork || {};
     
   return (
@@ -95,9 +96,14 @@ const ArtworkCard = ({ id, artwork, buttons, texts }: ArtworkCardProps) => {
         imagePath={image}
         imageUrl={url}
         price={price}
+        price2={price2}
+        price3={price3}
         msgSuccessEmail={texts.msgSuccessEmail[lang_]}
         msgErrorEmail={texts.msgErrorEmail[lang_]}
         titleFormEmail={texts.titleFormEmail[lang_]}
+        formPresaleDelivery={texts.formPresaleDelivery}
+        offers={texts.offers}
+        investmentTexts={investmentTexts}
       />
     </section>
   );

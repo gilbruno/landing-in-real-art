@@ -380,6 +380,8 @@ export type PresaleArtWork = {
     url: string
     url2: string
     price: number
+    price2: number
+    price3: number
     size: Record<Lang, string>
     name: Record<Lang, string>
     order: number
@@ -457,6 +459,33 @@ export interface PresaleDropPanelTexts {
     msgErrorEmail: Record<Lang, string>
     msgSuccessEmail: Record<Lang, string>
     titleFormEmail: Record<Lang, string>
+    offers: PresaleArtworkOffers
+    formPresaleDelivery: FormPresaleDelivery
+}
+
+export type TooltipOfferDetailProps = {
+    presaleInvestmentCard: PresaleInvestmentsCard
+
+}
+
+export type PresaleArtworkOffers = {
+    offer1: TranslatedText
+    offer2: TranslatedText
+    offer3: TranslatedText
+}
+
+export type FormPresaleDelivery = {
+    mainTitle: TranslatedText
+    email: TranslatedText
+    fullAddress: TranslatedText
+    firstName: TranslatedText
+    lastName: TranslatedText
+    phoneNumber: TranslatedText
+    msgErrorEmail: TranslatedText
+    msgErrorFirstName: TranslatedText
+    msgErrorLastName: TranslatedText
+    msgErrorFullAddress: TranslatedText
+    msgErrorPhoneNumber: TranslatedText
 }
 
 export type PresaleDropPanelData = PresaleDropPanelArtworks & PresaleDropPanelButtons & PresaleDropPanelTexts
@@ -476,11 +505,24 @@ export interface AcquireModalProps {
     name: string
     size: string
     price: number
+    price2: number
+    price3: number
     msgSuccessEmail: string
     msgErrorEmail: string
     titleFormEmail: string
     showModal: boolean
+    investmentTexts: PresaleInvestmentsTexts
+    offers: PresaleArtworkOffers
+    formPresaleDelivery: FormPresaleDelivery
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export interface OffersProps {
+    price: number,
+    price2: number,
+    price3: number,
+    offers: PresaleArtworkOffers,
+    investmentTexts: PresaleInvestmentsTexts
 }
 
 export interface BuyModalProps {

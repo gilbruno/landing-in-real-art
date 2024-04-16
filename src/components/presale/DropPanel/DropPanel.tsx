@@ -8,21 +8,22 @@ import { Spinner } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa6";
 
 import ArtworkCard from "@/components/cards/ArtworkCard";
+import useSharedLogicInvestment from "../Investment/useSharedLogicInvestment";
 
 const DropPanel: React.FC = () => {
   //Get the language of the global context
   const { lang } = useAppContext();
   const lang_ = lang as Lang;
 
-  const { artWorks, buttons, texts, loading } = useSharedLogicDropPanel();
-
+  const { artWorks, buttons, texts, loading } = useSharedLogicDropPanel()
+  const investments = useSharedLogicInvestment()
   // State to keep track of how many images are currently displayed
-  const [visibleCount, setVisibleCount] = useState(12);
+  const [visibleCount, setVisibleCount] = useState(12)
 
   // Function to load more images
   const loadMoreArtworks = () => {
-    setVisibleCount((prevCount) => prevCount + 12);
-  };
+    setVisibleCount((prevCount) => prevCount + 12)
+  }
 
   if (loading) {
     return (
@@ -33,7 +34,7 @@ const DropPanel: React.FC = () => {
         color="blue.500"
         size="xl"
       />
-    );
+    )
   }
 
   return (
@@ -57,6 +58,7 @@ const DropPanel: React.FC = () => {
               artwork={artwork}
               buttons={buttons}
               texts={texts}
+              investmentTexts={investments.texts}
             />
           ))}
         </div>
