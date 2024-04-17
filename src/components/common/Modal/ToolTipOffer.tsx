@@ -1,8 +1,9 @@
 import { useAppContext } from '../../../context';
 import { Lang, PresaleInvestmentsTexts } from '../../../types/types';
 import styles from './ToolTipOffer.module.scss'
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import TooltipOfferDetail from './TooltipOfferDetail';
+import useClickAway from '../../../hooks/useClickAway';
 
 export interface ToolTipOfferProps {
   offerNumber: number,
@@ -18,6 +19,9 @@ const ToolTipOffer: FC<ToolTipOfferProps> = ({offerNumber, isClosed, investmentT
   
   const [showTooltip, setShowTooltip] = useState(false);
 
+  // create a React ref for the dropdown element
+  const dropdown = useRef(null);
+
   const cards = [
     investmentTexts.card1,
     investmentTexts.card2,
@@ -26,6 +30,17 @@ const ToolTipOffer: FC<ToolTipOfferProps> = ({offerNumber, isClosed, investmentT
 
   let card = cards[offerNumber-1]
 
+  const closeMenu = () => {
+    setShowTooltip(false)
+  }
+
+  //Close menu if click anywhere else
+  const alertClickAway = () => {
+    closeMenu()
+  }
+    
+  useClickAway(dropdown, alertClickAway);
+
   const setToolTipOffer = () => {
     setShowTooltip(false); // Hide tooltip offers
   };
@@ -33,7 +48,7 @@ const ToolTipOffer: FC<ToolTipOfferProps> = ({offerNumber, isClosed, investmentT
   return (
     <div className={styles.languageSelector}>
       {(showTooltip && !isClosed) && (
-        <div className={styles.dropdownContainer}>
+        <div className={styles.dropdownContainer} ref={dropdown}>
           <div className={styles.dropdown} onClick={() => setToolTipOffer()}>
             <TooltipOfferDetail presaleInvestmentCard={card}/>
           </div>

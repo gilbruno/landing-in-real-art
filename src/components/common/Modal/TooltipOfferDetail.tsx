@@ -42,7 +42,6 @@ const TooltipOfferDetail = (props: TooltipOfferDetailProps) => {
             (item, index) =>
               item && (
                 <div key={index} className={styles.details1Item}>
-                  <CheckBoxChecked key={index} />
                   <p>{item}</p>
                 </div>
               )
@@ -53,7 +52,6 @@ const TooltipOfferDetail = (props: TooltipOfferDetailProps) => {
             (item, index) =>
               item && (
                 <div key={index} className={styles.details2Item}>
-                  <CheckBoxChecked key={index} />
                   <p>{item}</p>
                 </div>
               )

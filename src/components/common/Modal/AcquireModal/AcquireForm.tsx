@@ -1,7 +1,7 @@
 import { EmailIcon, PhoneIcon } from '@chakra-ui/icons'
-import { Button, ButtonGroup, CardFooter, FormControl, FormLabel, Input, InputGroup, InputLeftElement, useToast } from '@chakra-ui/react'
+import { Button, ButtonGroup, CardFooter, FormControl, FormLabel, Input, InputGroup, InputLeftElement, Radio, RadioGroup, Stack, useToast } from '@chakra-ui/react'
 import styles from "./AcquireModal.module.scss";
-import { FormPresaleDelivery, Lang } from '../../../../types/types';
+import { FormPresaleDelivery, Lang, PresaleArtworkOffers } from '../../../../types/types';
 import { useAppContext } from '../../../../context';
 import { useState } from 'react';
 import { validateEmail } from '../../../../utils/client/clientFunctions';
@@ -9,6 +9,8 @@ import parse from "html-react-parser";
 
 export interface AcquireFormProps {
     formPresaleDelivery: FormPresaleDelivery
+    offers: PresaleArtworkOffers
+    offerPrices: {price: number, price2: number, price3: number}
     web3Address: `0x${string}` | undefined
 }
 const AcquireForm = (props: AcquireFormProps) => {
@@ -17,14 +19,16 @@ const AcquireForm = (props: AcquireFormProps) => {
     const {lang} = useAppContext()
     const lang_ = lang as Lang
 
-    const {formPresaleDelivery, web3Address} = props 
+    const {formPresaleDelivery, offers, offerPrices, web3Address} = props 
     
-    const [email, setEmail] = useState<string>("");
-    const [firstName, setFirstName] = useState<string>("");
-    const [lastName, setLastName] = useState<string>("");
-    const [fullAddress, setFullAddress] = useState<string>("");
-    const [phoneNumber, setPhoneNumber] = useState<string>("");
-    const [isEmailValid, setEmailValid] = useState<boolean>(true);
+    const [email, setEmail] = useState<string>("")
+    const [firstName, setFirstName] = useState<string>("")
+    const [lastName, setLastName] = useState<string>("")
+    const [fullAddress, setFullAddress] = useState<string>("")
+    const [phoneNumber, setPhoneNumber] = useState<string>("")
+    const [isEmailValid, setEmailValid] = useState<boolean>(true)
+    const [offerNumber, setOfferNumber] = useState<string>('1')
+    const [offerPrice, setOfferPrice]   = useState<number>(offerPrices.price)
 
     const toast = useToast();
     const isFirstNameRequired    = firstName === ''
@@ -47,6 +51,21 @@ const AcquireForm = (props: AcquireFormProps) => {
 
     //------------------------------------------------------------------------ handleChangePhoneNumber
     const handleChangePhoneNumber = (e: any) => setPhoneNumber(e.target.value);
+
+    //------------------------------------------------------------------------------ handleOfferNumber
+    const handleOfferNumber = async(e: any) => {
+        setOfferNumber(e)
+        if (e == 1) {
+            setOfferPrice(offerPrices.price)
+        }
+        if (e == 2) {
+            setOfferPrice(offerPrices.price2)
+        }
+        if (e == 3) {
+            setOfferPrice(offerPrices.price3)
+        }
+        console.log("Offer number", e)
+    }
 
     //------------------------------------------------------------------------------ handlSendEmail
     const handlSendEmail = async () => {
@@ -155,6 +174,33 @@ const AcquireForm = (props: AcquireFormProps) => {
                             borderRadius: "5px",
                         }}
                         >
+                        <div style={{backgroundColor: "white",width: "100%", borderRadius: "10px", margin: "auto", paddingLeft: "20px"}}>
+                            <RadioGroup onChange={handleOfferNumber} value={offerNumber}>
+                                <Stack direction='row'> 
+                                    <Radio value='1'>{offers.offer1[lang_]}</Radio>
+                                    <Radio value='2'>{offers.offer2[lang_]}</Radio>
+                                    <Radio value='3'>{offers.offer3[lang_]}</Radio>
+                                </Stack>
+                            </RadioGroup>    
+                        </div>
+                        <FormControl color={"white"} isInvalid={false}>
+                            <FormLabel color={"blue"}>
+                                <span className={styles.formPresaleLabel}>{formPresaleDelivery.price[lang_]}</span>
+                            </FormLabel>
+                            <InputGroup>
+                            <Input
+                                value={offerPrice}
+                                color={"black"}
+                                backgroundColor={"white"}
+                                placeholder={""}
+                                focusBorderColor="white"
+                                disabled={true}
+                            />
+                            
+                            </InputGroup>
+                            
+                        </FormControl>
+                        
                         <FormControl color={"white"} isInvalid={false}>
                             <FormLabel color={"blue"}>
                             <span className={styles.formPresaleLabel}>{formPresaleDelivery.email[lang_]}</span>

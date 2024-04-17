@@ -481,6 +481,7 @@ export type FormPresaleDelivery = {
     firstName: TranslatedText
     lastName: TranslatedText
     phoneNumber: TranslatedText
+    price: TranslatedText
     msgErrorEmail: TranslatedText
     msgErrorFirstName: TranslatedText
     msgErrorLastName: TranslatedText

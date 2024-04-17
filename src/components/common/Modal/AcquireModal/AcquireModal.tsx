@@ -47,6 +47,8 @@ const AcquireModal = (props: AcquireModalProps) => {
 
   const { isConnected, address } = useAccount();
   
+  const offerPrices = {price, price2, price3}
+
   return (
     <Modal
       scrollBehavior="inside"
@@ -78,7 +80,7 @@ const AcquireModal = (props: AcquireModalProps) => {
               } 
 
               {isConnected && 
-                <AcquireForm formPresaleDelivery={formPresaleDelivery} web3Address={address}/>}
+                <AcquireForm formPresaleDelivery={formPresaleDelivery} offers={offers} offerPrices={offerPrices} web3Address={address}/>}
             </Card>
         </ModalBody>
       </ModalContent>
