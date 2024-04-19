@@ -64,6 +64,23 @@ const AcquireForm = (props: AcquireFormProps) => {
         }, [web3Address]
     )
     
+    const uploadOrderImageOnIpfs = async () => {
+        try {
+          //setUploading(true);
+          const formData = new FormData();
+          const res = await fetch("/api/pinata", {
+            method: "POST"
+          });
+          const ipfsHash = await res.text();
+          //setCid(ipfsHash);
+          //setUploading(false);
+        } catch (e) {
+          console.log(e);
+        //   setUploading(false);
+          alert("Trouble uploading file");
+        }
+      };
+    
     //------------------------------------------------------------------------------ handleChangeEmail
     const handleChangeEmail = (e: any) => setEmail(e.target.value);
 
@@ -97,7 +114,7 @@ const AcquireForm = (props: AcquireFormProps) => {
     //--------------------------------------------------------------------------- handleMintNfrOrder
     const handleMintNftOrder = async () => {
             //Step 1 : We must upload Image of the Order on IPFS and get the return Hash
-            
+            await uploadOrderImageOnIpfs()
 
             //Step 2 : We must upload the metadata of the Order on IPFS and get the return Hash
 
