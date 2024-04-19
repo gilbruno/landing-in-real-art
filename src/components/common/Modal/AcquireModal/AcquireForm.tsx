@@ -1,11 +1,19 @@
+"use client"
 import { EmailIcon, PhoneIcon } from '@chakra-ui/icons'
 import { Button, ButtonGroup, CardFooter, FormControl, FormLabel, Input, InputGroup, InputLeftElement, Radio, RadioGroup, Stack, useToast } from '@chakra-ui/react'
 import styles from "./AcquireModal.module.scss";
 import { FormPresaleDelivery, Lang, PresaleArtworkOffers } from '../../../../types/types';
 import { useAppContext } from '../../../../context';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { validateEmail } from '../../../../utils/client/clientFunctions';
 import parse from "html-react-parser";
+import { OrderPhygitalArtAbi } from "../../../../web3/abi/OrderPhygitalArtAbi";
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { USDT_DECIMALS, orderPhygitalArtAddress, usdtAddress } from '@/web3/constants';
+import { IraErc20TokenAbi } from '@/web3/abi/IraErc20TokenAbi';
+import { getBalance } from '@wagmi/core'
+import { wagmiConfig } from '@/app/wagmiConfig';
+import { Address } from 'viem';
 
 export interface AcquireFormProps {
     formPresaleDelivery: FormPresaleDelivery
@@ -29,14 +37,41 @@ const AcquireForm = (props: AcquireFormProps) => {
     const [isEmailValid, setEmailValid] = useState<boolean>(true)
     const [offerNumber, setOfferNumber] = useState<string>('1')
     const [offerPrice, setOfferPrice]   = useState<number>(offerPrices.price)
-
+    const [usdBalance, setUsdBalance] = useState<number>(0)
+    
     const toast = useToast();
     const isFirstNameRequired    = firstName === ''
     const isLastNameRequired     = lastName === ''
     const isFullAddressRequired  = fullAddress === ''
     const isPhoneNumberRequired  = phoneNumber === ''
 
+    //Web3
+    const { data: hash, isPending, writeContract, status, error } = useWriteContract();
     
+    const userPublicKey = web3Address as Address
+
+    useEffect(
+        () => {
+            const fetchBalance = async () => {
+                const balanceUSDT = await getBalance(wagmiConfig, {
+                    address: userPublicKey,
+                    token: usdtAddress,
+                  })
+                let balanceUSDT_ = Number(balanceUSDT.value.toString())
+                balanceUSDT_ = balanceUSDT_ / Math.pow(10, USDT_DECIMALS)  
+                setUsdBalance(balanceUSDT_)
+            }    
+            fetchBalance()
+        }, []
+    )
+    
+    // const { config } = usePrepareContractWrite({
+    //     address: usdtAddress,
+    //     abi: IraErc20TokenAbi,
+    //     functionName: "approve",
+    //     args: [orderPhygitalArtAddress, offerPrices.price3*1000000],
+    //   });
+      
     //------------------------------------------------------------------------------ handleChangeEmail
     const handleChangeEmail = (e: any) => setEmail(e.target.value);
 
@@ -94,7 +129,7 @@ const AcquireForm = (props: AcquireFormProps) => {
             isClosable: true,
         });
         }
-
+        
         //First Name
         if (isFirstNameRequired){
         success = false
@@ -154,6 +189,7 @@ const AcquireForm = (props: AcquireFormProps) => {
               <CardFooter>
                 <div className={styles.cardFooter}>
                     <div className={styles.connectedAddress}>Your connected address : {`${web3Address?.slice(0,6)}...${web3Address?.slice(-6)}`}</div>
+                    <div className={styles.connectedAddress}>Your USD Balance : {usdBalance} USD</div>
                     <ButtonGroup spacing="2">
                     {/*
                                         <Button variant='solid' colorScheme='blue'>
@@ -304,3 +340,7 @@ const AcquireForm = (props: AcquireFormProps) => {
 }
 
 export default AcquireForm
+
+function usePrepareContractWrite(arg0: { address: any; abi: any; functionName: string; args: any[]; }): { config: any; } {
+    throw new Error('Function not implemented.');
+}

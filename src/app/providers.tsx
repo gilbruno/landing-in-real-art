@@ -17,9 +17,11 @@ import {
   zora,
 } from 'wagmi/chains';
 import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { wagmiConfig } from './wagmiConfig';
 
 const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID
 
+/*
 const config = getDefaultConfig({
   appName: 'InRealArt App',
   projectId: 'c43264f99eb6a94f5abb42f9bc6c617f',
@@ -34,12 +36,13 @@ const config = getDefaultConfig({
   ],
   ssr: true,
 });
+*/
 
 const client = new QueryClient();
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-      <WagmiProvider config={config}>
+      <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={client}>
           <RainbowKitProvider>
             <ChakraProvider>

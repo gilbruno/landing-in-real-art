@@ -38,6 +38,7 @@ const useSharedLogicDropPanel = () => {
       lastName: defaultLangObject,
       fullAddress: defaultLangObject,
       phoneNumber: defaultLangObject,
+      price: defaultLangObject,
       msgErrorEmail: defaultLangObject,
       msgErrorFirstName: defaultLangObject,
       msgErrorLastName: defaultLangObject,
