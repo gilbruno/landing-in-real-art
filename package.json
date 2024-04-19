@@ -37,6 +37,7 @@
     "fs": "^0.0.1-security",
     "html-react-parser": "^5.0.6",
     "next": "^14.0.3",
+    "node-fetch": "^3.3.2",
     "pino-pretty": "^10.3.1",
     "react": "^18",
     "react-bootstrap": "^2.9.1",

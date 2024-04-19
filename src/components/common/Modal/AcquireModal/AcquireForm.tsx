@@ -11,7 +11,7 @@ import { OrderPhygitalArtAbi } from "../../../../web3/abi/OrderPhygitalArtAbi";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { USDT_DECIMALS, orderPhygitalArtAddress, usdtAddress } from '@/web3/constants';
 import { IraErc20TokenAbi } from '@/web3/abi/IraErc20TokenAbi';
-import { getBalance } from '@wagmi/core'
+import { getBalance, simulateContract, writeContract} from '@wagmi/core'
 import { wagmiConfig } from '@/app/wagmiConfig';
 import { Address } from 'viem';
 
@@ -46,8 +46,7 @@ const AcquireForm = (props: AcquireFormProps) => {
     const isPhoneNumberRequired  = phoneNumber === ''
 
     //Web3
-    const { data: hash, isPending, writeContract, status, error } = useWriteContract();
-    
+    // const { writeContract } = useWriteContract()
     const userPublicKey = web3Address as Address
 
     useEffect(
@@ -65,13 +64,6 @@ const AcquireForm = (props: AcquireFormProps) => {
         }, [web3Address]
     )
     
-    // const { config } = usePrepareContractWrite({
-    //     address: usdtAddress,
-    //     abi: IraErc20TokenAbi,
-    //     functionName: "approve",
-    //     args: [orderPhygitalArtAddress, offerPrices.price3*1000000],
-    //   });
-      
     //------------------------------------------------------------------------------ handleChangeEmail
     const handleChangeEmail = (e: any) => setEmail(e.target.value);
 
@@ -102,8 +94,46 @@ const AcquireForm = (props: AcquireFormProps) => {
         console.log("Offer number", e)
     }
 
-    //------------------------------------------------------------------------------ handlSendEmail
-    const handlSendEmail = async () => {
+    //--------------------------------------------------------------------------- handleMintNfrOrder
+    const handleMintNftOrder = async () => {
+            //Step 1 : We must upload Image of the Order on IPFS and get the return Hash
+            
+
+            //Step 2 : We must upload the metadata of the Order on IPFS and get the return Hash
+
+            
+            //Step 3 : First we check the allowance with 
+            //   - owner : the current connected account
+            //   - spender : the OrderPhygitalArt smartcontract
+
+
+
+            //STEP 4 : We must request an approve if there's no allowance
+            //Ask user to approve that our smart contract be a spender
+            // const { request } = await simulateContract(wagmiConfig, {
+            //     abi: IraErc20TokenAbi,
+            //     address: usdtAddress,
+            //     functionName: "approve",
+            //     args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
+            //   })
+
+            // const hash = await writeContract(wagmiConfig, request)  
+            
+            // console.log(hash)
+
+
+            /*writeContract({
+                abi: IraErc20TokenAbi,
+                address: usdtAddress,
+                functionName: "approve",
+                args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)],
+              });
+              */
+
+    }
+
+    //------------------------------------------------------------------------------ handlBuyArtwork
+    const handlBuyArtwork = async () => {
         let success = true
         if (validateEmail(email)) {
         setEmailValid(true);
@@ -191,7 +221,7 @@ const AcquireForm = (props: AcquireFormProps) => {
         }
 
         if (success) {
-        //Do something
+            await handleMintNftOrder()
         }
     }
 
@@ -335,7 +365,7 @@ const AcquireForm = (props: AcquireFormProps) => {
                             colorScheme="#465c79"
                             variant="solid"
                             left={"0px"}
-                            onClick={handlSendEmail}>
+                            onClick={handlBuyArtwork}>
                                 BUY ARTWORK
                             </Button>
                         </div>
@@ -353,6 +383,4 @@ const AcquireForm = (props: AcquireFormProps) => {
 
 export default AcquireForm
 
-function usePrepareContractWrite(arg0: { address: any; abi: any; functionName: string; args: any[]; }): { config: any; } {
-    throw new Error('Function not implemented.');
-}
+

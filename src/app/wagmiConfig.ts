@@ -7,4 +7,5 @@ export const wagmiConfig = createConfig({
     [mainnet.id]: http(),
     [sepolia.id]: http(),
   },
+  ssr: true
 })
