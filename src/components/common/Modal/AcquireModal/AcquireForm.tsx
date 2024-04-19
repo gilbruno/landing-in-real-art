@@ -62,7 +62,7 @@ const AcquireForm = (props: AcquireFormProps) => {
                 setUsdBalance(balanceUSDT_)
             }    
             fetchBalance()
-        }, []
+        }, [web3Address]
     )
     
     // const { config } = usePrepareContractWrite({
@@ -130,52 +130,64 @@ const AcquireForm = (props: AcquireFormProps) => {
         });
         }
         
+        //Check USD Balance & toast an error if not sufficient funds
+        if (offerPrice > usdBalance) {
+            success = false
+            // Popup an error toast
+            toast({
+                title: parse(formPresaleDelivery.msgErrorBalance[lang_]),
+                description: "",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
         //First Name
         if (isFirstNameRequired){
-        success = false
-        // Popup an error toast
-        toast({
-            title: parse(formPresaleDelivery.msgErrorFirstName[lang_]),
-            description: "",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-        });
+            success = false
+            // Popup an error toast
+            toast({
+                title: parse(formPresaleDelivery.msgErrorFirstName[lang_]),
+                description: "",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
         }
         //Last Name
         if (isLastNameRequired){
-        success = false
-        // Popup an error toast 
-        toast({
-            title: parse(formPresaleDelivery.msgErrorLastName[lang_]),
-            description: "",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-        });
+            success = false
+            // Popup an error toast 
+            toast({
+                title: parse(formPresaleDelivery.msgErrorLastName[lang_]),
+                description: "",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
         }
         //Full Address
         if (isFullAddressRequired){
-        success = false
-        // Popup an error toast 
-        toast({
-            title: parse(formPresaleDelivery.msgErrorFullAddress[lang_]),
-            description: "",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-        });
+            success = false
+            // Popup an error toast 
+            toast({
+                title: parse(formPresaleDelivery.msgErrorFullAddress[lang_]),
+                description: "",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
         }
         if (isPhoneNumberRequired){
-        success = false
-        // Popup an error toast 
-        toast({
-            title: parse(formPresaleDelivery.msgErrorPhoneNumber[lang_]),
-            description: "",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-        });
+            success = false
+            // Popup an error toast 
+            toast({
+                title: parse(formPresaleDelivery.msgErrorPhoneNumber[lang_]),
+                description: "",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
         }
 
         if (success) {
