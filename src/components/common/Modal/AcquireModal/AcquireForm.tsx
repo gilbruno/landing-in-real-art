@@ -14,6 +14,7 @@ import { IraErc20TokenAbi } from '@/web3/abi/IraErc20TokenAbi';
 import { getBalance, simulateContract, writeContract} from '@wagmi/core'
 import { wagmiConfig } from '@/app/wagmiConfig';
 import { Address } from 'viem';
+import { pinJSONToIPFS } from '@/utils/web3/pinata/functions';
 
 export interface AcquireFormProps {
     formPresaleDelivery: FormPresaleDelivery
@@ -38,7 +39,10 @@ const AcquireForm = (props: AcquireFormProps) => {
     const [offerNumber, setOfferNumber] = useState<string>('1')
     const [offerPrice, setOfferPrice]   = useState<number>(offerPrices.price)
     const [usdBalance, setUsdBalance] = useState<number>(0)
-    
+    const [uploadingImgToIpfs, setUploadingImgToIpfs] = useState<boolean>(false)
+    const [uploadingMetadataToIpfs, setUploadingMetadataToIpfs] = useState<boolean>(false)
+    const [buttonBuyDisabled, setButtonBuyDisabled] = useState<boolean>(false)
+
     const toast = useToast();
     const isFirstNameRequired    = firstName === ''
     const isLastNameRequired     = lastName === ''
@@ -68,12 +72,14 @@ const AcquireForm = (props: AcquireFormProps) => {
         try {
           //setUploading(true);
           const formData = new FormData();
-          const res = await fetch("/api/pinata", {
+          const res = await fetch("/api/pinata/file", {
             method: "POST"
           });
           const ipfsHash = await res.text();
-          //setCid(ipfsHash);
           //setUploading(false);
+          return ipfsHash
+          //setCid(ipfsHash);
+          
         } catch (e) {
           console.log(e);
         //   setUploading(false);
@@ -113,39 +119,44 @@ const AcquireForm = (props: AcquireFormProps) => {
 
     //--------------------------------------------------------------------------- handleMintNfrOrder
     const handleMintNftOrder = async () => {
-            //Step 1 : We must upload Image of the Order on IPFS and get the return Hash
-            await uploadOrderImageOnIpfs()
+        setButtonBuyDisabled(true)
+        setUploadingImgToIpfs(true)
+        //Step 1 : We must upload Image of the Order on IPFS and get the return Hash
+        const cid = await uploadOrderImageOnIpfs()
+        setUploadingImgToIpfs(false)
 
-            //Step 2 : We must upload the metadata of the Order on IPFS and get the return Hash
-
-            
-            //Step 3 : First we check the allowance with 
-            //   - owner : the current connected account
-            //   - spender : the OrderPhygitalArt smartcontract
-
-
-
-            //STEP 4 : We must request an approve if there's no allowance
-            //Ask user to approve that our smart contract be a spender
-            // const { request } = await simulateContract(wagmiConfig, {
-            //     abi: IraErc20TokenAbi,
-            //     address: usdtAddress,
-            //     functionName: "approve",
-            //     args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
-            //   })
-
-            // const hash = await writeContract(wagmiConfig, request)  
-            
-            // console.log(hash)
+        //Step 2 : We must upload the metadata of the Order on IPFS and get the return Hash
+        setUploadingMetadataToIpfs(true)
+        await pinJSONToIPFS(cid as string, 1)
+        setUploadingMetadataToIpfs(false)
+        
+        //Step 3 : First we check the allowance with 
+        //   - owner : the current connected account
+        //   - spender : the OrderPhygitalArt smartcontract
 
 
-            /*writeContract({
-                abi: IraErc20TokenAbi,
-                address: usdtAddress,
-                functionName: "approve",
-                args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)],
-              });
-              */
+
+        //STEP 4 : We must request an approve if there's no allowance
+        //Ask user to approve that our smart contract be a spender
+        // const { request } = await simulateContract(wagmiConfig, {
+        //     abi: IraErc20TokenAbi,
+        //     address: usdtAddress,
+        //     functionName: "approve",
+        //     args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
+        //   })
+
+        // const hash = await writeContract(wagmiConfig, request)  
+        
+        // console.log(hash)
+
+        setButtonBuyDisabled(false)
+        /*writeContract({
+            abi: IraErc20TokenAbi,
+            address: usdtAddress,
+            functionName: "approve",
+            args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)],
+            });
+            */
 
     }
 
@@ -379,11 +390,14 @@ const AcquireForm = (props: AcquireFormProps) => {
                         </FormControl>
                         <div className={styles.rectangleSendEmail}>
                             <Button
-                            colorScheme="#465c79"
-                            variant="solid"
-                            left={"0px"}
-                            onClick={handlBuyArtwork}>
-                                BUY ARTWORK
+                                disabled={buttonBuyDisabled}
+                                colorScheme="#465c79"
+                                variant="solid"
+                                left={"0px"}
+                                onClick={handlBuyArtwork}>
+                                { (!uploadingImgToIpfs && !uploadingMetadataToIpfs) && "BUY ARTWORK" } 
+                                { uploadingImgToIpfs && "Uploading Image to IPFS..." }
+                                { uploadingMetadataToIpfs && "Uploading Metadata to IPFS..." }
                             </Button>
                         </div>
                         </div>
