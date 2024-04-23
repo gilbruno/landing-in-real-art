@@ -49,7 +49,7 @@ const AcquireModal = (props: AcquireModalProps) => {
     formPresaleDelivery
   } = props;
 
-  const art = {artistName: artistName, artworkName: name}
+  const art = {imageUrl: imageUrl, artistName: artistName, artworkName: name}
   const { isConnected, address, chain, chainId } = useAccount();
   
   const offerPrices = {price, price2, price3}

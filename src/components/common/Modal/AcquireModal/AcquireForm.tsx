@@ -17,7 +17,7 @@ import { Address } from 'viem';
 import { pinJSONToIPFS } from '@/utils/web3/pinata/functions';
 
 export interface AcquireFormProps {
-    art: {artistName: string, artworkName: string}
+    art: {imageUrl: string, artistName: string, artworkName: string}
     formPresaleDelivery: FormPresaleDelivery
     offers: PresaleArtworkOffers
     offerPrices: {price: number, price2: number, price3: number}
@@ -69,25 +69,33 @@ const AcquireForm = (props: AcquireFormProps) => {
         }, [web3Address]
     )
     
+    // You can use fetch to call the API endpoint from your components
     const uploadOrderImageOnIpfs = async () => {
+        const fileUrl = art.imageUrl
+        const artwork = `${art.artistName} - ${art.artworkName}`
+        console.log('FILE URL 1: ', fileUrl)
         try {
-          //setUploading(true);
-          const formData = new FormData();
-          const res = await fetch("/api/pinata/file", {
-            method: "POST"
-          });
-          const ipfsHash = await res.text();
-          //setUploading(false);
-          return ipfsHash
-          //setCid(ipfsHash);
-          
-        } catch (e) {
-          console.log(e);
-          setUploadingImgToIpfs(false);
-          alert("Trouble uploading file");
+            const response = await fetch('/api/pinata/file', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ fileUrl, artwork })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to upload to IPFS');
+            }
+
+            const data = await response.json();
+            console.log('IPFS Hash:', data.ipfsHash);
+            return data.ipfsHash;
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            return null;
         }
-      };
-    
+    };
+
     //------------------------------------------------------------------------------ handleChangeEmail
     const handleChangeEmail = (e: any) => setEmail(e.target.value);
 
@@ -123,7 +131,8 @@ const AcquireForm = (props: AcquireFormProps) => {
         // setButtonBuyDisabled(true)
         // setUploadingImgToIpfs(true)
         //Step 1 : We must upload Image of the Order on IPFS and get the return Hash
-        // const cid = await uploadOrderImageOnIpfs()
+        //const cid = await uploadOrderImageOnIpfs()
+        const cid = await uploadOrderImageOnIpfs()
         // setUploadingImgToIpfs(false)
 
         //Step 2 : We must upload the metadata of the Order on IPFS and get the return Hash
@@ -139,14 +148,14 @@ const AcquireForm = (props: AcquireFormProps) => {
 
         //STEP 4 : We must request an approve if there's no allowance
         //Ask user to approve that our smart contract be a spender
-        const { request } = await simulateContract(wagmiConfig, {
-            abi: IraErc20TokenAbi,
-            address: usdtAddress,
-            functionName: "approve",
-            args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
-          })
+        // const { request } = await simulateContract(wagmiConfig, {
+        //     abi: IraErc20TokenAbi,
+        //     address: usdtAddress,
+        //     functionName: "approve",
+        //     args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
+        //   })
 
-        const hash = await writeContract(wagmiConfig, request)  
+        // const hash = await writeContract(wagmiConfig, request)  
         
         // console.log(hash)
 
