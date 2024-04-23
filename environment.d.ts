@@ -11,6 +11,8 @@ declare namespace NodeJS {
         NEXT_PUBLIC_FIREBASE_IMAGES_TOKEN: string
         NEXT_PUBLIC_SUPABASE_PROJECT_URL: string
         NEXT_PUBLIC_SUPABASE_API_KEY: string
+        NEXT_PUBLIC_CHAIN: string
+        NEXT_PUBLIC_CHAIN_ID: number
       // Define more variables as needed
     }
   }

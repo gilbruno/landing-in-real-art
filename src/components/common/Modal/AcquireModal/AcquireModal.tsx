@@ -27,6 +27,9 @@ const AcquireModal = (props: AcquireModalProps) => {
   const {lang} = useAppContext()
   const lang_ = lang as Lang
   
+  const _chain = process.env.NEXT_PUBLIC_CHAIN
+  const _chainId = process.env.NEXT_PUBLIC_CHAIN_ID
+
   const {
     showModal,
     setShowModal,
@@ -47,7 +50,7 @@ const AcquireModal = (props: AcquireModalProps) => {
   } = props;
 
   const art = {artistName: artistName, artworkName: name}
-  const { isConnected, address } = useAccount();
+  const { isConnected, address, chain, chainId } = useAccount();
   
   const offerPrices = {price, price2, price3}
 
@@ -81,7 +84,13 @@ const AcquireModal = (props: AcquireModalProps) => {
                 </div> 
               } 
 
-              {isConnected && 
+              {isConnected && (chainId != _chainId) &&
+                <div className={styles.wrongNetwork}>
+                  <div className={styles.connectWalletMsg}>{formPresaleDelivery.wrongNetwork[lang_]} {_chain}</div>
+                </div> 
+              }
+
+              {isConnected && (chainId == _chainId) && 
                 <AcquireForm art={art} formPresaleDelivery={formPresaleDelivery} offers={offers} offerPrices={offerPrices} web3Address={address}/>}
             </Card>
         </ModalBody>

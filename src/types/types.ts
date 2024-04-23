@@ -490,6 +490,7 @@ export type FormPresaleDelivery = {
     msgErrorPhoneNumber: TranslatedText
     connectWalletMsg: TranslatedText
     connectWallet: TranslatedText
+    wrongNetwork: TranslatedText
 }
 
 export type PresaleDropPanelData = PresaleDropPanelArtworks & PresaleDropPanelButtons & PresaleDropPanelTexts
