@@ -30,6 +30,7 @@ const AcquireModal = (props: AcquireModalProps) => {
   const {
     showModal,
     setShowModal,
+    artistName,
     name,
     size,
     imagePath,
@@ -45,6 +46,7 @@ const AcquireModal = (props: AcquireModalProps) => {
     formPresaleDelivery
   } = props;
 
+  const art = {artistName: artistName, artworkName: name}
   const { isConnected, address } = useAccount();
   
   const offerPrices = {price, price2, price3}
@@ -80,7 +82,7 @@ const AcquireModal = (props: AcquireModalProps) => {
               } 
 
               {isConnected && 
-                <AcquireForm formPresaleDelivery={formPresaleDelivery} offers={offers} offerPrices={offerPrices} web3Address={address}/>}
+                <AcquireForm art={art} formPresaleDelivery={formPresaleDelivery} offers={offers} offerPrices={offerPrices} web3Address={address}/>}
             </Card>
         </ModalBody>
       </ModalContent>

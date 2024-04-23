@@ -506,6 +506,7 @@ export interface AcquireModalProps {
     description: string
     imagePath: string
     imageUrl: string
+    artistName: string
     name: string
     size: string
     price: number

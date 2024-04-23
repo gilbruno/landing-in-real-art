@@ -89,6 +89,7 @@ const ArtworkCard = ({ id, artwork, buttons, texts, investmentTexts }: ArtworkCa
       <AcquireModal
         setShowModal={setShowAcquireModal}
         showModal={showAcquireModal}
+        artistName={artistName}
         name={name[lang_]}
         description={description[lang_]}
         size={size[lang_]}

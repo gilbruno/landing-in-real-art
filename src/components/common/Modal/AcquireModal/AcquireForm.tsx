@@ -17,6 +17,7 @@ import { Address } from 'viem';
 import { pinJSONToIPFS } from '@/utils/web3/pinata/functions';
 
 export interface AcquireFormProps {
+    art: {artistName: string, artworkName: string}
     formPresaleDelivery: FormPresaleDelivery
     offers: PresaleArtworkOffers
     offerPrices: {price: number, price2: number, price3: number}
@@ -28,7 +29,7 @@ const AcquireForm = (props: AcquireFormProps) => {
     const {lang} = useAppContext()
     const lang_ = lang as Lang
 
-    const {formPresaleDelivery, offers, offerPrices, web3Address} = props 
+    const {art, formPresaleDelivery, offers, offerPrices, web3Address} = props 
     
     const [email, setEmail] = useState<string>("")
     const [firstName, setFirstName] = useState<string>("")
@@ -82,7 +83,7 @@ const AcquireForm = (props: AcquireFormProps) => {
           
         } catch (e) {
           console.log(e);
-        //   setUploading(false);
+          setUploadingImgToIpfs(false);
           alert("Trouble uploading file");
         }
       };
@@ -119,16 +120,16 @@ const AcquireForm = (props: AcquireFormProps) => {
 
     //--------------------------------------------------------------------------- handleMintNfrOrder
     const handleMintNftOrder = async () => {
-        setButtonBuyDisabled(true)
-        setUploadingImgToIpfs(true)
+        // setButtonBuyDisabled(true)
+        // setUploadingImgToIpfs(true)
         //Step 1 : We must upload Image of the Order on IPFS and get the return Hash
-        const cid = await uploadOrderImageOnIpfs()
-        setUploadingImgToIpfs(false)
+        // const cid = await uploadOrderImageOnIpfs()
+        // setUploadingImgToIpfs(false)
 
         //Step 2 : We must upload the metadata of the Order on IPFS and get the return Hash
-        setUploadingMetadataToIpfs(true)
-        await pinJSONToIPFS(cid as string, 1)
-        setUploadingMetadataToIpfs(false)
+        // setUploadingMetadataToIpfs(true)
+        // await pinJSONToIPFS(cid as string, art.artistName, art.artworkName)
+        // setUploadingMetadataToIpfs(false)
         
         //Step 3 : First we check the allowance with 
         //   - owner : the current connected account
@@ -138,18 +139,18 @@ const AcquireForm = (props: AcquireFormProps) => {
 
         //STEP 4 : We must request an approve if there's no allowance
         //Ask user to approve that our smart contract be a spender
-        // const { request } = await simulateContract(wagmiConfig, {
-        //     abi: IraErc20TokenAbi,
-        //     address: usdtAddress,
-        //     functionName: "approve",
-        //     args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
-        //   })
+        const { request } = await simulateContract(wagmiConfig, {
+            abi: IraErc20TokenAbi,
+            address: usdtAddress,
+            functionName: "approve",
+            args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
+          })
 
-        // const hash = await writeContract(wagmiConfig, request)  
+        const hash = await writeContract(wagmiConfig, request)  
         
         // console.log(hash)
 
-        setButtonBuyDisabled(false)
+        //setButtonBuyDisabled(false)
         /*writeContract({
             abi: IraErc20TokenAbi,
             address: usdtAddress,

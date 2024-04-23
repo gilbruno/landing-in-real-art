@@ -1,11 +1,18 @@
 import axios from 'axios';
+import { Keccak } from 'sha3';
 
-export const pinJSONToIPFS = async (cid: string, tokenID: number) => {
-  
+export const pinJSONToIPFS = async (cid: string, artistName: string, artworkName: string) => {
+  console.log("CID :", cid)
+
+  const hashArtworkString = `artistName${artistName}|${artworkName}`
+  let hashArtwork = new Keccak(256)
+  hashArtwork.update(hashArtworkString)
+  hashArtwork.digest('hex')
+
   const data = JSON.stringify({
     pinataContent: {
       name: "IRA Order NFT",
-      description: `Order IRA #${tokenID}`,
+      description: `Order IRA "${hashArtwork}`,
       external_url: "",
       image: `ipfs://${cid}`
     },
