@@ -1,22 +1,23 @@
 "use client"
 import { EmailIcon, PhoneIcon } from '@chakra-ui/icons'
 import { Button, ButtonGroup, CardFooter, FormControl, FormLabel, Input, InputGroup, InputLeftElement, Radio, RadioGroup, Stack, useToast } from '@chakra-ui/react'
-import styles from "./AcquireModal.module.scss";
-import { FormPresaleDelivery, Lang, PresaleArtworkOffers } from '../../../../types/types';
-import { useAppContext } from '../../../../context';
-import { useEffect, useState } from 'react';
-import { validateEmail } from '../../../../utils/client/clientFunctions';
-import parse from "html-react-parser";
-import { USDT_DECIMALS, orderPhygitalArtAddress, usdtAddress } from '@/web3/constants';
+import styles from "./AcquireModal.module.scss"
+import { FormPresaleDelivery, Lang, PresaleArtworkOffers } from '../../../../types/types'
+import { useAppContext } from '../../../../context'
+import { useEffect, useState } from 'react'
+import { validateEmail } from '../../../../utils/client/clientFunctions'
+import parse from "html-react-parser"
+import { USDT_DECIMALS, orderPhygitalArtAddress, usdtAddress } from '@/web3/constants'
 import { getBalance, simulateContract, writeContract} from '@wagmi/core'
-import { wagmiConfig } from '@/app/wagmiConfig';
-import { Address } from 'viem';
-import { pinJSONToIPFS } from '@/utils/web3/pinata/functions';
-import { supabase } from '@/utils/supabase/supabaseConnection';
-import { PRESALE_ARTWORK_ORDER_TABLE } from '@/utils/supabase/constants';
-import { Lang as DbLang, ResourceNftStatus } from '@prisma/client';
-import { createOrder, fetchOrdersByUniqueKey, matchDbLang, updateOrderByUniqueKey } from '@/lib/presaleArtworkOrder';
-import { CreateOrder } from '@/types/db-types';
+import { wagmiConfig } from '@/app/wagmiConfig'
+import { Address } from 'viem'
+import { pinJSONToIPFS } from '@/utils/web3/pinata/functions'
+import { supabase } from '@/utils/supabase/supabaseConnection'
+import { PRESALE_ARTWORK_ORDER_TABLE } from '@/utils/supabase/constants'
+import { Lang as DbLang, ResourceNftStatus } from '@prisma/client'
+import { createOrder, fetchOrdersByUniqueKey, matchDbLang, updateOrder, updateOrderByUniqueKey } from '@/lib/presaleArtworkOrder'
+import { CreateOrder, UpdateOrder } from '@/types/db-types'
+import { IfpsProps, pinJsonToIpfs } from '@/lib/pinata'
 
 export interface AcquireFormProps {
     art: {imageUrl: string, artistName: string, artworkName: string}
@@ -31,6 +32,8 @@ const AcquireForm = (props: AcquireFormProps) => {
     const {lang} = useAppContext()
     const lang_ = lang as Lang
 
+    const IPFS_UPLOAD_IMG_LOCAL_ROUTE = '/api/pinata/file' as const
+    const IPFS_UPLOAD_METEDATA_LOCAL_ROUTE = '/api/pinata/metadata' as const
     const {art, formPresaleDelivery, offers, offerPrices, web3Address} = props 
     
     const [email, setEmail] = useState<string>("")
@@ -47,7 +50,7 @@ const AcquireForm = (props: AcquireFormProps) => {
     const [mintingNft, setMintingNft] = useState<boolean>(false)
     const [buttonBuyDisabled, setButtonBuyDisabled] = useState<boolean>(false)
 
-    const toast = useToast();
+    const toast = useToast()
     const isFirstNameRequired    = firstName === ''
     const isLastNameRequired     = lastName === ''
     const isFullAddressRequired  = fullAddress === ''
@@ -88,7 +91,8 @@ const AcquireForm = (props: AcquireFormProps) => {
                 gatewayImageUri: process.env.NEXT_PUBLIC_GATEWAY_URL + ipfsHash,
                 lang: dbLang
             }
-        await createOrder(data)
+        const order = await createOrder(data)
+        return order
         // if (error?.code == CODE_UNIQUE_KEY_VIOLATION) {
         //     msgError = 'This email already exists in our e-mail base'    
         // }
@@ -98,6 +102,18 @@ const AcquireForm = (props: AcquireFormProps) => {
         // return msgError
     }
 
+    //------------------------------------------------------------------------------ insertPresaleTable
+    const updatePresaleOrder = async (idOrder: number, ipfsMetadataHash: string) => {
+        const gatewayMetadataUri = process.env.NEXT_PUBLIC_GATEWAY_URL as string + ipfsMetadataHash
+        const dataToUpdate =
+            { 
+                status: ResourceNftStatus.UPLOADMETADATA,
+                metadataUri: ipfsMetadataHash,
+                gatewayMetadataUri: gatewayMetadataUri
+            }
+        await updateOrder(idOrder, dataToUpdate)
+    }
+    
     //------------------------------------------------------------------------------ updatePresaleTableForMetadata
     const updatePresaleTableForMetadata = async () => {
         
@@ -131,41 +147,66 @@ const AcquireForm = (props: AcquireFormProps) => {
         const fileUrl = art.imageUrl
         const artwork = `${art.artistName} - ${art.artworkName}`
         try {
-            const response = await fetch('/api/pinata/file', {
+            const response = await fetch(IPFS_UPLOAD_IMG_LOCAL_ROUTE, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ fileUrl, artwork })
-            });
+            })
 
             console.log('RESPONSE :', response )
             if (!response.ok) {
-                throw new Error('Failed to upload to IPFS');
+                throw new Error('Failed to upload to IPFS')
             }
-            const data = await response.json();
-            console.log('IPFS Hash:', data.IpfsHash);
-            return data.IpfsHash;
+            const data = await response.json()
+            console.log('IPFS Hash:', data.IpfsHash)
+            return data.IpfsHash
         } catch (error) {
-            console.error('Error uploading file:', error);
-            return null;
+            console.error('Error uploading file:', error)
+            return null
         }
-    };
+    }
+
+    //------------------------------------------------------------------------------ uploadOrderMetadataOnIpfs
+    const uploadOrderMetadataOnIpfs = async (data: IfpsProps) => {
+        const data_ = data
+        try {
+            const response = await fetch(IPFS_UPLOAD_METEDATA_LOCAL_ROUTE, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data_)
+            })
+
+            console.log('RESPONSE :', response )
+            if (!response.ok) {
+                throw new Error('Failed to upload to IPFS')
+            }
+            const data = await response.json()
+            console.log('IPFS Hash:', data.IpfsHash)
+            return data.IpfsHash
+        } catch (error) {
+            console.error('Error uploading file:', error)
+            return null
+        }
+    }
 
     //------------------------------------------------------------------------------ handleChangeEmail
-    const handleChangeEmail = (e: any) => setEmail(e.target.value);
+    const handleChangeEmail = (e: any) => setEmail(e.target.value)
 
     //-------------------------------------------------------------------------- handleChangeFirstName
-    const handleChangeFirstName = (e: any) => setFirstName(e.target.value);
+    const handleChangeFirstName = (e: any) => setFirstName(e.target.value)
 
     //-------------------------------------------------------------------------- handleChangeLastName
-    const handleChangeLastName = (e: any) => setLastName(e.target.value);
+    const handleChangeLastName = (e: any) => setLastName(e.target.value)
 
     //------------------------------------------------------------------------ handleChangeFullAddress
-    const handleChangeFullAddress = (e: any) => setFullAddress(e.target.value);
+    const handleChangeFullAddress = (e: any) => setFullAddress(e.target.value)
 
     //------------------------------------------------------------------------ handleChangePhoneNumber
-    const handleChangePhoneNumber = (e: any) => setPhoneNumber(e.target.value);
+    const handleChangePhoneNumber = (e: any) => setPhoneNumber(e.target.value)
 
     //------------------------------------------------------------------------------ handleOfferNumber
     const handleOfferNumber = async(e: any) => {
@@ -187,7 +228,7 @@ const AcquireForm = (props: AcquireFormProps) => {
         setButtonBuyDisabled(true)
 
         //Step 1 : Check if the record exist in DB by unique key : owner|artistName|artworkName|offerNumber
-        const order = await fetchOrdersByUniqueKey(userPublicKey, art.artistName, art.artworkName, Number(offerNumber))
+        let order = await fetchOrdersByUniqueKey(userPublicKey, art.artistName, art.artworkName, Number(offerNumber))
         console.log('ORDER', order)
         let orderStatus = order?.status
         //If id does not exist, we upload the image on IPFS via Pinata
@@ -196,14 +237,32 @@ const AcquireForm = (props: AcquireFormProps) => {
             const ipfsHash = await uploadOrderImageOnIpfs()
             console.log('ipfsHash returned : ', ipfsHash)
             orderStatus = ResourceNftStatus.UPLOADIPFS
-            await insertPresaleOrder(ipfsHash)
+            order = await insertPresaleOrder(ipfsHash)
             setUploadingImgToIpfs(false)
         }
             
         //If the order has the status "UPLOADIPFS", we must upload the JSON metadata on IPFS and get the return Hash
         if (orderStatus == ResourceNftStatus.UPLOADIPFS) {
+            const imageUri = order?.imageUri as string
             setUploadingMetadataToIpfs(true)
-
+            const data = {
+                name: `${art.artistName} - ${art.artworkName}`,
+                description: `${art.artistName} - ${art.artworkName}`,
+                external_url: "https://inrealart.com/orders",
+                image: `ipfs://${imageUri}`,
+                attributes: [
+                    {
+                        trait_type: 'orderDate',
+                        value: (new Date()).toString()
+                    },
+                    {
+                        trait_type: 'gatewayImageUri',
+                        value: process.env.NEXT_PUBLIC_GATEWAY_URL + imageUri
+                    }
+                ]
+              } as IfpsProps
+            const ipfsMetadataHash = await uploadOrderMetadataOnIpfs(data)
+            updatePresaleOrder(order.id, ipfsMetadataHash)
             setUploadingMetadataToIpfs(false)
 
         }
@@ -234,7 +293,7 @@ const AcquireForm = (props: AcquireFormProps) => {
                 address: usdtAddress,
                 functionName: "approve",
                 args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)],
-                });
+                })
                 */
             setMintingNft(true)
         }    
@@ -244,7 +303,7 @@ const AcquireForm = (props: AcquireFormProps) => {
     const handlBuyArtwork = async () => {
         let success = true
         if (validateEmail(email)) {
-        setEmailValid(true);
+        setEmailValid(true)
         // Popup a succes toast if no errors.
         /*
         toast({
@@ -256,7 +315,7 @@ const AcquireForm = (props: AcquireFormProps) => {
         })
         */
         } else {
-        setEmailValid(false);
+        setEmailValid(false)
         success = false
         // Popup an error toast
         toast({
@@ -265,7 +324,7 @@ const AcquireForm = (props: AcquireFormProps) => {
             status: "error",
             duration: 3000,
             isClosable: true,
-        });
+        })
         }
         
         //Check USD Balance & toast an error if not sufficient funds
@@ -278,7 +337,7 @@ const AcquireForm = (props: AcquireFormProps) => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
-            });
+            })
         }
         //First Name
         if (isFirstNameRequired){
@@ -290,7 +349,7 @@ const AcquireForm = (props: AcquireFormProps) => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
-            });
+            })
         }
         //Last Name
         if (isLastNameRequired){
@@ -302,7 +361,7 @@ const AcquireForm = (props: AcquireFormProps) => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
-            });
+            })
         }
         //Full Address
         if (isFullAddressRequired){
@@ -314,7 +373,7 @@ const AcquireForm = (props: AcquireFormProps) => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
-            });
+            })
         }
         if (isPhoneNumberRequired){
             success = false
@@ -325,7 +384,7 @@ const AcquireForm = (props: AcquireFormProps) => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
-            });
+            })
         }
 
         if (success) {

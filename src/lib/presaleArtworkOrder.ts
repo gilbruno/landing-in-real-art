@@ -1,5 +1,5 @@
 'use server'
-import { CreateOrder } from "@/types/db-types"
+import { CreateOrder, UpdateOrder } from "@/types/db-types"
 import prisma from "./prisma"
 import { Lang as DbLang, ResourceNftStatus } from "@prisma/client"
 
@@ -48,19 +48,33 @@ async function createOrder(data_: CreateOrder) {
     const { owner, artistName, artworkName, price, offerNumber, status, imageUri, gatewayImageUri, lang } = data_
     const order = await prisma.presaleArtworkOrder.create({
         data: {
-          owner: owner,
-          artistName: artistName,
-          artworkName: artworkName,
-          price: price,
-          offerNumber: offerNumber,
-          status: ResourceNftStatus.UPLOADIPFS,
-          imageUri: imageUri,
-          gatewayImageUri: gatewayImageUri,
-          lang: lang
+            owner: owner,
+            artistName: artistName,
+            artworkName: artworkName,
+            price: Number(price),
+            offerNumber: offerNumber,
+            status: ResourceNftStatus.UPLOADIPFS,
+            imageUri: imageUri,
+            gatewayImageUri: gatewayImageUri,
+            lang: lang
 
         },
-      })
+    })
     return order
+}
+
+async function updateOrder(idOrder: number, data_: UpdateOrder) {
+    const { status, metadataUri, gatewayMetadataUri } = data_
+    await prisma.presaleArtworkOrder.update({
+        where: {
+            id: idOrder
+        },
+        data: {
+            status: status,
+            metadataUri: metadataUri,
+            gatewayMetadataUri: gatewayMetadataUri
+        }
+    })
 }
 
 /**
@@ -87,19 +101,18 @@ async function updateOrderByUniqueKey(owner_: string | `0x${string}`, artistName
 }
 
 async function matchDbLang(lang_: string) {
-    let dbLang : DbLang
+    let dbLang: DbLang
     switch (lang_) {
         case 'CN':
             dbLang = DbLang.CN
-            break;
+            return dbLang
         case 'EN':
             dbLang = DbLang.EN
-            break;    
+            return dbLang
         case 'FR':
             dbLang = DbLang.FR
-            break;    
-    return dbLang        
+            return dbLang
     }
 }
-export {fetchOrders, fetchOrdersByOwner, fetchOrdersByUniqueKey, updateOrderByUniqueKey, createOrder, matchDbLang}
+export { fetchOrders, fetchOrdersByOwner, fetchOrdersByUniqueKey, updateOrderByUniqueKey, createOrder, updateOrder, matchDbLang }
 
