@@ -39,11 +39,31 @@ model presaleArtworkOrder {
   id               Int    @id(map: "presaleArtworkSold_pkey") @default(autoincrement())
   artistName       String
   artworkName      String
-  hashArt          String @unique(map: "presaleArtworkSold_hashArt_key")
-  tokenId          Int
-  txHash           String @unique(map: "presaleArtworkSold_txHash_key")
+  hashArt          String? @unique(map: "presaleArtworkSold_hashArt_key")
+  tokenId          Int?
+  txHash           String? @unique(map: "presaleArtworkSold_txHash_key")
   owner            String
-  collectionName   String
-  collectionSymbol String
+  collectionName   String?
+  collectionSymbol String?
   price            Float  @db.Real
+  offerNumber      Int
+  status           ResourceNftStatus
+  imageUri         String
+  gatewayImageUri  String
+  metadataUri        String?
+  gatewayMetadataUri String?
+  lang             Lang
+  @@unique([owner, artistName, artworkName, offerNumber], map: "presaleArtworkOrder_unique")
+}
+
+enum ResourceNftStatus {
+  UPLOADIPFS
+  UPLOADMETADATA
+  MINED
+}
+
+enum Lang {
+  CN
+  EN
+  FR
 }

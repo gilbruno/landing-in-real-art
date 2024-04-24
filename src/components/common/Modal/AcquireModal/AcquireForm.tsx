@@ -7,14 +7,16 @@ import { useAppContext } from '../../../../context';
 import { useEffect, useState } from 'react';
 import { validateEmail } from '../../../../utils/client/clientFunctions';
 import parse from "html-react-parser";
-import { OrderPhygitalArtAbi } from "../../../../web3/abi/OrderPhygitalArtAbi";
-import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { USDT_DECIMALS, orderPhygitalArtAddress, usdtAddress } from '@/web3/constants';
-import { IraErc20TokenAbi } from '@/web3/abi/IraErc20TokenAbi';
 import { getBalance, simulateContract, writeContract} from '@wagmi/core'
 import { wagmiConfig } from '@/app/wagmiConfig';
 import { Address } from 'viem';
 import { pinJSONToIPFS } from '@/utils/web3/pinata/functions';
+import { supabase } from '@/utils/supabase/supabaseConnection';
+import { PRESALE_ARTWORK_ORDER_TABLE } from '@/utils/supabase/constants';
+import { Lang as DbLang, ResourceNftStatus } from '@prisma/client';
+import { createOrder, fetchOrdersByUniqueKey, matchDbLang, updateOrderByUniqueKey } from '@/lib/presaleArtworkOrder';
+import { CreateOrder } from '@/types/db-types';
 
 export interface AcquireFormProps {
     art: {imageUrl: string, artistName: string, artworkName: string}
@@ -42,6 +44,7 @@ const AcquireForm = (props: AcquireFormProps) => {
     const [usdBalance, setUsdBalance] = useState<number>(0)
     const [uploadingImgToIpfs, setUploadingImgToIpfs] = useState<boolean>(false)
     const [uploadingMetadataToIpfs, setUploadingMetadataToIpfs] = useState<boolean>(false)
+    const [mintingNft, setMintingNft] = useState<boolean>(false)
     const [buttonBuyDisabled, setButtonBuyDisabled] = useState<boolean>(false)
 
     const toast = useToast();
@@ -69,11 +72,64 @@ const AcquireForm = (props: AcquireFormProps) => {
         }, [web3Address]
     )
     
-    // You can use fetch to call the API endpoint from your components
+    //------------------------------------------------------------------------------ insertPresaleTable
+    const insertPresaleOrder = async (ipfsHash: string) => {
+        const pKey = userPublicKey as string
+        let dbLang = await matchDbLang(lang_) as DbLang
+        const data =
+            { 
+                artistName: art.artistName,
+                artworkName: art.artworkName,
+                owner: pKey,
+                offerNumber: Number(offerNumber),
+                price: offerPrice,
+                status: ResourceNftStatus.UPLOADIPFS,
+                imageUri: ipfsHash,
+                gatewayImageUri: process.env.NEXT_PUBLIC_GATEWAY_URL + ipfsHash,
+                lang: dbLang
+            }
+        await createOrder(data)
+        // if (error?.code == CODE_UNIQUE_KEY_VIOLATION) {
+        //     msgError = 'This email already exists in our e-mail base'    
+        // }
+        // else {
+        //     if (error) throw error  
+        // }
+        // return msgError
+    }
+
+    //------------------------------------------------------------------------------ updatePresaleTableForMetadata
+    const updatePresaleTableForMetadata = async () => {
+        
+        //Step 1 : Check if the record exist in DB by unique key : owner|artistName|artworkName|offerNumber
+        const order = await fetchOrdersByUniqueKey(userPublicKey, art.artistName, art.artworkName, Number(offerNumber))
+        if (!order) {
+            const { error } = await supabase
+            .from(PRESALE_ARTWORK_ORDER_TABLE)
+            .insert(
+                { 
+                    artistName: art.artistName,
+                    artworkName: art.artworkName,
+                    owner: userPublicKey,
+                    offerNumber: offerNumber,
+                    price: offerPrice,
+                    status: ResourceNftStatus.UPLOADIPFS
+                })
+        
+        }
+        // if (error?.code == CODE_UNIQUE_KEY_VIOLATION) {
+        //     msgError = 'This email already exists in our e-mail base'    
+        // }
+        // else {
+        //     if (error) throw error  
+        // }
+        // return msgError
+    }
+
+    //------------------------------------------------------------------------------ uploadOrderImageOnIpfs
     const uploadOrderImageOnIpfs = async () => {
         const fileUrl = art.imageUrl
         const artwork = `${art.artistName} - ${art.artworkName}`
-        console.log('FILE URL 1: ', fileUrl)
         try {
             const response = await fetch('/api/pinata/file', {
                 method: 'POST',
@@ -83,13 +139,13 @@ const AcquireForm = (props: AcquireFormProps) => {
                 body: JSON.stringify({ fileUrl, artwork })
             });
 
+            console.log('RESPONSE :', response )
             if (!response.ok) {
                 throw new Error('Failed to upload to IPFS');
             }
-
             const data = await response.json();
-            console.log('IPFS Hash:', data.ipfsHash);
-            return data.ipfsHash;
+            console.log('IPFS Hash:', data.IpfsHash);
+            return data.IpfsHash;
         } catch (error) {
             console.error('Error uploading file:', error);
             return null;
@@ -128,46 +184,60 @@ const AcquireForm = (props: AcquireFormProps) => {
 
     //--------------------------------------------------------------------------- handleMintNfrOrder
     const handleMintNftOrder = async () => {
-        // setButtonBuyDisabled(true)
-        // setUploadingImgToIpfs(true)
-        //Step 1 : We must upload Image of the Order on IPFS and get the return Hash
-        //const cid = await uploadOrderImageOnIpfs()
-        const cid = await uploadOrderImageOnIpfs()
-        // setUploadingImgToIpfs(false)
+        setButtonBuyDisabled(true)
 
-        //Step 2 : We must upload the metadata of the Order on IPFS and get the return Hash
-        // setUploadingMetadataToIpfs(true)
-        // await pinJSONToIPFS(cid as string, art.artistName, art.artworkName)
-        // setUploadingMetadataToIpfs(false)
-        
-        //Step 3 : First we check the allowance with 
-        //   - owner : the current connected account
-        //   - spender : the OrderPhygitalArt smartcontract
+        //Step 1 : Check if the record exist in DB by unique key : owner|artistName|artworkName|offerNumber
+        const order = await fetchOrdersByUniqueKey(userPublicKey, art.artistName, art.artworkName, Number(offerNumber))
+        console.log('ORDER', order)
+        let orderStatus = order?.status
+        //If id does not exist, we upload the image on IPFS via Pinata
+        if (!order) {
+            setUploadingImgToIpfs(true)
+            const ipfsHash = await uploadOrderImageOnIpfs()
+            console.log('ipfsHash returned : ', ipfsHash)
+            orderStatus = ResourceNftStatus.UPLOADIPFS
+            await insertPresaleOrder(ipfsHash)
+            setUploadingImgToIpfs(false)
+        }
+            
+        //If the order has the status "UPLOADIPFS", we must upload the JSON metadata on IPFS and get the return Hash
+        if (orderStatus == ResourceNftStatus.UPLOADIPFS) {
+            setUploadingMetadataToIpfs(true)
+
+            setUploadingMetadataToIpfs(false)
+
+        }
+        if (orderStatus == ResourceNftStatus.UPLOADMETADATA) {
+            setMintingNft(true)
+            //Step 3 : First we check the allowance with 
+            //   - owner : the current connected account
+            //   - spender : the OrderPhygitalArt smartcontract
 
 
 
-        //STEP 4 : We must request an approve if there's no allowance
-        //Ask user to approve that our smart contract be a spender
-        // const { request } = await simulateContract(wagmiConfig, {
-        //     abi: IraErc20TokenAbi,
-        //     address: usdtAddress,
-        //     functionName: "approve",
-        //     args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
-        //   })
+            //STEP 4 : We must request an approve if there's no allowance
+            //Ask user to approve that our smart contract be a spender
+            // const { request } = await simulateContract(wagmiConfig, {
+            //     abi: IraErc20TokenAbi,
+            //     address: usdtAddress,
+            //     functionName: "approve",
+            //     args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
+            //   })
 
-        // const hash = await writeContract(wagmiConfig, request)  
-        
-        // console.log(hash)
+            // const hash = await writeContract(wagmiConfig, request)  
+            
+            // console.log(hash)
 
-        //setButtonBuyDisabled(false)
-        /*writeContract({
-            abi: IraErc20TokenAbi,
-            address: usdtAddress,
-            functionName: "approve",
-            args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)],
-            });
-            */
-
+            //setButtonBuyDisabled(false)
+            /*writeContract({
+                abi: IraErc20TokenAbi,
+                address: usdtAddress,
+                functionName: "approve",
+                args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)],
+                });
+                */
+            setMintingNft(true)
+        }    
     }
 
     //------------------------------------------------------------------------------ handlBuyArtwork

@@ -25,7 +25,6 @@ export async function POST(request: NextRequest) {
   let res
   try {
     const imageObj = await request.json()
-    console.log(imageObj)
     const artworkName = imageObj.artwork
     const imageBuffer = await fetchRemoteImageAsBuffer(imageObj.fileUrl);
     const stream = bufferToStream(imageBuffer);
@@ -40,7 +39,7 @@ export async function POST(request: NextRequest) {
     res = await pinata.pinFileToIPFS(stream, options);
 
     const { IpfsHash } = res;
-    console.log('URL GATEWAY : ', process.env.NEXT_PUBLIC_GATEWAY_URL + IpfsHash)
+    //console.log('URL GATEWAY : ', process.env.NEXT_PUBLIC_GATEWAY_URL + IpfsHash)
     return NextResponse.json({ IpfsHash }, { status: 200 });
   } catch (error) {
     console.log(error);

@@ -1,10 +1,10 @@
 "use client"
-import { Lang, OrdersProps } from '../../types/types'
+import { OrdersProps } from '../../types/types'
 import styles from './Orders.module.scss'
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import { Account } from '../web3/Account';
-import { presaleArtworkOrder } from '@prisma/client';
+import { Lang, ResourceNftStatus, presaleArtworkOrder } from '@prisma/client';
 import { useAppContext } from '../../context';
 import { useEffect, useState } from 'react';
 import { fetchOrdersByOwner } from '../../lib/presaleArtworkOrder';
@@ -28,7 +28,14 @@ const Orders = ({texts, buttons}: OrdersProps): React.ReactNode => {
         owner: '',
         collectionName: '',
         collectionSymbol: '',
-        price: 0
+        price: 0,
+        offerNumber: 0,
+        status: ResourceNftStatus.UPLOADIPFS,
+        imageUri: '',
+        gatewayImageUri: '',
+        metadataUri: '',
+        gatewayMetadataUri: '', 
+        lang: Lang.EN
       }
     const [orders, setOrders] = useState<Array<presaleArtworkOrder>>([defaultOrder])
 
