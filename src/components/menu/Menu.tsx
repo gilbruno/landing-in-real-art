@@ -95,16 +95,12 @@ const Menu = () => {
           {!isMobile ? (
             <>
               <div className={styles.wrapperButton}>
-                <div className={styles.menuButtonPresale}>
-                    <Link className={styles.linkPresale} href="/presale">
-                      {presale[lang_]}
-                    </Link>
-                </div>
-                <div className={styles.menuButtonPresale}>
-                  <Link className={styles.linkPresale} href="/testnet">
-                    {testnet[lang_]}
-                  </Link>
-                </div>
+                <Link className={styles.menuButtonPresale} href="/presale">
+                  <div className={styles.linkPresale}>{presale[lang_]}</div>
+                </Link>
+                <Link className={styles.menuButtonPresale} href="/testnet">
+                  <div className={styles.linkPresale}>{testnet[lang_]}</div>
+                </Link>
               </div>
               <LanguageSelector isClosed={isMenuMobileOpen} />
             </>

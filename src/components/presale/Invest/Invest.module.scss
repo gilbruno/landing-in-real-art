@@ -21,6 +21,7 @@
 }
 
 .imageBlock {
+  cursor: pointer;
   flex: 1;
   flex-basis: calc(33.3333% - 10px); /* Adjust based on the gap */
   transition: flex-basis 0.5s ease;
@@ -72,7 +73,6 @@
   font-size: $heading-h2-font-size;
   font-weight: $heading-h2-font-weight;
 }
-
 
 .content {
   overflow: scroll;
