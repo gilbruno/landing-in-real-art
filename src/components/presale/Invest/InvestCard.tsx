@@ -58,7 +58,8 @@ const InvestCard: React.FC<InvestCardProps> = ({
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      onClick={() => setShowContent(!showContent)}
+      onMouseEnter={() => setShowContent(true)}
+      onMouseLeave={() => setShowContent(false)}
     >
       <h1 className={styles.number}>{number}</h1>
       <h2 className={styles.title1}>{title1}</h2>
@@ -69,7 +70,7 @@ const InvestCard: React.FC<InvestCardProps> = ({
         }}
         className={styles.content}
       >
-        <IoClose className={styles.close} />
+        {/* <IoClose className={styles.close} /> */}
         <div className={styles.details1}>
           {details1?.map(
             (item, index) =>

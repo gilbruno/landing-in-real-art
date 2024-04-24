@@ -46,7 +46,7 @@ const DropPanel: React.FC = () => {
             </div>
           </div>
           <div className={styles["text-wrapper-4"]}>
-            {new Date("2024-04-10T12:00:00").toLocaleDateString() + ""}
+            {new Date("2024-05-30T12:00:00").toLocaleDateString() + ""}
           </div>
         </div>
         <div className={styles["image-grid"]}>
