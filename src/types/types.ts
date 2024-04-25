@@ -474,6 +474,12 @@ export type PresaleArtworkOffers = {
     offer3: TranslatedText
 }
 
+export type OfferPrices = {
+    price: number
+    price2: number
+    price3: number
+}
+
 export type FormPresaleDelivery = {
     mainTitle: TranslatedText
     email: TranslatedText

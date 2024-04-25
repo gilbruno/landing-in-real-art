@@ -2,30 +2,34 @@
 import { EmailIcon, PhoneIcon } from '@chakra-ui/icons'
 import { Button, ButtonGroup, CardFooter, FormControl, FormLabel, Input, InputGroup, InputLeftElement, Radio, RadioGroup, Stack, useToast } from '@chakra-ui/react'
 import styles from "./AcquireModal.module.scss"
-import { FormPresaleDelivery, Lang, PresaleArtworkOffers } from '../../../../types/types'
+import { FormPresaleDelivery, Lang, OfferPrices, PresaleArtworkOffers } from '../../../../types/types'
 import { useAppContext } from '../../../../context'
 import { useEffect, useState } from 'react'
 import { validateEmail } from '../../../../utils/client/clientFunctions'
 import parse from "html-react-parser"
 import { USDT_DECIMALS, orderPhygitalArtAddress, usdtAddress } from '@/web3/constants'
-import { getBalance, simulateContract, writeContract} from '@wagmi/core'
+import { getBalance } from '@wagmi/core'
 import { wagmiConfig } from '@/app/wagmiConfig'
 import { Address } from 'viem'
 import { pinJSONToIPFS } from '@/utils/web3/pinata/functions'
 import { supabase } from '@/utils/supabase/supabaseConnection'
 import { PRESALE_ARTWORK_ORDER_TABLE } from '@/utils/supabase/constants'
 import { Lang as DbLang, ResourceNftStatus } from '@prisma/client'
-import { createOrder, fetchOrdersByUniqueKey, matchDbLang, updateOrder, updateOrderByUniqueKey } from '@/lib/presaleArtworkOrder'
+import { createOrder, fetchOrdersByUniqueKey, matchDbLang, updateOrder, updateOrderByUniqueKey, updatePresaleOrder, insertPresaleOrder } from '@/lib/presaleArtworkOrder'
 import { CreateOrder, UpdateOrder } from '@/types/db-types'
 import { IfpsProps, pinJsonToIpfs } from '@/lib/pinata'
 import { IraErc20TokenAbi } from '@/web3/abi/IraErc20TokenAbi'
+import { OrderPhygitalArtAbi } from '@/web3/abi/OrderPhygitalArtAbi'
+import { useReadContract, useReadContracts, useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
+import customHookAcquireForm from './customHookAcquireForm'
+import { Web3Address } from '@/types/web3-types'
 
 export interface AcquireFormProps {
     art: {imageUrl: string, artistName: string, artworkName: string}
     formPresaleDelivery: FormPresaleDelivery
     offers: PresaleArtworkOffers
-    offerPrices: {price: number, price2: number, price3: number}
-    web3Address: `0x${string}` | undefined
+    offerPrices: OfferPrices
+    web3Address: Web3Address
 }
 const AcquireForm = (props: AcquireFormProps) => {
 
@@ -37,14 +41,11 @@ const AcquireForm = (props: AcquireFormProps) => {
     const IPFS_UPLOAD_METEDATA_LOCAL_ROUTE = '/api/pinata/metadata' as const
     const {art, formPresaleDelivery, offers, offerPrices, web3Address} = props 
     
-    const [email, setEmail] = useState<string>("")
-    const [firstName, setFirstName] = useState<string>("")
-    const [lastName, setLastName] = useState<string>("")
-    const [fullAddress, setFullAddress] = useState<string>("")
-    const [phoneNumber, setPhoneNumber] = useState<string>("")
-    const [isEmailValid, setEmailValid] = useState<boolean>(true)
-    const [offerNumber, setOfferNumber] = useState<string>('1')
-    const [offerPrice, setOfferPrice]   = useState<number>(offerPrices.price)
+    const { email, setEmail, firstName, setFirstName, lastName, setLastName, fullAddress, setFullAddress, phoneNumber, setPhoneNumber, 
+        offerNumber, setOfferNumber, offerPrice, setOfferPrice, isEmailValid, setEmailValid, metadataUri, setMetadataUri,
+        handleChangeEmail, handleChangeFirstName, handleChangeLastName, handleChangeFullAddress, handleChangePhoneNumber, handleOfferNumber } = customHookAcquireForm(offerPrices)
+
+    
     const [usdBalance, setUsdBalance] = useState<number>(0)
     const [uploadingImgToIpfs, setUploadingImgToIpfs] = useState<boolean>(false)
     const [uploadingMetadataToIpfs, setUploadingMetadataToIpfs] = useState<boolean>(false)
@@ -57,10 +58,34 @@ const AcquireForm = (props: AcquireFormProps) => {
     const isFullAddressRequired  = fullAddress === ''
     const isPhoneNumberRequired  = phoneNumber === ''
 
-    //Web3
+    /*************************  Web3  *******************************/
     // const { writeContract } = useWriteContract()
     const userPublicKey = web3Address as Address
+    const {
+        data: hash,
+        isPending,
+        writeContract,
+        status,
+        error,
+        isError: writeContractError,
+      } = useWriteContract()
 
+      const {
+        isLoading: isConfirming,
+        isSuccess: isConfirmed,
+        isError,
+        error: transactionError,
+        data: transactionData,
+      } = useWaitForTransactionReceipt({ hash })
+      
+      const { data: allowance } = useReadContract({
+        address: usdtAddress,
+        abi: IraErc20TokenAbi,
+        functionName: 'allowance',
+        args: [web3Address, orderPhygitalArtAddress],
+      })
+    // const resultTxReceipt = useWaitForTransactionReceipt({hash})
+    
     useEffect(
         () => {
             const fetchBalance = async () => {
@@ -76,72 +101,26 @@ const AcquireForm = (props: AcquireFormProps) => {
         }, [web3Address]
     )
     
-    //------------------------------------------------------------------------------ insertPresaleTable
-    const insertPresaleOrder = async (ipfsHash: string) => {
-        const pKey = userPublicKey as string
-        let dbLang = await matchDbLang(lang_) as DbLang
-        const data =
-            { 
-                artistName: art.artistName,
-                artworkName: art.artworkName,
-                owner: pKey,
-                offerNumber: Number(offerNumber),
-                price: offerPrice,
-                status: ResourceNftStatus.UPLOADIPFS,
-                imageUri: ipfsHash,
-                gatewayImageUri: process.env.NEXT_PUBLIC_GATEWAY_URL + ipfsHash,
-                lang: dbLang
-            }
-        const order = await createOrder(data)
-        return order
-        // if (error?.code == CODE_UNIQUE_KEY_VIOLATION) {
-        //     msgError = 'This email already exists in our e-mail base'    
-        // }
-        // else {
-        //     if (error) throw error  
-        // }
-        // return msgError
-    }
+    useEffect(
+        () => {
+            const mintPurchaseNft = async () => {
+                if (transactionData?.contractAddress === usdtAddress) {
+                    console.log("MINT NFT !!!")
+                    writeContract({
+                        abi: OrderPhygitalArtAbi,
+                        address: orderPhygitalArtAddress,
+                        functionName: "mintPurchaseOrder",
+                        args: [art.artistName, art.artworkName, Number(offerPrice), Number(offerNumber), firstName, lastName, fullAddress, email, phoneNumber, metadataUri]
+                    })
+                }
+                else if (transactionData?.contractAddress === orderPhygitalArtAddress) {
+                    console.log("MINT TERMINE ! ")
+                }
 
-    //------------------------------------------------------------------------------ insertPresaleTable
-    const updatePresaleOrder = async (idOrder: number, ipfsMetadataHash: string) => {
-        const gatewayMetadataUri = process.env.NEXT_PUBLIC_GATEWAY_URL as string + ipfsMetadataHash
-        const dataToUpdate =
-            { 
-                status: ResourceNftStatus.UPLOADMETADATA,
-                metadataUri: ipfsMetadataHash,
-                gatewayMetadataUri: gatewayMetadataUri
-            }
-        await updateOrder(idOrder, dataToUpdate)
-    }
-    
-    //------------------------------------------------------------------------------ updatePresaleTableForMetadata
-    const updatePresaleTableForMetadata = async () => {
-        
-        //Step 1 : Check if the record exist in DB by unique key : owner|artistName|artworkName|offerNumber
-        const order = await fetchOrdersByUniqueKey(userPublicKey, art.artistName, art.artworkName, Number(offerNumber))
-        if (!order) {
-            const { error } = await supabase
-            .from(PRESALE_ARTWORK_ORDER_TABLE)
-            .insert(
-                { 
-                    artistName: art.artistName,
-                    artworkName: art.artworkName,
-                    owner: userPublicKey,
-                    offerNumber: offerNumber,
-                    price: offerPrice,
-                    status: ResourceNftStatus.UPLOADIPFS
-                })
-        
-        }
-        // if (error?.code == CODE_UNIQUE_KEY_VIOLATION) {
-        //     msgError = 'This email already exists in our e-mail base'    
-        // }
-        // else {
-        //     if (error) throw error  
-        // }
-        // return msgError
-    }
+            }    
+            mintPurchaseNft()
+        }, [isConfirmed]
+    )
 
     //------------------------------------------------------------------------------ uploadOrderImageOnIpfs
     const uploadOrderImageOnIpfs = async () => {
@@ -156,12 +135,10 @@ const AcquireForm = (props: AcquireFormProps) => {
                 body: JSON.stringify({ fileUrl, artwork })
             })
 
-            console.log('RESPONSE :', response )
             if (!response.ok) {
                 throw new Error('Failed to upload to IPFS')
             }
             const data = await response.json()
-            console.log('IPFS Hash:', data.IpfsHash)
             return data.IpfsHash
         } catch (error) {
             console.error('Error uploading file:', error)
@@ -181,12 +158,10 @@ const AcquireForm = (props: AcquireFormProps) => {
                 body: JSON.stringify(data_)
             })
 
-            console.log('RESPONSE :', response )
             if (!response.ok) {
                 throw new Error('Failed to upload to IPFS')
             }
             const data = await response.json()
-            console.log('IPFS Hash:', data.IpfsHash)
             return data.IpfsHash
         } catch (error) {
             console.error('Error uploading file:', error)
@@ -194,34 +169,21 @@ const AcquireForm = (props: AcquireFormProps) => {
         }
     }
 
-    //------------------------------------------------------------------------------ handleChangeEmail
-    const handleChangeEmail = (e: any) => setEmail(e.target.value)
-
-    //-------------------------------------------------------------------------- handleChangeFirstName
-    const handleChangeFirstName = (e: any) => setFirstName(e.target.value)
-
-    //-------------------------------------------------------------------------- handleChangeLastName
-    const handleChangeLastName = (e: any) => setLastName(e.target.value)
-
-    //------------------------------------------------------------------------ handleChangeFullAddress
-    const handleChangeFullAddress = (e: any) => setFullAddress(e.target.value)
-
-    //------------------------------------------------------------------------ handleChangePhoneNumber
-    const handleChangePhoneNumber = (e: any) => setPhoneNumber(e.target.value)
-
-    //------------------------------------------------------------------------------ handleOfferNumber
-    const handleOfferNumber = async(e: any) => {
-        setOfferNumber(e)
-        if (e == 1) {
-            setOfferPrice(offerPrices.price)
-        }
-        if (e == 2) {
-            setOfferPrice(offerPrices.price2)
-        }
-        if (e == 3) {
-            setOfferPrice(offerPrices.price3)
-        }
-        console.log("Offer number", e)
+    const getAllowance = (owner: string, spender: string) => {
+        const { data } = useReadContracts({
+            allowFailure: false,
+            contracts: [
+              {
+                address: usdtAddress,
+                abi: IraErc20TokenAbi,
+                functionName: 'allowance',
+                args: [owner, spender],
+              }
+            ],
+          })
+          const [allowance] = data || []
+          const allowance_ = allowance as number
+        return allowance_ 
     }
 
     //--------------------------------------------------------------------------- handleMintNfrOrder
@@ -230,15 +192,13 @@ const AcquireForm = (props: AcquireFormProps) => {
 
         //Step 1 : Check if the record exist in DB by unique key : owner|artistName|artworkName|offerNumber
         let order = await fetchOrdersByUniqueKey(userPublicKey, art.artistName, art.artworkName, Number(offerNumber))
-        console.log('ORDER', order)
         let orderStatus = order?.status
         //If id does not exist, we upload the image on IPFS via Pinata
         if (!order) {
             setUploadingImgToIpfs(true)
             const ipfsHash = await uploadOrderImageOnIpfs()
-            console.log('ipfsHash returned : ', ipfsHash)
             orderStatus = ResourceNftStatus.UPLOADIPFS
-            order = await insertPresaleOrder(ipfsHash)
+            order = await insertPresaleOrder(ipfsHash, userPublicKey, art.artistName, art.artworkName, offerNumber, offerPrice, lang_)
             setUploadingImgToIpfs(false)
         }
             
@@ -263,32 +223,61 @@ const AcquireForm = (props: AcquireFormProps) => {
                 ]
               } as IfpsProps
             const ipfsMetadataHash = await uploadOrderMetadataOnIpfs(data)
-            updatePresaleOrder(order.id, ipfsMetadataHash)
+            await updatePresaleOrder(order.id, ipfsMetadataHash)
             setUploadingMetadataToIpfs(false)
-
+            order = await fetchOrdersByUniqueKey(userPublicKey, art.artistName, art.artworkName, Number(offerNumber))
+            orderStatus = order?.status
+            const metadataUri_ = metadataUri as string
+            setMetadataUri(metadataUri_)
         }
-        if (orderStatus == ResourceNftStatus.UPLOADMETADATA) {
+        if (orderStatus === ResourceNftStatus.UPLOADMETADATA) {
             setMintingNft(true)
-            //Step 3 : First we check the allowance with 
+            order = await fetchOrdersByUniqueKey(userPublicKey, art.artistName, art.artworkName, Number(offerNumber))
+            
+            const allowance_ = Number(allowance) / Math.pow(10, USDT_DECIMALS)
+            console.log('ALLOWANCE : ', allowance_)
+            if (allowance_ < offerPrice) {
+              writeContract({
+                address: usdtAddress,
+                abi: IraErc20TokenAbi,
+                functionName: 'approve',
+                args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)],
+              })
+            }
+            else {
+                
+            }
+            // if (Number(allowance)/ >= offerPrice)
+
+            //STEP 3 : We must request an approve if there's no allowance
+            //Ask user to approve that our smart contract be a spender
             //   - owner : the current connected account
             //   - spender : the OrderPhygitalArt smartcontract
 
+            //   writeContract({
+            //     address: usdtAddress,
+            //     abi: IraErc20TokenAbi,
+            //     functionName: 'approve',
+            //     args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)],
+            //   })
 
+            // writeContract({
+            //     address: usdtAddress as Address,
+            //     abi: IraErc20TokenAbi,
+            //     functionName: "approve",
+            //     args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
+            // })
 
-            //STEP 4 : We must request an approve if there's no allowance
-            //Ask user to approve that our smart contract be a spender
-            console.log('IraErc20TokenAbi : ', IraErc20TokenAbi)
-            console.log('usdtAddress : ', usdtAddress)
-            console.log('offerPrices.price3 : ', offerPrices.price3)
-            const { request } = await simulateContract(wagmiConfig, {
-                abi: IraErc20TokenAbi,
-                address: usdtAddress,
-                functionName: "approve",
-                args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
-              })
+            // const requestMint = await simulateContract(wagmiConfig, {
+            //     abi: OrderPhygitalArtAbi,
+            //     address: orderPhygitalArtAddress,
+            //     functionName: "mintPurchaseOrder",
+            //     args: [art.artistName, art.artworkName, Number(offerPrice), Number(offerNumber), firstName, lastName, fullAddress, email, phoneNumber, order?.metadataUri]
+            //   })
 
-            const hash = await writeContract(wagmiConfig, request)  
-            console.log(hash)
+            // const hashMint = await writeContract(wagmiConfig, requestMint.request)  
+            
+            // console.log(hashMint)
 
             //setButtonBuyDisabled(false)
             /*writeContract({
@@ -298,7 +287,7 @@ const AcquireForm = (props: AcquireFormProps) => {
                 args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)],
                 })
                 */
-            setMintingNft(true)
+            setMintingNft(false)
         }    
     }
 
@@ -552,14 +541,21 @@ const AcquireForm = (props: AcquireFormProps) => {
                                 { (!uploadingImgToIpfs && !uploadingMetadataToIpfs) && "BUY ARTWORK" } 
                                 { uploadingImgToIpfs && "Uploading Image to IPFS..." }
                                 { uploadingMetadataToIpfs && "Uploading Metadata to IPFS..." }
+                                { mintingNft && "Minting NFT..." }
+                                
                             </Button>
+                            
                         </div>
+                        <div>
+                        {isConfirmed && <div>CONFIRMED </div>}
+                        {transactionData && <div>{transactionData?.contractAddress}</div>}
                         </div>
                     </div>
-                    </ButtonGroup>
                 </div>
+            </ButtonGroup>
+        </div>
                 
-              </CardFooter>
+        </CardFooter>
     
     
     </>
