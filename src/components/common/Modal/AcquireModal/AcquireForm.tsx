@@ -18,6 +18,7 @@ import { Lang as DbLang, ResourceNftStatus } from '@prisma/client'
 import { createOrder, fetchOrdersByUniqueKey, matchDbLang, updateOrder, updateOrderByUniqueKey } from '@/lib/presaleArtworkOrder'
 import { CreateOrder, UpdateOrder } from '@/types/db-types'
 import { IfpsProps, pinJsonToIpfs } from '@/lib/pinata'
+import { IraErc20TokenAbi } from '@/web3/abi/IraErc20TokenAbi'
 
 export interface AcquireFormProps {
     art: {imageUrl: string, artistName: string, artworkName: string}
@@ -276,16 +277,18 @@ const AcquireForm = (props: AcquireFormProps) => {
 
             //STEP 4 : We must request an approve if there's no allowance
             //Ask user to approve that our smart contract be a spender
-            // const { request } = await simulateContract(wagmiConfig, {
-            //     abi: IraErc20TokenAbi,
-            //     address: usdtAddress,
-            //     functionName: "approve",
-            //     args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
-            //   })
+            console.log('IraErc20TokenAbi : ', IraErc20TokenAbi)
+            console.log('usdtAddress : ', usdtAddress)
+            console.log('offerPrices.price3 : ', offerPrices.price3)
+            const { request } = await simulateContract(wagmiConfig, {
+                abi: IraErc20TokenAbi,
+                address: usdtAddress,
+                functionName: "approve",
+                args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)]
+              })
 
-            // const hash = await writeContract(wagmiConfig, request)  
-            
-            // console.log(hash)
+            const hash = await writeContract(wagmiConfig, request)  
+            console.log(hash)
 
             //setButtonBuyDisabled(false)
             /*writeContract({
@@ -380,6 +383,18 @@ const AcquireForm = (props: AcquireFormProps) => {
             // Popup an error toast 
             toast({
                 title: parse(formPresaleDelivery.msgErrorPhoneNumber[lang_]),
+                description: "",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            })
+        }
+
+        //If an offerPrice is missed (aka not set in Firebase)
+        //Toast an error
+        if (offerPrices.price === undefined || offerPrices.price2 === undefined || offerPrices.price3 === undefined) {
+            toast({
+                title: parse(formPresaleDelivery.msgErrorOfferPrices[lang_]),
                 description: "",
                 status: "error",
                 duration: 3000,
