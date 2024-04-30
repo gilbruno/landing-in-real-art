@@ -1,3 +1,6 @@
-export const orderPhygitalArtAddress = "0x75ca4bB1e2b2e125D195C5a02b7f855149f7D07C"
-export const usdtAddress = "0xEdDa4460fCCF59420D18fD580738BcAa30d31D02"
-export const USDT_DECIMALS = 6
+export const orderPhygitalArtAddress = "0xdBf31B505F7677977771b131DCc25142655f6a51" as const
+export const usdtAddress = "0xEdDa4460fCCF59420D18fD580738BcAa30d31D02" as const 
+export const USDT_DECIMALS = 6 as const 
+export const Keccac256_Event_MetadataUpdate = "0xf8e1a15aba9398e019f0b49df1a4fde98ee17ae345cb5f6b5e2c27f5033e8ce7" as const 
+export const ALREADY_BOOKED_ARTWORK = 'ArtworkAlreadyBookedError' as const 
+export const TX_REJECTED_BY_USER = 'User rejected the request' as const 

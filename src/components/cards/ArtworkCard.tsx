@@ -1,5 +1,5 @@
 "use client";
-import { Lang, PresaleArtWork, PresaleDropPanelButtons, PresaleDropPanelTexts, PresaleInvestmentsTexts } from "@/types/types";
+import { Lang, Lang_EN, PresaleArtWork, PresaleDropPanelButtons, PresaleDropPanelTexts, PresaleInvestmentsTexts } from "@/types/types";
 import styles from "../presale/DropPanel/DropPanel.module.scss";
 
 import { useState } from "react";
@@ -91,6 +91,7 @@ const ArtworkCard = ({ id, artwork, buttons, texts, investmentTexts }: ArtworkCa
         showModal={showAcquireModal}
         artistName={artistName}
         name={name[lang_]}
+        nameEN={name[Lang_EN]}
         description={description[lang_]}
         size={size[lang_]}
         buttonBuyStripe={buttons.buyArtworkNow[lang_]}

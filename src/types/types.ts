@@ -495,6 +495,7 @@ export type FormPresaleDelivery = {
     msgErrorFullAddress: TranslatedText
     msgErrorPhoneNumber: TranslatedText
     msgErrorOfferPrices: TranslatedText
+    msgErrorArtworkAlreadyBooked: TranslatedText
     connectWalletMsg: TranslatedText
     connectWallet: TranslatedText
     wrongNetwork: TranslatedText
@@ -516,6 +517,7 @@ export interface AcquireModalProps {
     imageUrl: string
     artistName: string
     name: string
+    nameEN: string
     size: string
     price: number
     price2: number
@@ -552,6 +554,13 @@ export interface BuyModalProps {
     buy: (() => void) | undefined
 }
 
+export interface ArtProps {
+    imageUrl: string
+    artistName: string
+    artworkName: string
+    artworkNameEN: string
+}
+
 export interface NftProps {
     artistName: string
     nftName: string
@@ -568,3 +577,6 @@ export interface NftProps {
 export interface VideoNftProps {
     urlVideo: string
 }
+
+export const Lang_EN = 'EN'
+
