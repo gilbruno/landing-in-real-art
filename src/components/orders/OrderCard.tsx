@@ -4,15 +4,27 @@ import styles from "./Orders.module.scss";
 import { useAppContext } from "@/context";
 import classNames from "classnames";
 import { presaleArtworkOrder } from "@prisma/client";
+import { orderPhygitalArtAddress } from "@/web3/constants";
+import { OrderPhygitalArtAbi } from "@/web3/abi/OrderPhygitalArtAbi";
+import { useReadContract } from "wagmi";
+import { useEffect, useState } from "react";
+import { Address } from "viem";
 
 interface OrderCardProps {
-  order: presaleArtworkOrder;
-  buttons: OrdersButtons
+  order: presaleArtworkOrder
+  buyer: Address | undefined
+  buttons: string
   texts: OrdersTexts
+  handleOrder: any
 }
-const OrderCard = ({ order, buttons, texts }: OrderCardProps) => {
+const OrderCard = ({ order, buyer, buttons, texts, handleOrder }: OrderCardProps) => {
   const { lang } = useAppContext();
   const lang_ = lang as Lang;
+
+  useEffect(() => {
+
+      
+  }, [])
 
   return (
     <section className={classNames(styles["image-container"])}>
@@ -23,18 +35,18 @@ const OrderCard = ({ order, buttons, texts }: OrderCardProps) => {
         <img alt="Order" src="/img/logo-IRA.png" />
       </div>
       <div className={classNames(styles["img-frame"])}>
-        <div>{texts.orderCard.tokenID[lang_]} : {order.tokenId}</div>
-        <div>{texts.orderCard.artistName[lang_]} :{order.artistName}</div>
-        <div>{texts.orderCard.artworkName[lang_]} :{order.artworkName}</div>
-        <div>{texts.orderCard.collectionName[lang_]} :{order.collectionName}</div>
-        <div>{texts.orderCard.collectionSymbol[lang_]} :{order.collectionSymbol}</div>
-        <div>{texts.orderCard.price[lang_]} : {order.price}$</div>
+        <div><span className={styles.presaleOrderItem}>{texts.orderCard.tokenID[lang_]}</span> : {order.tokenId}</div>
+        <div><span className={styles.presaleOrderItem}>{texts.orderCard.artistName[lang_]}</span> : {order.artistName}</div>
+        <div><span className={styles.presaleOrderItem}>{texts.orderCard.artworkName[lang_]}</span> : {order.artworkName}</div>
+        <div><span className={styles.presaleOrderItem}>{texts.orderCard.collectionName[lang_]}</span> : {order.collectionName}</div>
+        <div><span className={styles.presaleOrderItem}>{texts.orderCard.collectionSymbol[lang_]}</span> : {order.collectionSymbol}</div>
+        <div><span className={styles.presaleOrderItem}>{texts.orderCard.price[lang_]}</span> : {order.price}$</div>
       </div>
 
-      <button
+      <button onClick={handleOrder}
         className={styles.buttonCancelOrder}>
         <div className={styles.textButtonCancelOrder}>
-          {buttons.cancelOrder[lang_]}
+          {buttons}
         </div>
       </button>
       

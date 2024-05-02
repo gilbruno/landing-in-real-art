@@ -26,6 +26,10 @@
     margin-bottom: 70px;
   }
  
+.presaleOrderItem{
+  font-family: $heading-h2-font-family;
+}
+
 .frame-7 {
     align-items: flex-start;
     display: flex;
@@ -36,13 +40,13 @@
   
 
 .text-wrapper-3 {
-    color: var(--primaireblack);
-    font-family: var(--heading-h2-font-family);
-    font-size: var(--heading-h2-font-size);
-    font-style: var(--heading-h2-font-style);
-    font-weight: var(--heading-h2-font-weight);
-    letter-spacing: var(--heading-h2-letter-spacing);
-    line-height: var(--heading-h2-line-height);
+    color: $primaireblack;
+    font-family: $heading-h2-font-family;
+    font-size: $heading-h2-font-size;
+    font-style: $heading-h2-font-style;
+    font-weight: $heading-h2-font-weight;
+    letter-spacing: $heading-h2-letter-spacing;
+    line-height: $heading-h2-line-height;
     margin-top: -1px;
     position: relative;
     width: fit-content;
@@ -130,7 +134,7 @@
     // background-image: radial-gradient(at 93% 16%, #fdd9c95e 0, #0000 50%),
     //   radial-gradient(at 10% 31%, #edc5d357 0, #0000 50%), radial-gradient(at 16% 83%, #d0daf1c2 0, #0000 50%),
     //   radial-gradient(at 91% 49%, #edd8d469 0, #0000 50%), radial-gradient(at 82% 88%, #d3d8e3 0, #0000 50%),
-    //   linear-gradient(#d3d3d34d, #d3d3d34d);
+    //   linear-gradient(#d3d3d34d, #d3d3d34d;
     z-index: 1;
     &--active {
       background-size: contain;

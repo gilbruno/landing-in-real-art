@@ -1,14 +1,17 @@
 "use client"
 import { OrdersProps } from '../../types/types'
 import styles from './Orders.module.scss'
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
-import { Account } from '../web3/Account';
-import { Lang, ResourceNftStatus, presaleArtworkOrder } from '@prisma/client';
-import { useAppContext } from '../../context';
-import { useEffect, useState } from 'react';
-import { fetchOrdersByOwner } from '../../lib/presaleArtworkOrder';
-import OrderCard from './OrderCard';
+import { ConnectButton } from "@rainbow-me/rainbowkit"
+import { useAccount, useReadContract } from "wagmi"
+import { Account } from '../web3/Account'
+import { Lang, ResourceNftStatus, presaleArtworkOrder } from '@prisma/client'
+import { useAppContext } from '../../context'
+import { useEffect, useState } from 'react'
+import { fetchOrders, fetchOrdersByOwner } from '../../lib/presaleArtworkOrder'
+import OrderCard from './OrderCard'
+import { orderPhygitalArtAddress } from '@/web3/constants'
+import { OrderPhygitalArtAbi } from '@/web3/abi/OrderPhygitalArtAbi'
+import { Address } from 'viem'
 
 
 
@@ -17,7 +20,8 @@ const Orders = ({texts, buttons}: OrdersProps): React.ReactNode => {
     const {lang } = useAppContext()
     const lang_ = lang as Lang
     
-    const { isConnected, address } = useAccount();
+    const { isConnected, address } = useAccount()
+
     const defaultOrder = {
         id: 0,
         artistName: '', 
@@ -41,14 +45,55 @@ const Orders = ({texts, buttons}: OrdersProps): React.ReactNode => {
       }
     const [orders, setOrders] = useState<Array<presaleArtworkOrder>>([defaultOrder])
 
-    useEffect(() => {
-        const fethData = async (address : `0x${string}` | undefined) => {
-            const orders = await fetchOrdersByOwner(address)
-            setOrders(orders)
-        }
-        fethData(address)
-    }, [address]);
+    const dataOwner = useReadContract({
+        address: orderPhygitalArtAddress,
+        abi: OrderPhygitalArtAbi,
+        functionName: 'owner',
+        args: [],
+      })
+    
+    const [smartContractOwner, setSmartContractOwner] = useState<string>('')  
+    const [isOwner, setIsOwner] = useState<boolean>(false)  
 
+    console.log(dataOwner.data)
+      
+    useEffect(() => {
+        if (dataOwner.isSuccess) {
+            let smartContractOwner = dataOwner.data as string
+            smartContractOwner = smartContractOwner.toLowerCase()
+            setSmartContractOwner(smartContractOwner)
+            const fethData = async (address : `0x${string}` | undefined, smartContractOwner: string) => {
+                console.log('SC OWNER : ', smartContractOwner.toLowerCase())
+                console.log('BUYER : ', address?.toLowerCase())
+                let orders
+                if (address?.toLowerCase() == smartContractOwner.toLowerCase()) {
+                    orders = await fetchOrders()
+                    setIsOwner(true)
+                }
+                else {
+                    orders = await fetchOrdersByOwner(address)
+                    setIsOwner(false)
+                }
+                setOrders(orders)
+            }
+            fethData(address, smartContractOwner)
+    
+        }
+        
+    }, [dataOwner.isSuccess, address])
+    
+    
+    //------------------------------------------------------------------------------ handleOrder
+    const handleOrder = async () => {
+        if (isOwner) {
+            console.log('REFUND !') 
+        }
+        else {
+            console.log('CANCEL !') 
+        }
+        
+    }
+    
     return (
         <>
             <div id="orderPanel" className={styles["grid-wrapper"]}>
@@ -65,8 +110,11 @@ const Orders = ({texts, buttons}: OrdersProps): React.ReactNode => {
                     </div>
                 </div>
                 <div className={styles["image-grid"]}>
-                    {isConnected && orders.map((order, index) => (
-                        <OrderCard key={index} buttons={buttons} texts={texts} order={order}/>
+                    {(isConnected && isOwner) && orders.map((order, index) => (
+                        <OrderCard key={index} buttons={buttons.refundBuyer[lang_]} texts={texts} order={order} buyer={address} handleOrder={handleOrder}/>
+                    ))}
+                    {(isConnected && !isOwner) && orders.map((order, index) => (
+                        <OrderCard key={index} buttons={buttons.cancelOrder[lang_]} texts={texts} order={order} buyer={address} handleOrder={handleOrder}/>
                     ))}
                 </div>
 

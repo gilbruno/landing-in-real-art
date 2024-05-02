@@ -229,6 +229,7 @@ export type OrdersTexts = {
 
 export type OrdersButtons = {
     cancelOrder: TranslatedText
+    refundBuyer: TranslatedText
 }
 
 export interface TosContentProps {

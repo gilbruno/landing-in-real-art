@@ -25,7 +25,8 @@ const useSharedLogicOrders = (fireBaseOrdersPageCollection:string) => {
     }
 
     const defaultButtons = {
-      cancelOrder: defaultLangObject
+      cancelOrder: defaultLangObject,
+      refundBuyer: defaultLangObject
     }
 
     const [texts, setTexts] = useState<OrdersTexts>(defaultTexts)
