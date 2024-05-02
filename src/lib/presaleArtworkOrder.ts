@@ -1,7 +1,8 @@
 'use server'
-import { CreateOrder, PresaleOrder, UpdateOrder } from "@/types/db-types"
+import { BuyerPresale, CreateOrder, PresaleOrder, UpdateOrder } from "@/types/db-types"
 import prisma from "./prisma"
 import { Lang as DbLang, ResourceNftStatus } from "@prisma/client"
+import { Address } from "viem"
 
 //------------------------------------------------------------------------------ fetchOrders
 async function fetchOrders() {
@@ -21,6 +22,19 @@ async function fetchOrdersByOwner(owner_?: string | `0x${string}`) {
     return list
 }
 
+//------------------------------------------------------------------------------ fetchBuyerInfosByPublicKey
+async function fetchBuyerInfosByPublicKey(publicKey: Address) {
+    const pKey = publicKey as string
+    const buyer = await prisma.buyerPresale.findUnique(
+        {
+            where: {
+                publicKey: pKey
+            }
+        }
+    )
+    return buyer
+
+}
 
 //------------------------------------------------------------------------------ fetchOrdersByUniqueKey
 /**
@@ -59,63 +73,12 @@ async function fetchOrderByHashArtwork(hashArtwork_: string) {
 }
 
 
-//------------------------------------------------------------------------------ createOrder
-/**
- * 
- * @param data_ 
- * @returns 
- */
-async function createOrder(data_: CreateOrder) {
-    const { owner, artistName, artworkName, price, offerNumber, status, imageUri, gatewayImageUri, lang } = data_
-    const order = await prisma.presaleArtworkOrder.create({
-        data: {
-            owner: owner,
-            artistName: artistName,
-            artworkName: artworkName,
-            price: Number(price),
-            offerNumber: offerNumber,
-            status: ResourceNftStatus.UPLOADIPFS,
-            imageUri: imageUri,
-            gatewayImageUri: gatewayImageUri,
-            lang: lang
-
-        },
-    })
-    return order
-}
-
-//------------------------------------------------------------------------------ insertPresaleTable
-const insertPresaleOrder = async (ipfsHash: string, userPublicKey: string, artistName: string, artworkName: string, offerNumber: string, offerPrice: number, lang: string) => {
-    const pKey = userPublicKey as string
-    let dbLang = await matchDbLang(lang) as DbLang
-    const data =
-        { 
-            artistName: artistName,
-            artworkName: artworkName,
-            owner: pKey,
-            offerNumber: Number(offerNumber),
-            price: offerPrice,
-            status: ResourceNftStatus.UPLOADIPFS,
-            imageUri: ipfsHash,
-            gatewayImageUri: process.env.NEXT_PUBLIC_GATEWAY_URL + ipfsHash,
-            lang: dbLang
-        }
-    const order = await createOrder(data)
-    return order
-    // if (error?.code == CODE_UNIQUE_KEY_VIOLATION) {
-    //     msgError = 'This email already exists in our e-mail base'    
-    // }
-    // else {
-    //     if (error) throw error  
-    // }
-    // return msgError
-}
-
 //------------------------------------------------------------------------------ createPresaleOrder
 const createPresaleOrder = async (order_: PresaleOrder) => {
     const order = await prisma.presaleArtworkOrder.create({
         data: {
             owner: order_.owner,
+            txHash: order_.txHash,
             artistName: order_.artistName,
             artworkName: order_.artworkName,
             hashArt: order_.hashArt,
@@ -129,10 +92,36 @@ const createPresaleOrder = async (order_: PresaleOrder) => {
             gatewayMetadataUri: order_.gatewayMetadataUri,
             collectionName: order_.collectionName,
             collectionSymbol: order_.collectionSymbol,
-            lang: order_.lang
+            lang: order_.lang,
+            contractAddress: order_.contractAddress
         }
     })
     return order
+}
+
+//------------------------------------------------------------------------------ upsertBuyerPresale
+const upsertBuyerPresale = async (buyer_: BuyerPresale) => {
+    const buyer = await prisma.buyerPresale.upsert({
+        where: {
+          publicKey: buyer_.publicKey,
+        },
+        update: {
+          firstName: buyer_.firstName,
+          lastName: buyer_.lastName,
+          address: buyer_.address,
+          phone: buyer_.phone,
+          email: buyer_.email
+        },
+        create: {
+            publicKey: buyer_.publicKey,
+            firstName: buyer_.firstName,
+            lastName: buyer_.lastName,
+            address: buyer_.address,
+            phone: buyer_.phone,
+            email: buyer_.email
+        },
+      })
+    return buyer  
 }
 
 //------------------------------------------------------------------------------ updatePresaleOrder
@@ -208,6 +197,6 @@ async function matchDbLang(lang_: string) {
             return dbLang
     }
 }
-export { fetchOrders, fetchOrdersByOwner, fetchOrdersByUniqueKey, fetchOrderByHashArtwork, updateOrderByUniqueKey, 
-    createOrder, insertPresaleOrder, createPresaleOrder, updatePresaleOrder, updateOrder, updateTokenIdPresaleOrder, matchDbLang }
+export { fetchOrders, fetchOrdersByOwner, fetchOrdersByUniqueKey, fetchOrderByHashArtwork, fetchBuyerInfosByPublicKey, updateOrderByUniqueKey, 
+    upsertBuyerPresale, createPresaleOrder, updatePresaleOrder, updateOrder, updateTokenIdPresaleOrder, matchDbLang }
 

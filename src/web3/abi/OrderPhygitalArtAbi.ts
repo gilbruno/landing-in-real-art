@@ -148,7 +148,7 @@ export const OrderPhygitalArtAbi =
       {
         "name": "",
         "type": "tuple",
-        "internalType": "struct OrderPhygitalArt.BuyerInfos",
+        "internalType": "struct BuyerInfos",
         "components": [
           {
             "name": "firstName",
@@ -174,6 +174,11 @@ export const OrderPhygitalArtAbi =
             "name": "phone",
             "type": "string",
             "internalType": "string"
+          },
+          {
+            "name": "publicKey",
+            "type": "address",
+            "internalType": "address"
           }
         ]
       }
@@ -251,6 +256,19 @@ export const OrderPhygitalArtAbi =
         "name": "",
         "type": "address",
         "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getLastTokenId",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "stateMutability": "view"
@@ -342,6 +360,30 @@ export const OrderPhygitalArtAbi =
   },
   {
     "type": "function",
+    "name": "makeUniqueHashArtwork",
+    "inputs": [
+      {
+        "name": "_artistName",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "_artworkName",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "stateMutability": "pure"
+  },
+  {
+    "type": "function",
     "name": "maxCancelDateByPurchaseOrderId",
     "inputs": [
       {
@@ -382,6 +424,11 @@ export const OrderPhygitalArtAbi =
         "name": "offerNumber",
         "type": "uint8",
         "internalType": "uint8"
+      },
+      {
+        "name": "buyerPublicKey",
+        "type": "address",
+        "internalType": "address"
       },
       {
         "name": "buyerFirstName",
@@ -505,8 +552,8 @@ export const OrderPhygitalArtAbi =
     "inputs": [
       {
         "name": "hashArtwork",
-        "type": "bytes32",
-        "internalType": "bytes32"
+        "type": "string",
+        "internalType": "string"
       }
     ],
     "outputs": [
@@ -643,6 +690,19 @@ export const OrderPhygitalArtAbi =
         "name": "approved",
         "type": "bool",
         "internalType": "bool"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setUsdtAddress",
+    "inputs": [
+      {
+        "name": "usdAddr",
+        "type": "address",
+        "internalType": "address"
       }
     ],
     "outputs": [],

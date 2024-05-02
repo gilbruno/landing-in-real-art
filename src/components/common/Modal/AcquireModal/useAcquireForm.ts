@@ -12,6 +12,7 @@ import { ALREADY_BOOKED_ARTWORK, TX_REJECTED_BY_USER, USDT_DECIMALS, usdtAddress
 import { ResourceNftStatus } from '@prisma/client'
 import { PresaleOrder } from '@/types/db-types'
 import { IfpsProps } from '@/lib/pinata'
+import { fetchBuyerInfosByPublicKey } from '@/lib/presaleArtworkOrder'
 
 const useAcquireForm = (offerPrices: OfferPrices, formPresaleDelivery: FormPresaleDelivery, web3Address: Web3Address) => {
 
@@ -37,7 +38,8 @@ const useAcquireForm = (offerPrices: OfferPrices, formPresaleDelivery: FormPresa
         gatewayImageUri: '',
         metadataUri: '',
         gatewayMetadataUri: '',
-        lang: LANG_FR
+        lang: LANG_FR,
+        contractAddress: ADDRESS_ZERO
     }
     const [email, setEmail] = useState<string>("")
     const [firstName, setFirstName] = useState<string>("")
@@ -68,6 +70,23 @@ const useAcquireForm = (offerPrices: OfferPrices, formPresaleDelivery: FormPresa
     const [usdBalance, setUsdBalance] = useState<number>(0)
 
     const userPublicKey = web3Address as Address
+
+    useEffect(
+        () => {
+            const fetchBuyer = async () => {
+                const buyer = await fetchBuyerInfosByPublicKey(userPublicKey)
+                if (buyer) {
+                    setEmail(buyer.email)
+                    setFirstName(buyer.firstName)
+                    setLastName(buyer.lastName)
+                    setFullAddress(buyer.address)
+                    setPhoneNumber(buyer.phone)
+                }
+            }    
+            fetchBuyer()
+        }, []
+    )
+
     useEffect(
         () => {
             const fetchBalance = async () => {

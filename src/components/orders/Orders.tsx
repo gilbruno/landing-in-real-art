@@ -35,7 +35,9 @@ const Orders = ({texts, buttons}: OrdersProps): React.ReactNode => {
         gatewayImageUri: '',
         metadataUri: '',
         gatewayMetadataUri: '', 
-        lang: Lang.EN
+        lang: Lang.EN,
+        contractAddress: '',
+        created_at: new Date()
       }
     const [orders, setOrders] = useState<Array<presaleArtworkOrder>>([defaultOrder])
 

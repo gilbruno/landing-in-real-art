@@ -8,7 +8,7 @@ const ButtonBuyNft = (props: AcquireFormProps) => {
 
     const { email, firstName, lastName, fullAddress, phoneNumber, offerNumber, offerPrice, isEmailValid, setEmailValid, metadataUri, setMetadataUri, usdBalance, 
         uploadingImgToIpfs, setUploadingImgToIpfs, uploadingMetadataToIpfs, setUploadingMetadataToIpfs, mintingNft, setMintingNft, buttonBuyDisabled, setButtonBuyDisabled,
-        handleChangeEmail, handleChangeFirstName, handleChangeLastName, handleChangeFullAddress, handleChangePhoneNumber, handleOfferNumber, isOkToBuy } = useAcquireForm(props.offerPrices, props.formPresaleDelivery, props.web3Address)
+        handleChangeEmail, handleChangeFirstName, handleChangeLastName, handleChangeFullAddress, handleChangePhoneNumber, isOkToBuy } = useAcquireForm(props.offerPrices, props.formPresaleDelivery, props.web3Address)
 
     //------------------------------------------------------------------------------ handlBuyArtwork
     // const handlBuyArtwork = async () => {

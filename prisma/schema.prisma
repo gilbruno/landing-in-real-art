@@ -25,16 +25,6 @@ model newsletter {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model privatesale {
-  id           Int      @id @default(autoincrement())
-  created_at   DateTime @default(now()) @db.Timestamptz(6)
-  email        String?  @db.VarChar
-  resourcePath String
-
-  @@unique([email, resourcePath], map: "privatesale_unique")
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model presaleArtworkOrder {
   id               Int    @id(map: "presaleArtworkSold_pkey") @default(autoincrement())
   artistName       String
@@ -53,8 +43,21 @@ model presaleArtworkOrder {
   metadataUri        String?
   gatewayMetadataUri String?
   lang             Lang
+  contractAddress  String
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
   @@unique([owner, artistName, artworkName, offerNumber], map: "presaleArtworkOrder_unique")
 }
+
+
+model buyerPresale {
+  id               Int    @id(map: "buyerPresale_pkey") @default(autoincrement())
+  publicKey String @unique(map: "buyerPresale_publicKey_key")
+  firstName String
+  lastName String
+  address String
+  email String
+  phone String
+} 
 
 enum ResourceNftStatus {
   UPLOADIPFS

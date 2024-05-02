@@ -37,4 +37,14 @@ export type PresaleOrder = {
     metadataUri?: string
     gatewayMetadataUri?: string
     lang: Lang
+    contractAddress: Address
+}
+
+export type BuyerPresale = {
+    publicKey : Address
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    address: string
 }

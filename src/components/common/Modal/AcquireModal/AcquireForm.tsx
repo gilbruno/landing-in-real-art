@@ -15,8 +15,8 @@ import { pinJSONToIPFS } from '@/utils/web3/pinata/functions'
 import { supabase } from '@/utils/supabase/supabaseConnection'
 import { PRESALE_ARTWORK_ORDER_TABLE } from '@/utils/supabase/constants'
 import { Lang as DbLang, ResourceNftStatus } from '@prisma/client'
-import { createOrder, fetchOrdersByUniqueKey, matchDbLang, updateOrder, updateOrderByUniqueKey, updatePresaleOrder, insertPresaleOrder, updateTokenIdPresaleOrder, createPresaleOrder, fetchOrderByHashArtwork } from '@/lib/presaleArtworkOrder'
-import { CreateOrder, PresaleOrder, UpdateOrder } from '@/types/db-types'
+import { fetchOrdersByUniqueKey, matchDbLang, createPresaleOrder, fetchOrderByHashArtwork, upsertBuyerPresale } from '@/lib/presaleArtworkOrder'
+import { BuyerPresale, CreateOrder, PresaleOrder, UpdateOrder } from '@/types/db-types'
 import { IfpsProps, pinJsonToIpfs } from '@/lib/pinata'
 import { IraErc20TokenAbi } from '@/web3/abi/IraErc20TokenAbi'
 import { OrderPhygitalArtAbi } from '@/web3/abi/OrderPhygitalArtAbi'
@@ -42,7 +42,7 @@ const AcquireForm = (props: AcquireFormProps) => {
 
     const {art, formPresaleDelivery, offers, offerPrices, web3Address} = props 
     const [artist, setArtist] = useState<string>(art.artistName)
-
+    
     const { email, firstName, lastName, fullAddress, phoneNumber, offerNumber, setOfferNumber, offerPrice, setOfferPrice,isEmailValid, setEmailValid, metadataUri, setMetadataUri, usdBalance, 
         uploadingImgToIpfs, setUploadingImgToIpfs, uploadingMetadataToIpfs, setUploadingMetadataToIpfs, mintingNft, setMintingNft, 
         mustApproveUsd, setMustApproveUsd, approvingUsd, setApprovingUsd, 
@@ -77,6 +77,8 @@ const AcquireForm = (props: AcquireFormProps) => {
         args: [web3Address, orderPhygitalArtAddress],
       })
 
+      const [allowanceUpdated, setAllowanceUpdated] = useState<number | unknown >(allowance)
+
       const { data: tokenIdBooked } = useReadContract({
         address: orderPhygitalArtAddress,
         abi: OrderPhygitalArtAbi,
@@ -91,13 +93,14 @@ const AcquireForm = (props: AcquireFormProps) => {
                 const price_ = Number(offerPrice)*Math.pow(10, USDT_DECIMALS)
                 const order_tmp = await handleUploadOrderImgOnIpfs()
                 const order = await handleUploadOrderMetadataOnIpfs(order_tmp)
+                const publicKey = web3Address as Address
                 order.status = ResourceNftStatus.MINED
                 setOrderInDb(order)
                 writeContract({
                     address: orderPhygitalArtAddress,
                     abi: OrderPhygitalArtAbi,
                     functionName: "mintPurchaseOrder",
-                    args: [art.artistName, art.artworkName, price_, Number(offerNumber), firstName, lastName, fullAddress, email, phoneNumber, order.metadataUri]
+                    args: [art.artistName, art.artworkName, price_, Number(offerNumber), publicKey, firstName, lastName, fullAddress, email, phoneNumber, order.metadataUri]
                 })
             }
 
@@ -111,30 +114,50 @@ const AcquireForm = (props: AcquireFormProps) => {
     useEffect(
         () => {
             const parseLogs = async () => {
-                console.dir('TX DATA : ', transactionData?.logs)
                 const eventLogs = transactionData?.logs
+                let txHash
                 if (eventLogs) {
-                    let tokenIdHex = undefined
-                    let tokenId = undefined
-                    for (let i = 0; i < eventLogs.length; i++) {
-                        const eventLog = eventLogs[i]
-                        //console.log("EVENT LOG : ", eventLog)
-                        const topics = eventLog.topics
-                        for (let j = 0; j < topics.length; j++) {
-                            const topic = topics[j]
-                            //console.log("TOPIC : ", eventLog)
-                            if (topic === Keccac256_Event_MetadataUpdate) {
-                                tokenIdHex = eventLog.data
-                                tokenId = parseInt(tokenIdHex, 16)
-                            }
-                        }       
+                    //CASE OF APPROVAL USDT TRANSACTION
+                    if (eventLogs.length == 1 ) {
+                    //if (eventLogs[0].address.toLowerCase() == usdtAddress.toLowerCase()) {
+                        console.dir('CAS APPROVAL : ', transactionData?.logs)
+                        displayInfo('You approve USD to be spent. You can now buy the artwork')    
+                        const allowanceHex = eventLogs[0].data
+                        const allowanceUsd = parseInt(allowanceHex, 16)
+                        setAllowanceUpdated(allowanceUsd)
                     }
-                    console.log('TOKEN ID : ', tokenId)
-                    console.log('CHECK ORDER IN DB', orderInDb)
-                    orderInDb.tokenId = tokenId
-                    if (tokenId !== undefined) {
-                        console.log("CREATION DE LA COMMANDE EN DB ...", orderInDb)
-                        createPresaleOrder(orderInDb)    
+                    else {
+                        console.dir('CAS MINT : ', eventLogs)
+                        let tokenIdHex = undefined
+                        let tokenId = undefined
+                        for (let i = 0; i < eventLogs.length; i++) {
+                            const eventLog = eventLogs[i]
+                            console.log("EVENT LOG : ", eventLog)
+                            txHash = eventLog.transactionHash
+                            const topics = eventLog.topics
+                            console.log("TOPICS : ", topics)
+                            for (let j = 0; j < topics.length; j++) {
+                                const topic = topics[j]
+                                console.log("TOPIC : ", topic.toLowerCase())
+                                if (topic.toLowerCase() == Keccac256_Event_MetadataUpdate.toLowerCase()) {
+                                    tokenIdHex = eventLog.data
+                                    tokenId = parseInt(tokenIdHex, 16)
+                                    break
+                                }
+                            }       
+                        }
+                        console.log('TOKEN ID : ', tokenId)
+                        console.log('TX HASH', txHash)
+                        console.log('CHECK ORDER IN DB', orderInDb)
+                        orderInDb.tokenId = tokenId
+                        orderInDb.txHash = txHash
+                        orderInDb.contractAddress = orderPhygitalArtAddress
+                        
+                        if (tokenId !== undefined) {
+                            console.log("CREATION DE LA COMMANDE EN DB ...", orderInDb)
+                            createPresaleOrder(orderInDb)    
+                        }
+                        displayInfo('You sucessfully ordered this artwork.')
                     }
                 } 
                 // setMintingNft(false)
@@ -228,11 +251,6 @@ const AcquireForm = (props: AcquireFormProps) => {
             lang: dbLang
         }
         return order 
-        setOrderInDb(order)
-        //order = await insertPresaleOrder(ipfsHash, userPublicKey, art.artistName, art.artworkName, offerNumber, offerPrice, lang_)
-        // setUploadingImgToIpfs(false)
-        console.log('STATE VAR ORDER AFTER UPLOAD IMAGE ON IPFS : ', orderInDb)    
-
     }
 
     //--------------------------------------------------------------------------- handleUploadOrderMetadataOnIpfs
@@ -281,6 +299,20 @@ const AcquireForm = (props: AcquireFormProps) => {
         setButtonBuyDisabled(true)
     }
 
+    //------------------------------------------------------------------------------ upsertInfosBuyer
+    const upsertInfosBuyer = async() => {
+        const buyer_: BuyerPresale = {
+            publicKey: web3Address as Address,
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            address: fullAddress,
+            phone: phoneNumber
+        }
+        const buyerCreatedOrUpdated = upsertBuyerPresale(buyer_)
+        console.log('BUYER CREATED OR UPDATED : ', buyerCreatedOrUpdated)
+    }
+
     //------------------------------------------------------------------------------ handleOfferNumber
     const handleOfferNumber = async(e: any) => {
         setOfferNumber(e)
@@ -303,6 +335,7 @@ const AcquireForm = (props: AcquireFormProps) => {
         let isArtworkNotBookedBool = isArtworkNotBooked(hashArt) // TODO
         let success = checkFormValues && isArtworkNotBookedBool
         displayInfo('Please wait ... your wallet will send the transaction shortly')
+        upsertInfosBuyer()
         if (success) {
             setButtonBuyDisabled(true)
             await handlApproveUsd()
@@ -312,19 +345,22 @@ const AcquireForm = (props: AcquireFormProps) => {
     //------------------------------------------------------------------------------ handlApproveUsd
     const handlApproveUsd = async() => {
         console.log('handlApproveUsd ...')
-        let allowance_ = Number(allowance) / Math.pow(10, USDT_DECIMALS)
+        let allowance_ = allowanceUpdated as number
+        allowance_ = Number(allowance_) / Math.pow(10, USDT_DECIMALS) 
         allowance_ = (isNaN(allowance_) || (allowance_ === undefined))?0:allowance_
-        console.log('allowance_ : ', Number(allowance_))
-        console.log('offerPrice : ', Number(offerPrice))
-            
-        if (Number(allowance_) < Number(offerPrice)) {
+        //setAllowanceUpdated(allowance_)
+        console.log('allowance_ : ', allowance_)
+        console.log('offerPrice : ', offerPrice)
+    
+        
+        if (allowance_ < offerPrice) {
+            console.log('Launch approval popup ...')
             writeContract({
                 address: usdtAddress,
                 abi: IraErc20TokenAbi,
                 functionName: 'approve',
                 args: [orderPhygitalArtAddress, offerPrices.price3*Math.pow(10, USDT_DECIMALS)],
               })  
-            //displayInfo("You can now buy the artwork")  
         }        
         else {
             setMintingNft(true)
@@ -393,6 +429,7 @@ const AcquireForm = (props: AcquireFormProps) => {
                                 <EmailIcon color='gray.300' />
                                 </InputLeftElement>
                             <Input
+                                value={email}
                                 type="email"
                                 color={"black"}
                                 backgroundColor={"white"}
