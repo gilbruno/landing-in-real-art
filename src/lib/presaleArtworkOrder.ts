@@ -1,7 +1,7 @@
 'use server'
 import { BuyerPresale, CreateOrder, PresaleOrder, RefundPresale, UpdateOrder } from "@/types/db-types"
 import prisma from "./prisma"
-import { Lang as DbLang, ResourceNftStatus } from "@prisma/client"
+import { Lang as DbLang, RefundPresaleStatus, ResourceNftStatus } from "@prisma/client"
 import { Address } from "viem"
 
 //------------------------------------------------------------------------------ fetchOrders
@@ -137,6 +137,23 @@ const createRefundPresale = async (refund: RefundPresale) => {
     return refundPresale
 }
 
+//------------------------------------------------------------------------------ updateStatusRefundPresale
+const updateStatusRefundPresale = async (refund: RefundPresale, status_: RefundPresaleStatus) => {
+    const contractAddress = refund.contractAddress as string
+    const refundPresale = await prisma.refundPresale.updateMany({
+        where: {
+            tokenId: refund.tokenId,
+            price: refund.price,
+            buyer: refund.buyer,
+            contractAddress: contractAddress
+        },
+        data: {
+            status: status_
+        }
+    })
+    return refundPresale
+}
+
 //------------------------------------------------------------------------------ fetchRefundPresaleByTokenId
 /**
  * Fetch refund presale order by tokenId & contractAddress
@@ -256,6 +273,6 @@ async function matchDbLang(lang_: string) {
     }
 }
 export { fetchOrders, fetchOrdersByOwner, fetchOrdersByUniqueKey, fetchOrderByHashArtwork, fetchBuyerInfosByPublicKey, fetchOrderByOwnerAndTokenId, fetchRefundPresaleByTokenId,
-    updateOrderByUniqueKey, 
+    updateOrderByUniqueKey, updateStatusRefundPresale,
     upsertBuyerPresale, createPresaleOrder, createRefundPresale, updatePresaleOrder, updateOrder, updateTokenIdPresaleOrder, matchDbLang }
 

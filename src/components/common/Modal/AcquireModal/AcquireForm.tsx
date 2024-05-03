@@ -178,7 +178,7 @@ const AcquireForm = (props: AcquireFormProps) => {
         }, [isConfirmed]
     )
 
-        //------------------------------------------------------------------- useEffect "artworkBought"
+    //------------------------------------------------------------------- useEffect "artworkBought"
     //Handle error caused by smart contract reverts
     useEffect(
         () => {

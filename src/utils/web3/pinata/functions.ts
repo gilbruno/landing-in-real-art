@@ -1,5 +1,8 @@
+import { OrderPhygitalArtAbi } from '@/web3/abi/OrderPhygitalArtAbi';
+import { orderPhygitalArtAddress } from '@/web3/constants';
 import axios from 'axios';
 import { Keccak } from 'sha3';
+import { useReadContract } from 'wagmi';
 
 export const pinJSONToIPFS = async (cid: string, artistName: string, artworkName: string) => {
   console.log("CID :", cid)
@@ -35,3 +38,12 @@ export const pinJSONToIPFS = async (cid: string, artistName: string, artworkName
 }
 
 
+export const readTokenIdByArtwork = (artist: string, artwork: string) => {
+  const data = useReadContract({
+    address: orderPhygitalArtAddress,
+    abi: OrderPhygitalArtAbi,
+    functionName: 'findPurchaseOrderId',
+    args: [artist, artwork],
+  })
+  return data
+}
