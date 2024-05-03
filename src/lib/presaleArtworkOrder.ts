@@ -1,5 +1,5 @@
 'use server'
-import { BuyerPresale, CreateOrder, PresaleOrder, UpdateOrder } from "@/types/db-types"
+import { BuyerPresale, CreateOrder, PresaleOrder, RefundPresale, UpdateOrder } from "@/types/db-types"
 import prisma from "./prisma"
 import { Lang as DbLang, ResourceNftStatus } from "@prisma/client"
 import { Address } from "viem"
@@ -78,6 +78,23 @@ async function fetchOrderByHashArtwork(hashArtwork_: string) {
     return order
 }
 
+/**
+ * Fetch presale order by owner & tokenId
+ * @param owner_ 
+ * @returns 
+ */
+async function fetchOrderByOwnerAndTokenId(owner_: string, tokenId_: number) {
+    const order = await prisma.presaleArtworkOrder.findFirst(
+        {
+            where: {
+                owner: owner_,
+                tokenId: tokenId_
+            }
+
+        }
+    )
+    return order
+}
 
 //------------------------------------------------------------------------------ createPresaleOrder
 const createPresaleOrder = async (order_: PresaleOrder) => {
@@ -105,6 +122,40 @@ const createPresaleOrder = async (order_: PresaleOrder) => {
     })
     return order
 }
+
+//------------------------------------------------------------------------------ createRefundPresale
+const createRefundPresale = async (refund: RefundPresale) => {
+    const contractAddress = refund.contractAddress as string
+    const refundPresale = await prisma.refundPresale.create({
+        data: {
+            tokenId: refund.tokenId,
+            buyer: refund.buyer,
+            price: refund.price,
+            contractAddress: contractAddress
+        }
+    })
+    return refundPresale
+}
+
+//------------------------------------------------------------------------------ fetchRefundPresaleByTokenId
+/**
+ * Fetch refund presale order by tokenId & contractAddress
+ * @param owner_ 
+ * @returns 
+ */
+async function fetchRefundPresaleByTokenId(tokenId: number, contractAddress: string) {
+    const refundPresale = await prisma.refundPresale.findFirst(
+        {
+            where: {
+                tokenId: tokenId,
+                contractAddress: contractAddress
+            }
+
+        }
+    )
+    return refundPresale
+}
+
 
 //------------------------------------------------------------------------------ upsertBuyerPresale
 const upsertBuyerPresale = async (buyer_: BuyerPresale) => {
@@ -204,6 +255,7 @@ async function matchDbLang(lang_: string) {
             return dbLang
     }
 }
-export { fetchOrders, fetchOrdersByOwner, fetchOrdersByUniqueKey, fetchOrderByHashArtwork, fetchBuyerInfosByPublicKey, updateOrderByUniqueKey, 
-    upsertBuyerPresale, createPresaleOrder, updatePresaleOrder, updateOrder, updateTokenIdPresaleOrder, matchDbLang }
+export { fetchOrders, fetchOrdersByOwner, fetchOrdersByUniqueKey, fetchOrderByHashArtwork, fetchBuyerInfosByPublicKey, fetchOrderByOwnerAndTokenId, fetchRefundPresaleByTokenId,
+    updateOrderByUniqueKey, 
+    upsertBuyerPresale, createPresaleOrder, createRefundPresale, updatePresaleOrder, updateOrder, updateTokenIdPresaleOrder, matchDbLang }
 

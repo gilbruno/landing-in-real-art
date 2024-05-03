@@ -1,4 +1,4 @@
-import { Lang, ResourceNftStatus } from '@prisma/client';
+import { Lang, RefundPresaleStatus, ResourceNftStatus } from '@prisma/client';
 import { Address } from 'viem';
 
 export type CreateOrder  = {
@@ -48,4 +48,12 @@ export type BuyerPresale = {
     email: string
     phone: string
     address: string
+}
+
+export type RefundPresale = {
+    tokenId : number
+    buyer: string
+    price: number
+    status?: RefundPresaleStatus
+    contractAddress?: Address
 }

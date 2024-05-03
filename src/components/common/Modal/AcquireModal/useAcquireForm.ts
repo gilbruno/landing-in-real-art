@@ -145,12 +145,12 @@ const useAcquireForm = (offerPrices: OfferPrices, formPresaleDelivery: FormPresa
     }
 
     //------------------------------------------------------------------------------ displayInfo
-    const displayInfo = (msgInfo: string) => {
+    const displayInfo = (msgInfo: string, nbSeconds: number) => {
         toast({
             title: parse(msgInfo),
             description: "",
             status: "info",
-            duration: 3000,
+            duration: nbSeconds * 1000,
             isClosable: true,
         })
     }

@@ -20,7 +20,9 @@ const useSharedLogicOrders = (fireBaseOrdersPageCollection:string) => {
         collectionName: defaultLangObject,
         collectionSymbol: defaultLangObject,
         price: defaultLangObject,
-        tokenID: defaultLangObject
+        tokenID: defaultLangObject,
+        maxCancelDate: defaultLangObject,
+        imageLink: defaultLangObject
     }
     }
 

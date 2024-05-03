@@ -223,7 +223,10 @@ export type OrdersTexts = {
         collectionName: TranslatedText,
         collectionSymbol: TranslatedText,
         price: TranslatedText,
-        tokenID: TranslatedText
+        tokenID: TranslatedText,
+        maxCancelDate: TranslatedText,
+        imageLink: TranslatedText
+
     }
 }
 

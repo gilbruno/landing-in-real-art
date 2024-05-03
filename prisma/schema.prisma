@@ -49,6 +49,14 @@ model presaleArtworkOrder {
   @@unique([owner, artistName, artworkName, offerNumber], map: "presaleArtworkOrder_unique")
 }
 
+model refundPresale {
+  id               Int    @id(map: "refundPresale_pkey") @default(autoincrement())
+  buyer            String
+  tokenId          Int?
+  price            Float  @db.Real
+  status           RefundPresaleStatus @default(IN_PROGRESS) 
+  contractAddress  String
+}
 
 model buyerPresale {
   id               Int    @id(map: "buyerPresale_pkey") @default(autoincrement())
@@ -65,6 +73,12 @@ enum ResourceNftStatus {
   UPLOADMETADATA
   MINED
 }
+
+enum RefundPresaleStatus {
+  IN_PROGRESS
+  COMPLETE  
+}
+
 
 enum Lang {
   CN

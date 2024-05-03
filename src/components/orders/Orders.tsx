@@ -84,20 +84,6 @@ const Orders = ({texts, buttons}: OrdersProps): React.ReactNode => {
     }, [dataOwner.isSuccess, address])
     
     
-    //------------------------------------------------------------------------------ handleOrder
-    const handleOrder = async () => {
-        //Display Refund 
-        if (isOwner) {
-
-            console.log('REFUND !') 
-        }
-        else {
-            //Display Cancel button only if the delay is OK 
-            console.log('CANCEL !') 
-        }
-        
-    }
-    
     return (
         <>
             <div id="orderPanel" className={styles["grid-wrapper"]}>
@@ -115,10 +101,10 @@ const Orders = ({texts, buttons}: OrdersProps): React.ReactNode => {
                 </div>
                 <div className={styles["image-grid"]}>
                     {(isConnected && isOwner) && orders.map((order, index) => (
-                        <OrderCard key={index} buttons={buttons.refundBuyer[lang_]} texts={texts} order={order} buyer={address} handleOrder={handleOrder}/>
+                        <OrderCard key={index} buttons={buttons.refundBuyer[lang_]} texts={texts} order={order} buyer={address} isOwner={isOwner} />
                     ))}
                     {(isConnected && !isOwner) && orders.map((order, index) => (
-                        <OrderCard key={index} buttons={buttons.cancelOrder[lang_]} texts={texts} order={order} buyer={address} handleOrder={handleOrder}/>
+                        <OrderCard key={index} buttons={buttons.cancelOrder[lang_]} texts={texts} order={order} buyer={address} isOwner={isOwner} />
                     ))}
                 </div>
 

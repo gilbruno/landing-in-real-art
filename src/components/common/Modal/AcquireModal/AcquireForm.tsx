@@ -117,7 +117,7 @@ const AcquireForm = (props: AcquireFormProps) => {
                     if (eventLogs.length == 1 ) {
                     //if (eventLogs[0].address.toLowerCase() == usdtAddress.toLowerCase()) {
                         console.dir('CAS APPROVAL : ', transactionData?.logs)
-                        displayInfo('You approve USD to be spent. You can now buy the artwork')    
+                        displayInfo('You approve USD to be spent. You can now buy the artwork', 4)    
                         const allowanceHex = eventLogs[0].data
                         const allowanceUsd = parseInt(allowanceHex, 16)
                         setAllowanceUpdated(allowanceUsd)
@@ -166,7 +166,7 @@ const AcquireForm = (props: AcquireFormProps) => {
                             createPresaleOrder(orderInDb)    
                         }
                         setArtworkBought(true)
-                        displayInfo('You sucessfully ordered this artwork.')
+                        displayInfo('You sucessfully ordered this artwork.', 4)
                     }
                 } 
                 // setMintingNft(false)
@@ -183,7 +183,7 @@ const AcquireForm = (props: AcquireFormProps) => {
     useEffect(
         () => {
             if (artworkBought) {
-                displayInfo('You sucessfully ordered this artwork.')
+                displayInfo('You sucessfully ordered this artwork.', 4)
             }
         }, [artworkBought]
     )
@@ -353,7 +353,7 @@ const AcquireForm = (props: AcquireFormProps) => {
         const hashArt = art.artistName+'|'+art.artworkNameEN
         let isArtworkNotBookedBool = isArtworkNotBooked(hashArt) // TODO
         let success = checkFormValues && isArtworkNotBookedBool
-        displayInfo('Please wait ... your wallet will send the transaction shortly')
+        displayInfo('Please wait ... your wallet will send the transaction shortly', 5)
         upsertInfosBuyer()
         if (success) {
             setButtonBuyDisabled(true)
