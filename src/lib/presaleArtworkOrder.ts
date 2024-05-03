@@ -5,9 +5,14 @@ import { Lang as DbLang, ResourceNftStatus } from "@prisma/client"
 import { Address } from "viem"
 
 //------------------------------------------------------------------------------ fetchOrders
-async function fetchOrders() {
-    const list = await prisma.presaleArtworkOrder.findMany()
-    return list
+async function fetchOrders(contractAddress_: string) {
+    const orders = await prisma.presaleArtworkOrder.findMany({
+            where: {
+                contractAddress: contractAddress_
+            }
+        }
+    )
+    return orders
 
 }
 

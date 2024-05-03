@@ -67,7 +67,7 @@ const Orders = ({texts, buttons}: OrdersProps): React.ReactNode => {
                 console.log('BUYER : ', address?.toLowerCase())
                 let orders
                 if (address?.toLowerCase() == smartContractOwner.toLowerCase()) {
-                    orders = await fetchOrders()
+                    orders = await fetchOrders(orderPhygitalArtAddress)
                     setIsOwner(true)
                 }
                 else {
