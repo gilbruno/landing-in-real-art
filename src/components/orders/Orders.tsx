@@ -41,7 +41,8 @@ const Orders = ({texts, buttons}: OrdersProps): React.ReactNode => {
         gatewayMetadataUri: '', 
         lang: Lang.EN,
         contractAddress: '',
-        created_at: new Date()
+        created_at: new Date(),
+        maxCancelDate: new Date()
       }
     const [orders, setOrders] = useState<Array<presaleArtworkOrder>>([defaultOrder])
 
@@ -85,10 +86,13 @@ const Orders = ({texts, buttons}: OrdersProps): React.ReactNode => {
     
     //------------------------------------------------------------------------------ handleOrder
     const handleOrder = async () => {
+        //Display Refund 
         if (isOwner) {
+
             console.log('REFUND !') 
         }
         else {
+            //Display Cancel button only if the delay is OK 
             console.log('CANCEL !') 
         }
         

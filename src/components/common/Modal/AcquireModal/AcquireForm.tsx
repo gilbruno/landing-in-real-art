@@ -5,19 +5,15 @@ import styles from "./AcquireModal.module.scss"
 import { ArtProps, FormPresaleDelivery, Lang, OfferPrices, PresaleArtworkOffers } from '../../../../types/types'
 import { useAppContext } from '../../../../context'
 import { useEffect, useState } from 'react'
-import { validateEmail } from '../../../../utils/client/clientFunctions'
 import parse from "html-react-parser"
-import { ALREADY_BOOKED_ARTWORK, Keccac256_Event_MetadataUpdate, USDT_DECIMALS, orderPhygitalArtAddress, usdtAddress } from '@/web3/constants'
+import { ALREADY_BOOKED_ARTWORK, Keccac256_Event_MetadataUpdate, Keccac256_NFTMinted_Event, USDT_DECIMALS, orderPhygitalArtAddress, usdtAddress } from '@/web3/constants'
 import { getBalance } from '@wagmi/core'
 import { wagmiConfig } from '@/app/wagmiConfig'
 import { Address } from 'viem'
-import { pinJSONToIPFS } from '@/utils/web3/pinata/functions'
-import { supabase } from '@/utils/supabase/supabaseConnection'
-import { PRESALE_ARTWORK_ORDER_TABLE } from '@/utils/supabase/constants'
 import { Lang as DbLang, ResourceNftStatus } from '@prisma/client'
 import { fetchOrdersByUniqueKey, matchDbLang, createPresaleOrder, fetchOrderByHashArtwork, upsertBuyerPresale } from '@/lib/presaleArtworkOrder'
-import { BuyerPresale, CreateOrder, PresaleOrder, UpdateOrder } from '@/types/db-types'
-import { IfpsProps, pinJsonToIpfs } from '@/lib/pinata'
+import { BuyerPresale, PresaleOrder, UpdateOrder } from '@/types/db-types'
+import { IfpsProps } from '@/lib/pinata'
 import { IraErc20TokenAbi } from '@/web3/abi/IraErc20TokenAbi'
 import { OrderPhygitalArtAbi } from '@/web3/abi/OrderPhygitalArtAbi'
 import { BaseError, useReadContract, useReadContracts, useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
@@ -45,7 +41,7 @@ const AcquireForm = (props: AcquireFormProps) => {
     
     const { email, firstName, lastName, fullAddress, phoneNumber, offerNumber, setOfferNumber, offerPrice, setOfferPrice,isEmailValid, setEmailValid, metadataUri, setMetadataUri, usdBalance, 
         uploadingImgToIpfs, setUploadingImgToIpfs, uploadingMetadataToIpfs, setUploadingMetadataToIpfs, mintingNft, setMintingNft, 
-        mustApproveUsd, setMustApproveUsd, approvingUsd, setApprovingUsd, 
+        mustApproveUsd, setMustApproveUsd, approvingUsd, setApprovingUsd, artworkBought, setArtworkBought,
         buttonBuyDisabled, setButtonBuyDisabled, idOrder, setIdOrder, orderInDb, setOrderInDb,
         handleChangeEmail, handleChangeFirstName, handleChangeLastName, handleChangeFullAddress, handleChangePhoneNumber, isOkToBuy, displayInfo, displayError } = useAcquireForm(offerPrices, formPresaleDelivery, web3Address)
 
@@ -130,6 +126,8 @@ const AcquireForm = (props: AcquireFormProps) => {
                         console.dir('CAS MINT : ', eventLogs)
                         let tokenIdHex = undefined
                         let tokenId = undefined
+                        let maxCancelDateHex = undefined
+                        let maxCancelDate = 0
                         for (let i = 0; i < eventLogs.length; i++) {
                             const eventLog = eventLogs[i]
                             console.log("EVENT LOG : ", eventLog)
@@ -144,19 +142,30 @@ const AcquireForm = (props: AcquireFormProps) => {
                                     tokenId = parseInt(tokenIdHex, 16)
                                     break
                                 }
+                                if (topic.toLowerCase() == Keccac256_NFTMinted_Event.toLowerCase()) {
+                                    console.log("NFT Minted event !")
+                                    maxCancelDateHex = topics[3] as string
+                                    console.log('maxCancelDateHex : ', maxCancelDateHex)
+                                    maxCancelDate = parseInt(maxCancelDateHex, 16)
+                                    console.log('maxCancelDate : ', maxCancelDate)
+                                }    
                             }       
                         }
                         console.log('TOKEN ID : ', tokenId)
                         console.log('TX HASH', txHash)
                         console.log('CHECK ORDER IN DB', orderInDb)
+                        console.log('maxCancelDate ', maxCancelDate)
+                        let maxCancelD = new Date(maxCancelDate * 1000)
                         orderInDb.tokenId = tokenId
                         orderInDb.txHash = txHash
                         orderInDb.contractAddress = orderPhygitalArtAddress
-                        
+                        orderInDb.maxCancelDate = maxCancelD
+
                         if (tokenId !== undefined) {
                             console.log("CREATION DE LA COMMANDE EN DB ...", orderInDb)
                             createPresaleOrder(orderInDb)    
                         }
+                        setArtworkBought(true)
                         displayInfo('You sucessfully ordered this artwork.')
                     }
                 } 
@@ -167,6 +176,16 @@ const AcquireForm = (props: AcquireFormProps) => {
             }
             
         }, [isConfirmed]
+    )
+
+        //------------------------------------------------------------------- useEffect "artworkBought"
+    //Handle error caused by smart contract reverts
+    useEffect(
+        () => {
+            if (artworkBought) {
+                displayInfo('You sucessfully ordered this artwork.')
+            }
+        }, [artworkBought]
     )
 
     //------------------------------------------------------------------- useEffect "error"
@@ -502,16 +521,24 @@ const AcquireForm = (props: AcquireFormProps) => {
                             </InputGroup>
                         </FormControl>
                         
-                        <div className={styles.rectangleBuyNft}>
-                            <Button
-                                disabled={buttonBuyDisabled}
-                                colorScheme="#465c79"
-                                variant="solid"
-                                left={"0px"}
-                                onClick={handlBuyArtwork}>
-                                BUY ARTWORK
-                            </Button>
-                        </div>
+                        { !artworkBought && 
+                            <div className={styles.rectangleBuyNft}>
+                                <Button
+                                    disabled={buttonBuyDisabled}
+                                    colorScheme="#465c79"
+                                    variant="solid"
+                                    left={"0px"}
+                                    onClick={handlBuyArtwork}>
+                                    BUY ARTWORK
+                                </Button>
+                            </div>                    
+                        }
+
+                        { artworkBought && 
+                            <div className={styles.rectangleArtworkBought}>
+                                ARTWORK BOUGHT !
+                            </div>                    
+                        }
                     </div>
                 </div>
             </ButtonGroup>

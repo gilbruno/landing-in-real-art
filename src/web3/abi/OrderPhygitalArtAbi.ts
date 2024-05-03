@@ -1010,6 +1010,12 @@ export const OrderPhygitalArtAbi =
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
+      },
+      {
+        "name": "maxCancelDate",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
       }
     ],
     "anonymous": false

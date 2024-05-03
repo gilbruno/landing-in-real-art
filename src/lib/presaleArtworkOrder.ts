@@ -99,7 +99,8 @@ const createPresaleOrder = async (order_: PresaleOrder) => {
             collectionName: order_.collectionName,
             collectionSymbol: order_.collectionSymbol,
             lang: order_.lang,
-            contractAddress: order_.contractAddress
+            contractAddress: order_.contractAddress,
+            maxCancelDate: order_.maxCancelDate
         }
     })
     return order

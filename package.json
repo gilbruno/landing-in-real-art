@@ -17,7 +17,7 @@
     "@fontsource/unbounded": "^5.0.18",
     "@mui/material": "^5.15.6",
     "@pinata/sdk": "^2.1.0",
-    "@prisma/client": "^5.12.1",
+    "@prisma/client": "^5.13.0",
     "@rainbow-me/rainbowkit": "^2.0.0",
     "@stripe/stripe-js": "^2.4.0",
     "@supabase/supabase-js": "^2.42.0",

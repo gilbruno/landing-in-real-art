@@ -38,6 +38,7 @@ export type PresaleOrder = {
     gatewayMetadataUri?: string
     lang: Lang
     contractAddress: Address
+    maxCancelDate: Date
 }
 
 export type BuyerPresale = {

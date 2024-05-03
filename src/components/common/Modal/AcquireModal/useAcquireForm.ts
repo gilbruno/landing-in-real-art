@@ -39,7 +39,9 @@ const useAcquireForm = (offerPrices: OfferPrices, formPresaleDelivery: FormPresa
         metadataUri: '',
         gatewayMetadataUri: '',
         lang: LANG_FR,
-        contractAddress: ADDRESS_ZERO
+        contractAddress: ADDRESS_ZERO,
+        maxCancelDate: new Date()
+
     }
     const [email, setEmail] = useState<string>("")
     const [firstName, setFirstName] = useState<string>("")
@@ -57,6 +59,7 @@ const useAcquireForm = (offerPrices: OfferPrices, formPresaleDelivery: FormPresa
     const [approvingUsd, setApprovingUsd] = useState<boolean>(false)
     const [buttonBuyDisabled, setButtonBuyDisabled] = useState<boolean>(false)
     const [idOrder, setIdOrder] = useState<number>(0)
+    const [artworkBought, setArtworkBought] = useState<boolean>(false)
 
     const [orderInDb, setOrderInDb] = useState<PresaleOrder>(defaultPresaleOrder)
     const isFirstNameRequired    = firstName === ''
@@ -259,7 +262,7 @@ const useAcquireForm = (offerPrices: OfferPrices, formPresaleDelivery: FormPresa
     return { email, setEmail, firstName, setFirstName, lastName, setLastName, fullAddress, setFullAddress, phoneNumber, setPhoneNumber,
         offerNumber, setOfferNumber, offerPrice, setOfferPrice, isEmailValid, setEmailValid, metadataUri, setMetadataUri, usdBalance, 
         uploadingImgToIpfs, setUploadingImgToIpfs, uploadingMetadataToIpfs, setUploadingMetadataToIpfs, mintingNft, setMintingNft,
-        mustApproveUsd, setMustApproveUsd, approvingUsd, setApprovingUsd, 
+        mustApproveUsd, setMustApproveUsd, approvingUsd, setApprovingUsd, artworkBought, setArtworkBought,
         buttonBuyDisabled, setButtonBuyDisabled, idOrder, setIdOrder, orderInDb, setOrderInDb,
         handleChangeEmail, handleChangeFirstName, handleChangeLastName, handleChangeFullAddress, handleChangePhoneNumber, isOkToBuy, displayInfo, displayError}
 }

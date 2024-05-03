@@ -94,3 +94,18 @@
   align-items: center;
   justify-content: center;
 }
+
+.rectangleArtworkBought {
+  background: lightcoral;
+  color: antiquewhite;
+  font-family: 'Unbounded', sans-serif;
+  border-radius: 10px;
+  width: 220px;
+  height: 40px;
+  position: relative;
+  top: 4px;
+  left: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
