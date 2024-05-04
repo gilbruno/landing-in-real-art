@@ -36,14 +36,3 @@ export const pinJSONToIPFS = async (cid: string, artistName: string, artworkName
       console.log(error);
     }
 }
-
-
-export const readTokenIdByArtwork = (artist: string, artwork: string) => {
-  const data = useReadContract({
-    address: orderPhygitalArtAddress,
-    abi: OrderPhygitalArtAbi,
-    functionName: 'findPurchaseOrderId',
-    args: [artist, artwork],
-  })
-  return data
-}
