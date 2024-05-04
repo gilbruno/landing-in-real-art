@@ -13,10 +13,12 @@ const useSharedLogicMenu = () => {
     const [team, setTeam]           = useState<Record<Lang, string>>(defaultLangObject)
     const [about, setAbout]         = useState<Record<Lang, string>>(defaultLangObject)
     const [resources, setResources] = useState<Record<Lang, string>>(defaultLangObject)
+    const [orders, setOrders]       = useState<Record<Lang, string>>(defaultLangObject)
     const [communityLink, setCommunityLink] = useState<string>('')
     const [teamLink, setTeamLink]           = useState<string>('')
     const [aboutLink, setAboutLink]         = useState<string>('')
     const [resourcesLink, setResourcesLink] = useState<string>('')
+    const [ordersLink, setOrdersLink]       = useState<string>('')
     const [presale, setPresale]     = useState<Record<Lang, string>>(defaultLangObject)
     const [testnet, setTestnet]     = useState<Record<Lang, string>>(defaultLangObject)
   
@@ -37,10 +39,12 @@ const useSharedLogicMenu = () => {
         setTeam(menuData[1].Team)
         setAbout(menuData[1].About)
         setResources(menuData[1].Resources)
+        setOrders(menuData[1].Orders)
         setCommunityLink(menuData[1].CommunityLink)   
         setTeamLink(menuData[1].TeamLink)
         setAboutLink(menuData[1].AboutLink)
         setResourcesLink(menuData[1].ResourcesLink)
+        setOrdersLink(menuData[1].OrdersLink)
   
      }
   
@@ -62,8 +66,10 @@ const useSharedLogicMenu = () => {
         isSticky, isMobile,
         community, setCommunity, team, setTeam, about, setAbout, 
         resources, setResources, communityLink, setCommunityLink, 
+        orders, setOrders,
         teamLink, setTeamLink, aboutLink, setAboutLink, 
-        resourcesLink, setResourcesLink, presale, setPresale,
+        resourcesLink, setResourcesLink, ordersLink, setOrdersLink, 
+        presale, setPresale,
         testnet, setTestnet
     }
 }

@@ -31,6 +31,8 @@ const MenuMobile: FC<MenuMobileProps> = ({ isOpen, closeMenu }) => {
     setAboutLink,
     resourcesLink,
     setResourcesLink,
+    orders,
+    ordersLink,
     presale,
     setPresale,
     testnet,
@@ -55,6 +57,11 @@ const MenuMobile: FC<MenuMobileProps> = ({ isOpen, closeMenu }) => {
       <div className={styles.menuMobileItem}>
         <Link href={aboutLink} onClick={closeMenu}>
           {about[lang_]}
+        </Link>
+      </div>
+      <div className={styles.menuMobileItem}>
+        <Link href={ordersLink} onClick={closeMenu}>
+          {orders[lang_]}
         </Link>
       </div>
       {/* <div className={styles.menuMobileItem}>
