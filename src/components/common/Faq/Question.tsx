@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./Faq.module.scss";
+import Image from "next/image";
 
 interface QuestionProps {
   question: string;
@@ -39,7 +40,9 @@ const Question: React.FC<QuestionProps> = ({
       <div className={styles.questionBlock} onClick={toggleVisibility}>
         <div className={styles.question}>{question}</div>
         <div>
-          <img
+          <Image
+            width={16}
+            height={16}
             ref={imagePlusRef}
             className={styles.plus}
             alt="plus"

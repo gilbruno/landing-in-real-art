@@ -18,6 +18,7 @@ import {
 import { IoMdSend } from "react-icons/io"
 import { IoSend } from "react-icons/io5"
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
+import Image from 'next/image';
 
 const Newsletter = () => {
 
@@ -63,7 +64,7 @@ const Newsletter = () => {
             </div>
           </div>
           
-          <img className={styles.imageNL} src="/img/home/roman_statue.png" alt=''/>
+          <Image className={styles.imageNL} src="/img/home/roman_statue.png" alt='' width={568} height={548}/>
         </div>
 
     )
