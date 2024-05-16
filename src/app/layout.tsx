@@ -15,7 +15,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "In Real Art",
-  description: "Landing page In Real Art",
+  description: "Landing page In Real Art, RWA: Elevating Art, Empowering Change",
   icons: {
     icon: '/img/favicon-32x32.png',
     shortcut: '/img/favicon-16x16.png',
@@ -24,7 +24,18 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-  }
+  },
+  openGraph: {
+    title: 'In Real Art',
+    description: 'RWA: Elevating Art, Empowering Change',
+    url: 'https://inrealart.com/',
+    images: [
+      {
+        url: '/img/logo-IRA.png',
+      },
+    ],
+    type: 'website',
+  },
 };
 
 export default function RootLayout({

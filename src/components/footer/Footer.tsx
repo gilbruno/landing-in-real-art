@@ -4,6 +4,7 @@ import { useAppContext } from '../../context';
 import Link from 'next/link';
 import { Lang } from '../../types/types';
 import useSharedLogicFooter from './useSharedLogicFooter'
+import Image from 'next/image';
 
 const Footer = () => {
 
@@ -73,7 +74,7 @@ const Footer = () => {
 
                     </div>
 
-                    <img className={styles.line2} alt="Line" src="/img/line-5.svg" />
+                    <Image className={styles.line2} alt="Line" src="/img/line-5.svg" width={1} height={196} />
                     
                     {/** BLOCK CONTACT **/}
                     <div className={styles.footerContact}>
