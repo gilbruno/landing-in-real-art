@@ -3,7 +3,7 @@ import styles from './Partners.module.scss'
 import useSharedLogicPartners from './useSharedLogicPartners'
 import { useAppContext } from '../../../context'
 import { Lang } from '../../../types/types'
-
+import Image from 'next/image';
 
 const Partners = () => {
 
@@ -22,13 +22,13 @@ const Partners = () => {
             </div>
             <SimpleGrid columns={[1, null, 3]} spacing='100px' border='10px'>
                 <Box height='100px' width='150px' margin={'auto'} >
-                    <img src='img/partners/byebuycar.webp' alt=''/>
+                    <Image src='/img/partners/byebuycar.webp' alt='' width={250} height={152}/>
                 </Box>
                 <Box height='100px' width='200px' margin={'auto'} >
-                    <img src='img/partners/retrovrs.png' alt=''/>
+                    <Image src='/img/partners/retrovrs.png' alt='' width={245} height={77}/>
                 </Box>
                 <Box height='100px' width='200px' margin={'auto'} style={{position: 'relative', top: '-50px'}}>
-                    <img src='img/partners/cyberAlt.jpg' alt=''/>
+                    <Image src='/img/partners/cyberAlt.jpg' alt='' width={200} height={200}/>
                 </Box>
             </SimpleGrid>
         </div> 

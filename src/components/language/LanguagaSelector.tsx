@@ -1,6 +1,7 @@
 import styles from './LanguageSelector.module.css'
 import { FC, useState } from "react";
 import { useAppContext } from "../../context";
+import Image from 'next/image';
 
 export interface LanguageSelectorProps {
   isClosed: boolean
@@ -21,13 +22,13 @@ const LanguageSelector: FC<LanguageSelectorProps> = ({isClosed}) => {
     <div className={styles.languageSelector}>
       {(showDropdown && !isClosed) && (
         <div className={styles.dropdown}>
-          <div className={styles.lang} onClick={() => setLanguage('EN')}>EN &nbsp;<img width={24} height={24} src='img/flag_EN.png' alt="english"></img></div>
-          <div className={styles.lang} onClick={() => setLanguage('FR')}>FR &nbsp;<img width={24} height={24} src='img/flag_FR.png' alt="french"></img></div>
+          <div className={styles.lang} onClick={() => setLanguage('EN')}>EN &nbsp;<Image width={24} height={24} src='/img/flag_EN.png' alt="english"></Image></div>
+          <div className={styles.lang} onClick={() => setLanguage('FR')}>FR &nbsp;<Image width={24} height={24} src='/img/flag_FR.png' alt="french"></Image></div>
           {/* <div className={styles.lang} onClick={() => setLanguage('CN')}>CN &nbsp;<img src='img/flag_CN.png' alt="chinese"></img></div>*/}
         </div>
       )}
       <div onClick={() => setShowDropdown(!showDropdown)}>
-        <img src={`img/flag_${lang}.png`} alt="Language" width={30} height={30} />
+        <Image src={`/img/flag_${lang}.png`} alt="Language" width={30} height={30} />
       </div>
       
     </div>
