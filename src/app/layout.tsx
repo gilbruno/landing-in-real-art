@@ -10,6 +10,7 @@ import { fonts } from "./fonts";
 import Menu from "@/components/menu/Menu";
 import CookieConsent from "@/components/cookie/CookieConsent";
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import ogImage from './opengraph-image.png'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,16 +26,28 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  metadataBase: new URL("https://inrealart.com/"),
   openGraph: {
     title: 'In Real Art',
     description: 'RWA: Elevating Art, Empowering Change',
     url: 'https://inrealart.com/',
     images: [
       {
-        url: '/img/logo-IRA.png',
+        url: ogImage.src,
+        width: ogImage.width,
+        height: ogImage.height
       },
     ],
     type: 'website',
+  },
+  twitter: {
+    images: [
+      {
+        url: ogImage.src,
+        width: ogImage.width,
+        height: ogImage.height
+      },
+    ]
   },
 };
 
