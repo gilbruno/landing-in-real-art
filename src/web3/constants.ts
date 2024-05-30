@@ -1,4 +1,4 @@
-export const orderPhygitalArtAddress = "0x61eb9915eBE54D8cF1389463dD486616dd99251a" as const
+export const orderPhygitalArtAddress = "0x3414728a29ABcc02dB392fFA286654d37F941dDA" as const
 export const usdtAddress = "0xEdDa4460fCCF59420D18fD580738BcAa30d31D02" as const 
 export const USDT_DECIMALS = 6 as const 
 export const Keccac256_Event_MetadataUpdate = "0xf8e1a15aba9398e019f0b49df1a4fde98ee17ae345cb5f6b5e2c27f5033e8ce7" as const 
