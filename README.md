@@ -49,3 +49,18 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+## Policy for SUpabase
+
+Supabase requires policies for tables, functions and sequences.
+During dev process, just open policies to anon with command : 
+
+```sql
+GRANT ALL ON all tables in SCHEMA public TO anon;
+grant all privileges on all functions in schema public to anon;
+grant all privileges on all sequences in schema public to anon;
+```
+
+
+

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ImageHeroSection from "./ImageHeroSection";
 import styles from "./HeroSection.module.scss";
 import Link from "next/link";
 import { HeaderButtons, HeaderTexts, Lang } from "../../../types/types";
 import { useAppContext } from "../../../context";
+import RegistrationTestnet from "./RegistrationTestnet";
 
 export interface HeroSectionTestnetProps {
   headerTexts: HeaderTexts;
@@ -21,18 +22,23 @@ const HeroSection = ({
   const { lang } = useAppContext();
   const lang_ = lang as Lang;
 
+  const [modalTestnetRegistration, setModalTestnetRegistration] = useState<boolean>(false)
+
+  useEffect(
+    () => {
+      
+    }, [modalTestnetRegistration]
+  )
+
   return (
     <div className={styles["heroSectionTestnetContainer"]}>
       <ImageHeroSection />
 
       <div className={styles["heroSectionTestnetTexts"]}>
         <div className={styles["buttonJoinTestnetContainer"]}>
-          <Link
-            className={styles["buttonJoinTestnet"]}
-            href={headerButtons.button1Link}
-          >
+          <div className={styles["buttonJoinTestnet"]} onClick={() => setModalTestnetRegistration(true)}>
             {headerButtons.button1[lang_]}
-          </Link>
+          </div>
         </div>
         <div className={styles["heroSectionTestnetTextsBottom"]}>
           <div className={styles["frame-48095766__heading"]}>
@@ -49,6 +55,13 @@ const HeroSection = ({
           </div>
         </div>
       </div>
+      <RegistrationTestnet
+        title={headerTexts.registrationFormTitle[lang_]}
+        description={headerTexts.registrationFormDescription[lang_]}
+        showModal={modalTestnetRegistration}
+        setShowModal={setModalTestnetRegistration}
+      />
+
     </div>
   );
 };

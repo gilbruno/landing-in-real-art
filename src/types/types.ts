@@ -28,6 +28,8 @@ export type HeaderButtons = {
 }
 
 export type HeaderTexts = {
+    registrationFormDescription: TranslatedTexts,
+    registrationFormTitle: TranslatedTexts,
     title1: Record<Lang, string>
     title2: Record<Lang, string>
     text1: Record<Lang, string>
