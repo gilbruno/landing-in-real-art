@@ -16,6 +16,7 @@ const useSharedLogicRegistrationTestnet = () => {
     const toast = useToast()
     
     const [email, setEmail]               = useState('')
+    const [emailSent, setEmailSent]       = useState<boolean>(false)
     const [isEmailValid, setEmailValid]   = useState(true)
 
     // Email validation function
@@ -79,7 +80,7 @@ const useSharedLogicRegistrationTestnet = () => {
     }
     
 
-    return {email, setEmail, isEmailValid, setEmailValid, validateEmail, handleChangeEmail, handlSendEmail}
+    return {email, setEmail, isEmailValid, setEmailValid, validateEmail, handleChangeEmail, handlSendEmail, emailSent, setEmailSent}
 }    
 
 export default useSharedLogicRegistrationTestnet

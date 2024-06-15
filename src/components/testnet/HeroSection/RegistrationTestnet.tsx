@@ -15,6 +15,7 @@ import {
 import useSharedLogicRegistrationTestnet from "./useSharedLogicRegistrationTestnet";
 import { IoSend } from "react-icons/io5";
 import styles from "./HeroSection.module.scss";
+import { useEffect } from "react";
 
 const RegistrationTestnet: React.FC<ModalProps> = ({
   title,
@@ -23,9 +24,8 @@ const RegistrationTestnet: React.FC<ModalProps> = ({
   setShowModal,
 }) => {
 
-  const {email, setEmail, isEmailValid, setEmailValid, validateEmail, handleChangeEmail, handlSendEmail}
+  const {email, setEmail, isEmailValid, setEmailValid, validateEmail, handleChangeEmail, handlSendEmail, emailSent, setEmailSent}
     = useSharedLogicRegistrationTestnet()
-
 
   return (
     <Modal
