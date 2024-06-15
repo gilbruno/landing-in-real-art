@@ -15,6 +15,8 @@ const useSharedLogicHeroSection = () => {
   }
 
   const defaultHeaderTexts = {
+    registrationFormDescription: defaultLangObject,
+    registrationFormTitle: defaultLangObject,
     title1: defaultLangObject,
     title2: defaultLangObject,
     text1: defaultLangObject
