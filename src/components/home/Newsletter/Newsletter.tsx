@@ -1,7 +1,7 @@
 "use client"
 import styles from './Newsletter.module.scss'
 import { useAppContext } from '../../../context'
-import React from "react";
+import React, { useState } from "react";
 import { Lang } from "../../../types/types";
 import useSharedLogicNewsletter from './useSharedLogicNewsletter';
 import {
@@ -19,6 +19,7 @@ import { IoMdSend } from "react-icons/io"
 import { IoSend } from "react-icons/io5"
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 import Image from 'next/image';
+import RegistrationNewsletter from './RegistrationNewsletter';
 
 const Newsletter = () => {
 
@@ -32,6 +33,8 @@ const Newsletter = () => {
       handleChangeEmail, handleChangeCheckBoxNL, handleChangeCheckBoxPS, handleChangeCheckBoxNFTS, handlSendEmail} 
       = useSharedLogicNewsletter()
 
+    const [modalNewsletterRegistration, setModalNewsletterRegistration] = useState<boolean>(false)
+
     return (
         <div id="newsLetter" className={styles.frameNewsLetter}>
           <div className={styles.frame36563}>
@@ -41,6 +44,15 @@ const Newsletter = () => {
                 {nlTexts.description[lang_]}
               </div>
             </div>
+
+            <div className={styles.accessNewsletter}>
+              <Button colorScheme='#465c79' variant='solid' onClick={() => setModalNewsletterRegistration(true)} left={'5px'}>
+                Click !
+              </Button>
+            </div>            
+            {
+              /*
+            
             <div style={{display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center'}}>
               <FormControl color={'white'} isInvalid={!isEmailValid}>
               <FormLabel color={'white'}></FormLabel>
@@ -49,7 +61,7 @@ const Newsletter = () => {
                 focusBorderColor='white'
                 onChange={handleChangeEmail} 
                 />
-                {/*<FormHelperText color={'white'}>We'll never share your email.</FormHelperText>*/}
+                
                 {!isEmailValid && <FormErrorMessage>{nlTexts.sendEmailErrorMsg[lang_]}</FormErrorMessage>}
               </FormControl>
               <div className={styles.rectangleSendEmail}>
@@ -59,11 +71,18 @@ const Newsletter = () => {
             </div>
             <div>
               <Stack spacing={5} direction='row'>
-                {/*<Checkbox color={'white'} colorScheme='white' onChange={handleChangeCheckBoxNL}>{nlTexts.checkboxNewsLetter[lang_]}</Checkbox>*/}
+                
               </Stack>
             </div>
+            */
+            }
           </div>
-          
+          <RegistrationNewsletter
+            title={nlTexts.title[lang_]}
+            description={nlTexts.description[lang_]}
+            showModal={modalNewsletterRegistration}
+            setShowModal={setModalNewsletterRegistration}
+          />
           <Image className={styles.imageNL} src="/img/home/roman_statue.png" alt='' width={568} height={548}/>
         </div>
 
