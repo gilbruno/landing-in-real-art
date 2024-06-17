@@ -17,6 +17,7 @@ import { IoSend } from "react-icons/io5";
 import styles from "./HeroSection.module.scss";
 import { useEffect, useState } from "react";
 import SimpleCaptcha from "@/components/common/Captcha/SimpleCaptcha";
+import GoogleCaptchaWrapper from "@/app/captcha/google-captcha-wrapper";
 
 const RegistrationTestnet: React.FC<ModalProps> = ({
   title,
@@ -70,7 +71,7 @@ const RegistrationTestnet: React.FC<ModalProps> = ({
               </div>            
             </div>
             <div>
-              <SimpleCaptcha buttonSendActive={buttonSendActive} setButtonSendActive={setButtonSendActive}/>
+                <SimpleCaptcha buttonSendActive={buttonSendActive} setButtonSendActive={setButtonSendActive}/>
             </div>            
             
           </div>

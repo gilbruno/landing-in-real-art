@@ -11,6 +11,7 @@ import Menu from "@/components/menu/Menu";
 import CookieConsent from "@/components/cookie/CookieConsent";
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import ogImage from './opengraph-image.png'
+import GoogleCaptchaWrapper from "./captcha/google-captcha-wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -58,6 +59,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <GoogleCaptchaWrapper>
+
       <GoogleAnalytics GA_MEASUREMENT_ID='G-YYDGWE6SDT'/>
       <body className={classNames(inter.className, fonts.rubik.variable)}>
         <AppWrapper>
@@ -70,6 +73,7 @@ export default function RootLayout({
           </Providers>
         </AppWrapper>
       </body>
+      </GoogleCaptchaWrapper>
     </html>
   );
 }

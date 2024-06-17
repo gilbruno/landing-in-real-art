@@ -4,12 +4,12 @@ export async function POST(request: Request, response: Response) {
   const secretKey = process?.env?.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY;
 
   const postData = await request.json();
-  const { gRecaptchaToken, email } = postData;
+  const { gRecaptchaToken, captchaAnswer } = postData;
 
   console.log(
     "gRecaptchaToken,email:",
     gRecaptchaToken?.slice(0, 10) + "...",
-    email
+    captchaAnswer
   );
 
   const formData = `secret=${secretKey}&response=${gRecaptchaToken}`;
@@ -36,12 +36,12 @@ export async function POST(request: Request, response: Response) {
 
   if (resData?.success && resData?.score > 0.5) {
     // Save data to the database from here
-    console.log("Saving data to the database:", email);
+    console.log("Captcha answer", captchaAnswer);
     console.log("res.data?.score:", resData?.score);
 
     return NextResponse.json({
       success: true,
-      email,
+      captchaAnswer,
       score: resData?.score,
     });
   } else {
