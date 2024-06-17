@@ -21,3 +21,22 @@
     font-size: 14px;
     color: red;
 }
+
+.rectangleSendCaptcha {
+    background: #465c79;
+    border-radius: 10px;
+    width: 80px;
+    height: 40px;
+    position: relative;
+    top: 4px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.inputCaptchaAnswer {
+  border: 2px solid red;
+  border-radius: 4px;
+}
+  
