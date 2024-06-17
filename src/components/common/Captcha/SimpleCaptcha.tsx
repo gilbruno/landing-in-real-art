@@ -55,8 +55,6 @@ const SimpleCaptcha : React.FC<SimpleCaptchaProps> = ({
             executeRecaptcha("enquiryFormSubmit").then((gReCaptchaToken) => {
               submitEnquiryForm(gReCaptchaToken);
             });    
-
-            //setNotificationCaptcha('Correct answer : you can provide your e-mail')
         }
 
         
@@ -167,31 +165,6 @@ const SimpleCaptcha : React.FC<SimpleCaptchaProps> = ({
                     </main>
                 </div>
 
-            /*    
-            <FormControl>
-                <FormLabel style={{fontFamily: 'Unbounded-Bold'}}>
-                    <span className={styles.questionCaptcha}>
-                    Verify that you are human : 
-                    </span>
-                    <span className={styles.questionCaptcha}>What is the sum of these 2 numbers : </span>
-                    <span className={styles.questionCaptcha}>{num1} &amp; </span>
-                    <span className={styles.questionCaptchaHidden}>five</span>
-                    <span className={styles.questionCaptchaHidden}>seven</span>
-                    <span className={styles.questionCaptcha}>{num2}</span>
-                    <span className={styles.questionCaptcha}>&nbsp;?</span>
-
-                    
-                </FormLabel>
-                <Input type='text' color={'grey'} backgroundColor={'white'} 
-                placeholder='' 
-                focusBorderColor='red'
-                onChange={handleCaptchaAnswerChange} 
-                size={'xs'}
-                />
-                
-                <button type="submit" className="btn btn-light">Check</button>
-            </FormControl>
-            */
             )
         }        
 
