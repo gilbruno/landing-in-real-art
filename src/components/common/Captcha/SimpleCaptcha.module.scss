@@ -1,0 +1,19 @@
+@import '../../../styles/variables.scss';
+
+.questionCaptcha {
+    font-family: "Unbounded", Helvetica;
+    font-size: 14px;
+    color: red;
+}
+
+.challengeComplete {
+    font-family: "Unbounded", Helvetica;
+    font-size: 14px;
+    color: green;
+}
+
+.challengeFailed {
+    font-family: "Unbounded", Helvetica;
+    font-size: 14px;
+    color: red;
+}

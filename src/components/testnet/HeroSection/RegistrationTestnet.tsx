@@ -15,7 +15,8 @@ import {
 import useSharedLogicRegistrationTestnet from "./useSharedLogicRegistrationTestnet";
 import { IoSend } from "react-icons/io5";
 import styles from "./HeroSection.module.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import SimpleCaptcha from "@/components/common/Captcha/SimpleCaptcha";
 
 const RegistrationTestnet: React.FC<ModalProps> = ({
   title,
@@ -26,6 +27,8 @@ const RegistrationTestnet: React.FC<ModalProps> = ({
 
   const {email, setEmail, isEmailValid, setEmailValid, validateEmail, handleChangeEmail, handlSendEmail, emailSent, setEmailSent}
     = useSharedLogicRegistrationTestnet()
+
+  const [buttonSendActive, setButtonSendActive] = useState(false);
 
   return (
     <Modal
@@ -40,7 +43,8 @@ const RegistrationTestnet: React.FC<ModalProps> = ({
         <ModalBody padding="30px">
         <ModalHeader paddingX="0px">{title}</ModalHeader>
           <p dangerouslySetInnerHTML={{ __html: description }} />
-          <div className={styles.frameTestnetRegistration} style={{display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center'}}>
+          <div className=''>
+            <div className={styles.frameTestnetRegistration} style={{display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center'}}>
               <FormControl color={'white'} isInvalid={!isEmailValid}>
               <FormLabel color={'white'}></FormLabel>
                 <Input type='email' color={'grey'} backgroundColor={'white'} 
@@ -52,10 +56,17 @@ const RegistrationTestnet: React.FC<ModalProps> = ({
                 {!isEmailValid && <FormErrorMessage>Invalid email</FormErrorMessage>}
               </FormControl>
               <div className={styles.rectangleSendEmail}>
-                <Button leftIcon={<IoSend />} colorScheme='#465c79' variant='solid' onClick={handlSendEmail} left={'5px'}>
+                <Button leftIcon={<IoSend />}  colorScheme='#465c79' variant='solid' 
+                  isDisabled={!buttonSendActive}
+                  onClick={handlSendEmail} left={'5px'}>
                 </Button>
               </div>            
             </div>
+            <div>
+              <SimpleCaptcha buttonSendActive={buttonSendActive} setButtonSendActive={setButtonSendActive}/>
+            </div>            
+            
+          </div>
         </ModalBody>
       </ModalContent>
     </Modal>
