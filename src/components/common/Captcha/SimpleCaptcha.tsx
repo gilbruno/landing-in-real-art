@@ -79,12 +79,16 @@ const SimpleCaptcha : React.FC<SimpleCaptchaProps> = ({
             (
 <FormControl>
             <FormLabel style={{fontFamily: 'Unbounded-Bold'}}>
-                <p className={styles.questionCaptcha}>
+                <span className={styles.questionCaptcha}>
                 Verify that you are human : 
-                </p>
-                <p className={styles.questionCaptcha}>
-                What is the sum of these 2 numbers : {num1} & {num2} ?
-                </p>
+                </span>
+                <span className={styles.questionCaptcha}>What is the sum of these 2 numbers : </span>
+                <span className={styles.questionCaptcha}>{num1} &amp; </span>
+                <span className={styles.questionCaptchaHidden}>five</span>
+                <span className={styles.questionCaptchaHidden}>seven</span>
+                <span className={styles.questionCaptcha}>{num2}</span>
+                <span className={styles.questionCaptcha}>&nbsp;?</span>
+
                 
             </FormLabel>
               <Input type='text' color={'grey'} backgroundColor={'white'} 
@@ -97,7 +101,7 @@ const SimpleCaptcha : React.FC<SimpleCaptchaProps> = ({
         </FormControl>
             )
         }        
-        
+
         <p className={styles.challengeFailed}>
             {challengeFailed && (
                 <span>Oups ! Wrong answer</span>

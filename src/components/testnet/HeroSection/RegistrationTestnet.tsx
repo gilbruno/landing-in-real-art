@@ -30,6 +30,13 @@ const RegistrationTestnet: React.FC<ModalProps> = ({
 
   const [buttonSendActive, setButtonSendActive] = useState(false);
 
+  useEffect(
+    () => {
+      setButtonSendActive(false)
+    }
+    , []
+  )
+
   return (
     <Modal
       scrollBehavior="inside"
