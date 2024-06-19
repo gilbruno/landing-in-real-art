@@ -66,7 +66,7 @@ const RegistrationTestnet: React.FC<ModalProps> = ({
               <div className={styles.rectangleSendEmail}>
                 <Button leftIcon={<IoSend />}  colorScheme='#465c79' variant='solid' 
                   isDisabled={!buttonSendActive}
-                  onClick={handlSendEmail} left={'5px'}>
+                  onClick={(e) => handlSendEmail(e)} left={'5px'}>
                 </Button>
               </div>            
             </div>

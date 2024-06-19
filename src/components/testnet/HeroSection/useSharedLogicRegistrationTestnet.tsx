@@ -7,6 +7,7 @@ import {CODE_UNIQUE_KEY_VIOLATION, COLLECTION_NFTS_TABLE, NEWSLETTER_TABLE, PRIV
 import { useToast } from '@chakra-ui/react'
 import parse from 'html-react-parser'
 import { useAppContext } from "../../../context"
+import { PostDataSingleMailing } from "@/types/mailing.types"
 
 const useSharedLogicRegistrationTestnet = () => {
     //Get the language of the global context
@@ -42,9 +43,29 @@ const useSharedLogicRegistrationTestnet = () => {
       return msgError
     }
 
+    //-------------------------------------------------------------------- sendMail
+    const sendMail = async (paramsEmail: Partial<PostDataSingleMailing>) => {
+      try {
+        const response = await fetch("/api/mailing", {
+          method: "POST",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(paramsEmail)
+        })
+
+        const data = await response.json()
+        console.log('Data returned after sending mail', data)
+        return data
+      } catch (error) {
+        console.error("Error sendMail:", error)
+      }
+    }
+
     //------------------------------------------------------------------------------ handlSendEmail
-    const handlSendEmail = async () => {
-      
+    const handlSendEmail = async (e: any) => {
+      e.preventDefault();
       if (validateEmail(email)) {
           setEmailValid(true)
           try {
@@ -69,6 +90,22 @@ const useSharedLogicRegistrationTestnet = () => {
                 duration: 3000,
                 isClosable: true,
               })
+              //Then Send an email
+              const dataMail = await sendMail({
+                to: email,
+                templateName: 'TestnetRegistration'
+              })
+              console.log('DATA EMAIL : ', dataMail)
+              if (dataMail.mailSent === false) {
+                toast({
+                  title: 'Unable to send you an e-mail ... Try later please',
+                  description: '',
+                  status: 'error',
+                  duration: 3000,
+                  isClosable: true,
+                }) 
+              }
+
             }
           } catch (error) {
             throw error
