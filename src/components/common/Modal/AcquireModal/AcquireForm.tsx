@@ -33,7 +33,7 @@ const AcquireForm = (props: AcquireFormProps) => {
     const {lang} = useAppContext()
     const lang_ = lang as Lang
 
-    const IPFS_UPLOAD_METEDATA_LOCAL_ROUTE = '/api/pinata/metadata' as const
+    const IPFS_UPLOAD_METADATA_LOCAL_ROUTE = '/api/pinata/metadata' as const
     const IPFS_UPLOAD_IMG_LOCAL_ROUTE = '/api/pinata/file' as const
 
     const {art, formPresaleDelivery, offers, offerPrices, web3Address} = props 
@@ -206,7 +206,7 @@ const AcquireForm = (props: AcquireFormProps) => {
     const uploadOrderMetadataOnIpfs = async (data: IfpsProps) => {
         const data_ = data
         try {
-            const response = await fetch(IPFS_UPLOAD_METEDATA_LOCAL_ROUTE, {
+            const response = await fetch(IPFS_UPLOAD_METADATA_LOCAL_ROUTE, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
