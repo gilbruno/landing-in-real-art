@@ -92,7 +92,6 @@ const useSharedLogicRegistrationTestnet = () => {
               })
 
               //Then Send an email
-              /*
               const dataMail = await sendMail({
                 to: email,
                 templateName: 'TestnetRegistration'
@@ -107,7 +106,6 @@ const useSharedLogicRegistrationTestnet = () => {
                   isClosable: true,
                 }) 
               }
-              */
 
             }
           } catch (error) {

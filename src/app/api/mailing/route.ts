@@ -29,7 +29,7 @@ export async function POST(request: Request, response: Response) {
 
     try {
         const data : any = await apiInstance.sendTransacEmail(sendSmtpEmail)
-        console.log('API called successfully. Returned data: ' + JSON.stringify(data))
+        console.log('API Brevo called successfully')
         
     } catch (error) {
         console.error('BREVO ERROR', error)
@@ -38,7 +38,7 @@ export async function POST(request: Request, response: Response) {
           })
     }
     const data : any = await apiInstance.sendTransacEmail(sendSmtpEmail)
-    console.log('API called successfully. Returned data: ' + JSON.stringify(data))
+    console.log('API Brevo called successfully')
 
 
     return NextResponse.json({

@@ -10,7 +10,7 @@ export const templateTestnetRegistration =
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InRealArt: Test Net Live !</title>
+    <title>Your InrealArt Testnet Profile is Live!</title>
     <style type="text/css" emogrify="no">
         #outlook a {
             padding: 0;
@@ -199,7 +199,7 @@ export const templateTestnetRegistration =
             .r17-c {
                 box-sizing: border-box !important;
                 valign: top !important;
-                width: 33.33% !important
+                width: 100% !important
             }
 
             .r18-i {
@@ -207,47 +207,46 @@ export const templateTestnetRegistration =
                 padding-right: 5px !important
             }
 
-            .r19-c {
-                box-sizing: border-box !important;
-                padding-bottom: 15px !important;
-                padding-top: 15px !important;
-                text-align: center !important;
-                valign: top !important;
+            .r19-o {
+                border-style: solid !important;
+                margin: 0 auto 0 auto !important;
+                margin-bottom: 15px !important;
+                margin-top: 15px !important;
                 width: 100% !important
             }
 
-            .r20-o {
-                background-size: auto !important;
-                border-style: solid !important;
-                margin: 0 auto 0 auto !important;
+            .r20-r {
+                background-color: #5552ff !important;
+                border-color: #5552ff !important;
+                border-radius: 25px !important;
+                box-sizing: border-box;
+                height: initial !important;
+                padding-bottom: 12px !important;
+                padding-top: 12px !important;
+                text-align: center !important;
                 width: 100% !important
             }
 
             .r21-i {
-                padding-bottom: 15px !important;
-                padding-top: 15px !important
-            }
-
-            .r22-i {
                 background-color: #f6f8ff !important;
                 padding-left: 10px !important;
                 padding-right: 10px !important;
                 padding-top: 30px !important
             }
 
-            .r23-i {
+            .r22-i {
                 padding-left: 10px !important;
                 padding-right: 10px !important
             }
 
-            .r24-c {
+            .r23-c {
                 box-sizing: border-box !important;
                 text-align: left !important;
                 valign: top !important;
                 width: 100% !important
             }
 
-            .r25-c {
+            .r24-c {
                 box-sizing: border-box !important;
                 padding-top: 28px !important;
                 text-align: left !important;
@@ -255,87 +254,59 @@ export const templateTestnetRegistration =
                 width: 100% !important
             }
 
-            .r26-i {
-                background-color: #f6f8ff !important;
-                padding-bottom: 46px !important;
-                padding-top: 40px !important
-            }
-
-            .r27-o {
-                border-style: solid !important;
-                margin: 0 auto 0 auto !important;
-                width: 240px !important
-            }
-
-            .r28-r {
-                background-color: #5552ff !important;
-                border-color: #5552ff !important;
-                border-radius: 25px !important;
-                padding-bottom: 14px !important;
-                padding-top: 14px !important;
-                text-align: center !important;
-                width: 240px !important
-            }
-
-            .r29-i {
+            .r25-i {
                 background-color: #343434 !important;
                 padding-left: 0px !important;
                 padding-right: 0px !important;
                 padding-top: 30px !important
             }
 
-            .r30-c {
-                box-sizing: border-box !important;
-                valign: top !important;
-                width: 100% !important
-            }
-
-            .r31-c {
+            .r26-c {
                 box-sizing: border-box !important;
                 text-align: center !important;
                 width: 100% !important
             }
 
-            .r32-i {
+            .r27-i {
                 font-size: 0px !important;
                 padding-left: 113px !important;
                 padding-right: 113px !important
             }
 
-            .r33-c {
+            .r28-c {
                 box-sizing: border-box !important;
                 width: 32px !important
             }
 
-            .r34-o {
+            .r29-o {
                 border-style: solid !important;
                 margin-right: 15px !important;
                 width: 32px !important
             }
 
-            .r35-i {
+            .r30-i {
                 background-color: #343434 !important;
                 padding-bottom: 25px !important;
                 padding-left: 10px !important;
                 padding-right: 10px !important
             }
 
-            .r36-o {
+            .r31-o {
                 border-style: solid !important;
                 margin: 0 auto 0 auto !important;
                 width: 100px !important
             }
 
-            .r37-i {
+            .r32-i {
                 padding-top: 25px !important
             }
 
-            .r38-i {
+            .r33-i {
                 padding-top: 25px !important;
                 text-align: center !important
             }
 
-            .r39-i {
+            .r34-i {
                 background-color: #D8D8D8 !important;
                 padding-bottom: 15px !important;
                 padding-top: 13px !important
@@ -386,6 +357,17 @@ export const templateTestnetRegistration =
             margin: 0;
         }
 
+        .default-button {
+            color: #ffffff;
+            font-family: Inter, arial;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1.15;
+            text-decoration: none;
+            word-break: break-word
+        }
+
         a,
         a:link {
             color: #5552ff;
@@ -400,14 +382,31 @@ export const templateTestnetRegistration =
             word-break: break-word
         }
 
-        .default-button {
-            color: #ffffff;
+        .nl2go_class_16_white_reg {
+            color: #FFFFFF;
             font-family: Inter, arial;
-            font-size: 20px;
-            font-style: normal;
-            font-weight: normal;
-            line-height: 1.15;
-            text-decoration: none;
+            font-size: 16px;
+            word-break: break-word
+        }
+
+        .default-heading1 {
+            color: #1F2D3D;
+            font-family: Unbounded, arial;
+            font-size: 34px;
+            word-break: break-word
+        }
+
+        .nl2go_class_32_black_josefinsans_reg {
+            color: #343434;
+            font-family: Josefin Sans, Lato, Arial, Helvetica, sans-serif;
+            font-size: 34px;
+            word-break: break-word
+        }
+
+        .nl2go_class_14_black_reg {
+            color: #100D0D;
+            font-family: Inter, arial;
+            font-size: 14px;
             word-break: break-word
         }
 
@@ -419,10 +418,24 @@ export const templateTestnetRegistration =
             word-break: break-word
         }
 
-        .nl2go_class_32_black_josefinsans_reg {
-            color: #343434;
-            font-family: Josefin Sans, Lato, Arial, Helvetica, sans-serif;
-            font-size: 34px;
+        .default-heading2 {
+            color: #1F2D3D;
+            font-family: Unbounded, arial;
+            font-size: 20px;
+            word-break: break-word
+        }
+
+        .default-heading3 {
+            color: #1F2D3D;
+            font-family: Unbounded, arial;
+            font-size: 24px;
+            word-break: break-word
+        }
+
+        .default-heading4 {
+            color: #1F2D3D;
+            font-family: Unbounded, arial;
+            font-size: 18px;
             word-break: break-word
         }
 
@@ -445,48 +458,6 @@ export const templateTestnetRegistration =
             color: #FFFFFF;
             font-family: Inter, arial;
             font-size: 20px;
-            word-break: break-word
-        }
-
-        .nl2go_class_16_white_reg {
-            color: #FFFFFF;
-            font-family: Inter, arial;
-            font-size: 16px;
-            word-break: break-word
-        }
-
-        .nl2go_class_14_black_reg {
-            color: #100D0D;
-            font-family: Inter, arial;
-            font-size: 14px;
-            word-break: break-word
-        }
-
-        .default-heading1 {
-            color: #1F2D3D;
-            font-family: Unbounded, arial;
-            font-size: 34px;
-            word-break: break-word
-        }
-
-        .default-heading2 {
-            color: #1F2D3D;
-            font-family: Unbounded, arial;
-            font-size: 20px;
-            word-break: break-word
-        }
-
-        .default-heading3 {
-            color: #1F2D3D;
-            font-family: Unbounded, arial;
-            font-size: 24px;
-            word-break: break-word
-        }
-
-        .default-heading4 {
-            color: #1F2D3D;
-            font-family: Unbounded, arial;
-            font-size: 18px;
             word-break: break-word
         }
 
@@ -590,12 +561,12 @@ export const templateTestnetRegistration =
                                             <tr>
                                                 <th width="100%" valign="top" class="r5-c" style="font-weight: normal;">
                                                     <table cellspacing="0" cellpadding="0" border="0"
-                                                        role="presentation" width="312" align="center" class="r12-o"
-                                                        style="table-layout: fixed; width: 312px;">
+                                                        role="presentation" width="134" align="center" class="r12-o"
+                                                        style="table-layout: fixed; width: 134px;">
                                                         <tr>
                                                             <td style="font-size: 0px; line-height: 0px;"> <img
                                                                     src="https://img.mailinblue.com/7786982/images/content_library/original/66706d5a2ba04d78d0237486.png"
-                                                                    width="312" border="0"
+                                                                    width="134" border="0"
                                                                     style="display: block; width: 100%;"></td>
                                                         </tr>
                                                     </table>
@@ -624,7 +595,12 @@ export const templateTestnetRegistration =
                                                                 <div>
                                                                     <h1 class="default-heading1"
                                                                         style="margin: 0; color: #1f2d3d; font-family: Unbounded,arial; font-size: 34px; word-break: break-word;">
-                                                                        WELCOME TO INREALART TEST NET!</h1>
+                                                                        Congratulations !</h1>
+                                                                    <h2 class="default-heading2"
+                                                                        style="margin: 0; color: #1f2d3d; font-family: Unbounded,arial; font-size: 20px; word-break: break-word;">
+                                                                        Your profile on the InRealArt Testnet<br>has
+                                                                        been successfully created</h2>
+                                                                    <p style="margin: 0;"> </p>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -643,30 +619,7 @@ export const templateTestnetRegistration =
                                         <table width="100%" cellspacing="0" cellpadding="0" border="0"
                                             role="presentation">
                                             <tr>
-                                                <th width="33.33%" valign="top" class="r17-c"
-                                                    style="font-weight: normal;">
-                                                    <table cellspacing="0" cellpadding="0" border="0"
-                                                        role="presentation" width="100%" class="r6-o"
-                                                        style="table-layout: fixed; width: 100%;">
-                                                        <tr>
-                                                            <td valign="top" class="r18-i"
-                                                                style="padding-left: 5px; padding-right: 5px;">
-                                                                <table width="100%" cellspacing="0" cellpadding="0"
-                                                                    border="0" role="presentation">
-                                                                    <tr>
-                                                                        <td class="r19-c" align="center"
-                                                                            style="font-size: 0px; line-height: 0px; padding-bottom: 15px; padding-top: 15px; valign: top;">
-                                                                            <img src="https://images.pexels.com/photos/7887800/pexels-photo-7887800.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                                                                                width="186" border="0"
-                                                                                style="display: block; width: 100%;">
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </th>
-                                                <th width="33.33%" valign="top" class="r17-c"
+                                                <th width="100%" valign="top" class="r17-c"
                                                     style="font-weight: normal;">
                                                     <table cellspacing="0" cellpadding="0" border="0"
                                                         role="presentation" width="100%" class="r6-o"
@@ -680,40 +633,33 @@ export const templateTestnetRegistration =
                                                                         <td class="r10-c" align="center">
                                                                             <table cellspacing="0" cellpadding="0"
                                                                                 border="0" role="presentation"
-                                                                                width="169" class="r20-o"
-                                                                                style="table-layout: fixed; width: 169px;">
+                                                                                width="240" class="r19-o"
+                                                                                style="table-layout: fixed; width: 240px;">
+                                                                                <tr class="nl2go-responsive-hide">
+                                                                                    <td height="15"
+                                                                                        style="font-size: 15px; line-height: 15px;">
+                                                                                        ­</td>
+                                                                                </tr>
                                                                                 <tr>
-                                                                                    <td class="r21-i"
-                                                                                        style="font-size: 0px; line-height: 0px; padding-bottom: 15px; padding-top: 15px;">
-                                                                                        <img src="https://images.pexels.com/photos/1674049/pexels-photo-1674049.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                                                                                            width="169" border="0"
-                                                                                            style="display: block; width: 100%;">
-                                                                                    </td>
+                                                                                    <td height="18" align="center"
+                                                                                        valign="top"
+                                                                                        class="r15-i nl2go-default-textstyle"
+                                                                                        style="color: #100d0d; font-family: Inter,arial; font-size: 20px; line-height: 1.4; word-break: break-word;">
+                                                                                        <!--[if mso]> <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.inrealart-marketplace.com/" style="v-text-anchor:middle; height: 41px; width: 239px;" arcsize="50%" fillcolor="#5552ff" strokecolor="#5552ff" strokeweight="1px" data-btn="1"> <w:anchorlock> </w:anchorlock> <v:textbox inset="0,0,0,0"> <div style="display:none;"> <center class="default-button"><span>Go</span></center> </div> </v:textbox> </v:roundrect> <![endif]-->
+                                                                                        <!--[if !mso]><!-- --> <a
+                                                                                            href="https://www.inrealart-marketplace.com/"
+                                                                                            class="r20-r default-button"
+                                                                                            target="_blank" data-btn="1"
+                                                                                            style="font-style: normal; font-weight: normal; line-height: 1.15; text-decoration: none; word-break: break-word; border-style: solid; word-wrap: break-word; display: block; -webkit-text-size-adjust: none; background-color: #5552ff; border-bottom-width: 0px; border-color: #5552ff; border-left-width: 0px; border-radius: 25px; border-right-width: 0px; border-top-width: 0px; color: #ffffff; font-family: Inter, arial; font-size: 20px; height: 18px; mso-hide: all; padding-bottom: 12px; padding-top: 12px; width: 240px;">
+                                                                                            <span>Go</span></a>
+                                                                                        <!--<![endif]--> </td>
+                                                                                </tr>
+                                                                                <tr class="nl2go-responsive-hide">
+                                                                                    <td height="15"
+                                                                                        style="font-size: 15px; line-height: 15px;">
+                                                                                        ­</td>
                                                                                 </tr>
                                                                             </table>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </th>
-                                                <th width="33.33%" valign="top" class="r17-c"
-                                                    style="font-weight: normal;">
-                                                    <table cellspacing="0" cellpadding="0" border="0"
-                                                        role="presentation" width="100%" class="r6-o"
-                                                        style="table-layout: fixed; width: 100%;">
-                                                        <tr>
-                                                            <td valign="top" class="r18-i"
-                                                                style="padding-left: 5px; padding-right: 5px;">
-                                                                <table width="100%" cellspacing="0" cellpadding="0"
-                                                                    border="0" role="presentation">
-                                                                    <tr>
-                                                                        <td class="r19-c" align="center"
-                                                                            style="font-size: 0px; line-height: 0px; padding-bottom: 15px; padding-top: 15px; valign: top;">
-                                                                            <img src="https://images.pexels.com/photos/102127/pexels-photo-102127.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                                                                                width="186" border="0"
-                                                                                style="display: block; width: 100%;">
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -729,7 +675,7 @@ export const templateTestnetRegistration =
                             <table cellspacing="0" cellpadding="0" border="0" role="presentation" width="100%"
                                 align="center" class="r0-o" style="table-layout: fixed; width: 100%;">
                                 <tr>
-                                    <td class="r22-i"
+                                    <td class="r21-i"
                                         style="background-color: #f6f8ff; padding-left: 20px; padding-right: 20px; padding-top: 30px;">
                                         <table width="100%" cellspacing="0" cellpadding="0" border="0"
                                             role="presentation">
@@ -739,12 +685,12 @@ export const templateTestnetRegistration =
                                                         role="presentation" width="100%" class="r6-o"
                                                         style="table-layout: fixed; width: 100%;">
                                                         <tr>
-                                                            <td valign="top" class="r23-i"
+                                                            <td valign="top" class="r22-i"
                                                                 style="padding-left: 10px; padding-right: 10px;">
                                                                 <table width="100%" cellspacing="0" cellpadding="0"
                                                                     border="0" role="presentation">
                                                                     <tr>
-                                                                        <td class="r24-c nl2go-default-textstyle"
+                                                                        <td class="r23-c nl2go-default-textstyle"
                                                                             align="left"
                                                                             style="color: #100d0d; font-family: Inter,arial; font-size: 20px; line-height: 1.4; word-break: break-word; text-align: left; valign: top;">
                                                                             <div>
@@ -756,26 +702,62 @@ export const templateTestnetRegistration =
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td class="r25-c nl2go-default-textstyle"
+                                                                        <td class="r24-c nl2go-default-textstyle"
                                                                             align="left"
                                                                             style="color: #100d0d; font-family: Inter,arial; font-size: 20px; line-height: 1.4; word-break: break-word; padding-top: 28px; text-align: left; valign: top;">
                                                                             <div>
                                                                                 <p
                                                                                     style="margin: 0; font-style: normal; font-weight: 400; text-decoration: none;">
-                                                                                    Here is the link to access our Test
-                                                                                    Net :<br><br><a
-                                                                                        href="https://www.inrealart-marketplace.com/"
-                                                                                        title="https://www.inrealart-marketplace.com/"
-                                                                                        target="_blank"
-                                                                                        style="color: #5552ff; text-decoration: none;">https://www.inrealart-marketplace.com/</a><br><br>Thank
-                                                                                    you for your unwavering
-                                                                                    support.<br><br>We look forward to
-                                                                                    hearing your initial feedback.<br>
-                                                                                </p>
+                                                                                    You are now part of an innovative
+                                                                                    community pushing the boundaries of
+                                                                                    digital art.</p>
                                                                                 <p
                                                                                     style="margin: 0; font-style: normal; font-weight: 400; text-decoration: none;">
-                                                                                    With gratitude,<br>The InRealArt
-                                                                                    Team</p>
+                                                                                     </p>
+                                                                                <p
+                                                                                    style="margin: 0; font-style: normal; font-weight: 400; text-decoration: none;">
+                                                                                    To get started : <br> </p>
+                                                                                <ol
+                                                                                    style="margin: 0; font-style: normal; font-weight: 400; text-decoration: none;">
+                                                                                    <li style="margin: 0;"><span
+                                                                                            style="font-size: 18px;">Log
+                                                                                            in to your profile using
+                                                                                            : </span><br><a
+                                                                                            href="https://www.inrealart-marketplace.com"
+                                                                                            target="_blank"
+                                                                                            style="color: #5552ff; text-decoration: none;"><span
+                                                                                                style="font-size: 18px;">https://www.inrealart-marketplace.com/ </span></a>
+                                                                                    </li>
+                                                                                    <li style="margin: 0;"><span
+                                                                                            style="font-size: 18px;">Customize
+                                                                                            your profile and upload your
+                                                                                            digital art pieces.</span>
+                                                                                    </li>
+                                                                                    <li style="margin: 0;"><span
+                                                                                            style="font-size: 18px;">Connect
+                                                                                            with other artists and
+                                                                                            enthusiasts.</span></li>
+                                                                                    <li style="margin: 0;"><span
+                                                                                            style="font-size: 18px;">Earn
+                                                                                            points on Zealy to win
+                                                                                            exclusive NFT and token
+                                                                                            airdrop.</span><br> </li>
+                                                                                </ol>
+                                                                                <p
+                                                                                    style="margin: 0; text-align: justify;">
+                                                                                    <br><span
+                                                                                        style="font-family: Inter, arial; font-size: 20px;">We
+                                                                                        are excited to see your
+                                                                                        contributions and hope you enjoy
+                                                                                        your experience on the InrealArt
+                                                                                        Testnet.</span><br> </p>
+                                                                                <p
+                                                                                    style="margin: 0; text-align: justify;">
+                                                                                    <span
+                                                                                        style="font-family: Inter, arial; font-size: 20px;">Warm
+                                                                                        regards,</span></p>
+                                                                                <p style="margin: 0;">The InRealArt Team
+                                                                                </p>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -792,42 +774,11 @@ export const templateTestnetRegistration =
                             <table cellspacing="0" cellpadding="0" border="0" role="presentation" width="100%"
                                 align="center" class="r0-o" style="table-layout: fixed; width: 100%;">
                                 <tr>
-                                    <td class="r26-i"
-                                        style="background-color: #f6f8ff; padding-bottom: 46px; padding-top: 40px;">
+                                    <td class="r25-i" style="background-color: #343434; padding-top: 30px;">
                                         <table width="100%" cellspacing="0" cellpadding="0" border="0"
                                             role="presentation">
                                             <tr>
-                                                <th width="100%" valign="top" class="r5-c" style="font-weight: normal;">
-                                                    <table cellspacing="0" cellpadding="0" border="0"
-                                                        role="presentation" width="240" align="center" class="r27-o"
-                                                        style="table-layout: fixed; width: 240px;">
-                                                        <tr>
-                                                            <td height="23" align="center" valign="top"
-                                                                class="r15-i nl2go-default-textstyle"
-                                                                style="color: #100d0d; font-family: Inter,arial; font-size: 20px; line-height: 1.4; word-break: break-word;">
-                                                                <!--[if mso]> <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.inrealart-marketplace.com/" style="v-text-anchor:middle; height: 50px; width: 239px;" arcsize="50%" fillcolor="#5552ff" strokecolor="#5552ff" strokeweight="1px" data-btn="1"> <w:anchorlock> </w:anchorlock> <v:textbox inset="0,0,0,0"> <div style="display:none;"> <center class="default-button">Click here to see</center> </div> </v:textbox> </v:roundrect> <![endif]-->
-                                                                <!--[if !mso]><!-- --> <a
-                                                                    href="https://www.inrealart-marketplace.com/"
-                                                                    class="r28-r default-button" target="_blank"
-                                                                    data-btn="1"
-                                                                    style="font-style: normal; font-weight: normal; line-height: 1.15; text-decoration: none; word-break: break-word; border-style: solid; word-wrap: break-word; display: block; -webkit-text-size-adjust: none; background-color: #5552ff; border-bottom-width: 0px; border-color: #5552ff; border-left-width: 0px; border-radius: 25px; border-right-width: 0px; border-top-width: 0px; color: #ffffff; font-family: Inter, arial; font-size: 20px; height: 23px; mso-hide: all; padding-bottom: 14px; padding-top: 14px; width: 240px;">
-                                                                    Click here to see</a> <!--<![endif]--> </td>
-                                                        </tr>
-                                                    </table>
-                                                </th>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table cellspacing="0" cellpadding="0" border="0" role="presentation" width="100%"
-                                align="center" class="r0-o" style="table-layout: fixed; width: 100%;">
-                                <tr>
-                                    <td class="r29-i" style="background-color: #343434; padding-top: 30px;">
-                                        <table width="100%" cellspacing="0" cellpadding="0" border="0"
-                                            role="presentation">
-                                            <tr>
-                                                <th width="100%" valign="top" class="r30-c"
+                                                <th width="100%" valign="top" class="r17-c"
                                                     style="font-weight: normal;">
                                                     <table cellspacing="0" cellpadding="0" border="0"
                                                         role="presentation" width="600" align="center" class="r0-o"
@@ -837,14 +788,14 @@ export const templateTestnetRegistration =
                                                                 <table width="100%" cellspacing="0" cellpadding="0"
                                                                     border="0" role="presentation">
                                                                     <tr>
-                                                                        <td class="r31-c"
+                                                                        <td class="r26-c"
                                                                             style="display: inline-block;">
                                                                             <table cellspacing="0" cellpadding="0"
                                                                                 border="0" role="presentation"
                                                                                 width="600" class="r0-o"
                                                                                 style="table-layout: fixed; width: 600px;">
                                                                                 <tr>
-                                                                                    <td class="r32-i"
+                                                                                    <td class="r27-i"
                                                                                         style="padding-left: 253px; padding-right: 253px;">
                                                                                         <table width="100%"
                                                                                             cellspacing="0"
@@ -852,7 +803,7 @@ export const templateTestnetRegistration =
                                                                                             role="presentation">
                                                                                             <tr>
                                                                                                 <th width="47"
-                                                                                                    class="r33-c mobshow resp-table"
+                                                                                                    class="r28-c mobshow resp-table"
                                                                                                     style="font-weight: normal;">
                                                                                                     <table
                                                                                                         cellspacing="0"
@@ -860,7 +811,7 @@ export const templateTestnetRegistration =
                                                                                                         border="0"
                                                                                                         role="presentation"
                                                                                                         width="100%"
-                                                                                                        class="r34-o"
+                                                                                                        class="r29-o"
                                                                                                         style="table-layout: fixed; width: 100%;">
                                                                                                         <tr>
                                                                                                             <td class="r4-i"
@@ -881,7 +832,7 @@ export const templateTestnetRegistration =
                                                                                                     </table>
                                                                                                 </th>
                                                                                                 <th width="47"
-                                                                                                    class="r33-c mobshow resp-table"
+                                                                                                    class="r28-c mobshow resp-table"
                                                                                                     style="font-weight: normal;">
                                                                                                     <table
                                                                                                         cellspacing="0"
@@ -889,7 +840,7 @@ export const templateTestnetRegistration =
                                                                                                         border="0"
                                                                                                         role="presentation"
                                                                                                         width="100%"
-                                                                                                        class="r34-o"
+                                                                                                        class="r29-o"
                                                                                                         style="table-layout: fixed; width: 100%;">
                                                                                                         <tr>
                                                                                                             <td class="r4-i"
@@ -929,23 +880,23 @@ export const templateTestnetRegistration =
                             <table cellspacing="0" cellpadding="0" border="0" role="presentation" width="100%"
                                 align="center" class="r0-o" style="table-layout: fixed; width: 100%;">
                                 <tr>
-                                    <td class="r35-i" style="background-color: #343434; padding-bottom: 25px;">
+                                    <td class="r30-i" style="background-color: #343434; padding-bottom: 25px;">
                                         <table width="100%" cellspacing="0" cellpadding="0" border="0"
                                             role="presentation">
                                             <tr>
                                                 <th width="100%" valign="top" class="r5-c" style="font-weight: normal;">
                                                     <table cellspacing="0" cellpadding="0" border="0"
-                                                        role="presentation" width="100" align="center" class="r36-o"
+                                                        role="presentation" width="100" align="center" class="r31-o"
                                                         style="table-layout: fixed;">
                                                         <tr>
-                                                            <td class="r37-i" style="padding-top: 25px; height: 1px;">
+                                                            <td class="r32-i" style="padding-top: 25px; height: 1px;">
                                                                 <table width="100%" cellspacing="0" cellpadding="0"
                                                                     border="0" role="presentation">
                                                                     <tr>
                                                                         <td>
                                                                             <table width="100%" cellspacing="0"
                                                                                 cellpadding="0" border="0"
-                                                                                role="presentation" class="r37-i"
+                                                                                role="presentation" class="r32-i"
                                                                                 height="1"
                                                                                 style="border-top-style: solid; background-clip: border-box; border-top-color: #FFFFFF; border-top-width: 1px; font-size: 1px; line-height: 1px;">
                                                                                 <tr>
@@ -965,7 +916,7 @@ export const templateTestnetRegistration =
                                                         style="table-layout: fixed; width: 100%;">
                                                         <tr>
                                                             <td align="center" valign="top"
-                                                                class="r38-i nl2go-default-textstyle"
+                                                                class="r33-i nl2go-default-textstyle"
                                                                 style="color: #100d0d; font-family: Inter,arial; font-size: 20px; line-height: 1.4; word-break: break-word; padding-top: 25px; text-align: center; word-wrap: break-word;">
                                                                 <div>
                                                                     <div class="nl2go_class_16_white_reg"
@@ -993,7 +944,7 @@ export const templateTestnetRegistration =
                             <table cellspacing="0" cellpadding="0" border="0" role="presentation" width="100%"
                                 align="center" class="r0-o" style="table-layout: fixed; width: 100%;">
                                 <tr>
-                                    <td class="r39-i"
+                                    <td class="r34-i"
                                         style="background-color: #D8D8D8; padding-bottom: 15px; padding-top: 13px;">
                                         <table width="100%" cellspacing="0" cellpadding="0" border="0"
                                             role="presentation">
