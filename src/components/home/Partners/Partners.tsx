@@ -21,14 +21,14 @@ const Partners = () => {
                 {partnersTexts.mainTitle[lang_]}
             </div>
             <SimpleGrid columns={[1, null, 3]} spacing='100px' border='10px'>
-                <Box height='100px' width='150px' margin={'auto'} >
-                    <Image src='/img/partners/byebuycar.webp' alt='' width={250} height={152}/>
+                <Box margin={'auto'} >
+                    <Image src='/img/partners/leadouze.jpg' alt='' width={200} height={100}/>
                 </Box>
-                <Box height='100px' width='200px' margin={'auto'} >
+                <Box margin={'auto'} >
                     <Image src='/img/partners/retrovrs.png' alt='' width={245} height={77}/>
                 </Box>
-                <Box height='100px' width='200px' margin={'auto'} style={{position: 'relative', top: '-50px'}}>
-                    <Image src='/img/partners/cyberAlt.jpg' alt='' width={200} height={200}/>
+                <Box margin={'auto'} >
+                    <Image src='/img/partners/art_thema.jpg' alt='' width={150} height={150}/>
                 </Box>
             </SimpleGrid>
         </div> 
