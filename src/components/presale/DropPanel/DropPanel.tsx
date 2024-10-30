@@ -39,16 +39,6 @@ const DropPanel: React.FC = () => {
   return (
     <>
       <div id="dropPanel" className={styles["grid-wrapper"]}>
-        <div className={styles["header"]}>
-          <div className={styles["frame-7"]}>
-            <div className={styles["text-wrapper-3"]}>
-              {texts.endDrop[lang_]}
-            </div>
-          </div>
-          <div className={styles["text-wrapper-4"]}>
-            {new Date("2024-05-30T12:00:00").toLocaleDateString() + ""}
-          </div>
-        </div>
         <div className={styles["image-grid"]}>
           {artWorks.slice(0, visibleCount).map((artwork, index) => (
             <ArtworkCard
