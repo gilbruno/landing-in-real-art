@@ -32,13 +32,8 @@ const HeroSectionMobile = ({headerTexts, headerButtons, onlyFirstButton, pageOri
         <span>
           <span className={styles["heading-span"]}>
             {parse(headerTexts.title1[lang_])}
-          </span>
-          {
-            /*
-            <span className={styles["lp-mobile-heading-span2"]}>réel</span>
-            */
-          }
-          
+          </span><br/>
+          <span className={styles["lp-mobile-heading-span2"]}>{parse(headerTexts.title2[lang_])}</span>
         </span>
       </div>
     </div>
