@@ -20,10 +20,7 @@ const Partners = () => {
             <div className={styles.partnersTitle}>
                 {partnersTexts.mainTitle[lang_]}
             </div>
-            <SimpleGrid columns={[1, null, 3]} spacing='100px' border='10px'>
-                <Box margin={'auto'} >
-                    <Image src='/img/partners/leadouze.jpg' alt='' width={200} height={100}/>
-                </Box>
+            <SimpleGrid columns={[1, null, 2]} spacing='100px' border='10px'>
                 <Box margin={'auto'} >
                     <Image src='/img/partners/retrovrs.png' alt='' width={245} height={77}/>
                 </Box>

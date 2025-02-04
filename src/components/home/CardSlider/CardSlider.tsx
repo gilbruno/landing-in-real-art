@@ -17,10 +17,6 @@ import {
 
 const artworks = [
   {
-    url: "https://firebasestorage.googleapis.com/v0/b/inrealartlanding-3a094.appspot.com/o/presale%2FdropPanel%2Fartist1.1.jpg?alt=media&token=537292cf-5ce3-43ee-b71d-846a5719e143",
-    artist: "François Boucheix",
-  },
-  {
     url: "https://firebasestorage.googleapis.com/v0/b/inrealartlanding-3a094.appspot.com/o/presale%2FdropPanel%2Fartist2.3.jpg?alt=media&token=d3456d6d-8a78-44fc-9437-6e1323218466",
     artist: "Ekaterina Aristova",
   },
